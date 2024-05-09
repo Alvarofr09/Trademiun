@@ -2,7 +2,7 @@ import { Table } from "flowbite-react";
 
 const WebTablaRentabilidad = () => {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto ">
       <Table hoverable className="mx-auto" style={{ width: "40%" }}>
         <Table.Head>
           <Table.HeadCell>Posición</Table.HeadCell>

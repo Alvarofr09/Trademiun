@@ -11,7 +11,7 @@ const WebPodium = () => {
                 alt="avatar"
               />
             </div>
-            <div className="bg-fondoWebApp rounded-lg mt-4 w-40 h-28 flex justify-center items-center text-primario font-bold">
+            <div className="bg-fondoWebApp rounded-lg mt-4 w-44 2xl:w-48  h-28 flex justify-center items-center text-primario font-bold">
               <div>
                 <h1 className="text-3xl text-center">2</h1>
                 <p>Alvaro</p>
@@ -28,7 +28,7 @@ const WebPodium = () => {
                 alt=""
               />
             </div>
-            <div className="bg-primario rounded-lg mb-4 w-40 h-32 flex justify-center items-center text-white font-bold">
+            <div className="bg-primario rounded-lg mb-4 w-44 2xl:w-48 h-32 flex justify-center items-center text-white font-bold">
               <div>
                 <h1 className="text-3xl text-center">1</h1>
                 <p>Parra</p>
@@ -45,7 +45,7 @@ const WebPodium = () => {
                 alt="avatar"
               />
             </div>
-            <div className="bg-fondoWebApp rounded-lg mt-8 w-40 h-24 flex justify-center items-center text-primario font-bold">
+            <div className="bg-fondoWebApp rounded-lg mt-8 w-44 2xl:w-48 h-24 flex justify-center items-center text-primario font-bold">
               <div>
                 <h1 className="text-3xl text-center">3</h1>
                 <p>PabloFC</p>
