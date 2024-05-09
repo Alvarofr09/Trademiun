@@ -1,4 +1,4 @@
-const WebPodium = () => {
+const WebPodiumSeguidores = () => {
   return (
     <section className="py-12  ">
       <div className=" flex justify-center ">
@@ -15,7 +15,7 @@ const WebPodium = () => {
               <div>
                 <h1 className="text-3xl text-center">2</h1>
                 <p>Alvaro</p>
-                <h6>434%</h6>
+                <h6>8k</h6>
               </div>
             </div>
           </div>
@@ -32,7 +32,7 @@ const WebPodium = () => {
               <div>
                 <h1 className="text-3xl text-center">1</h1>
                 <p>Parra</p>
-                <h6 className="text-center">554%</h6>
+                <h6>10K</h6>
               </div>
             </div>
           </div>
@@ -45,11 +45,11 @@ const WebPodium = () => {
                 alt="avatar"
               />
             </div>
-            <div className="bg-fondoWebApp rounded-lg  mt-8 w-44 2xl:w-48 h-24 flex justify-center items-center text-primario font-bold">
+            <div className="bg-fondoWebApp rounded-lg mt-8 w-44 2xl:w-48 h-24 flex justify-center items-center text-primario font-bold">
               <div>
                 <h1 className="text-3xl text-center">3</h1>
                 <p>PabloFC</p>
-                <h6 className="text-center ">327%</h6>
+                <h6>5k</h6>
               </div>
             </div>
           </div>
@@ -59,4 +59,4 @@ const WebPodium = () => {
   );
 };
 
-export default WebPodium;
+export default WebPodiumSeguidores;

@@ -1,31 +1,50 @@
+import { useState } from "react";
 import InputSearch from "../components/InputSearch";
 import SideBar from "../components/SideBar";
 import WebNotificaciones from "../components/WebNotificaciones";
 import WebPodium from "../components/WebPodium";
 import WebTablaRentabilidad from "../components/WebTablaRentabilidad";
+import WebPodiumSeguidores from "../components/WebPodiumSeguidores";
 
 const WebBuscador = () => {
+  const [mostrarSeguidores, setMostrarSeguidores] = useState(false); // Nuevo estado para controlar la visualización de seguidores
+
+  const mostrarSeguidoresHandler = () => {
+    setMostrarSeguidores(true);
+  };
+
+  const mostrarRentabilidadHandler = () => {
+    setMostrarSeguidores(false);
+  };
+
   return (
-    <div className="flex ">
-      <div className=" basis-2/12 mx-auto">
+    <div className="flex">
+      <div className="basis-2/12 mx-auto">
         <SideBar />
       </div>
 
-      <div className="basis-6/12 mx-auto ">
+      <div className="basis-6/12 mx-auto">
         <div className="flex justify-center py-12 gap-36 2xl:gap-48">
-          <button className="text-primario text-xl font-bold">
+          <button
+            className="text-primario text-xl font-bold"
+            onClick={mostrarSeguidoresHandler}
+          >
             Top Seguidores
           </button>
-          <button className="text-primario text-xl font-bold">
+          <button
+            className="text-primario text-xl font-bold"
+            onClick={mostrarRentabilidadHandler}
+          >
             Top Rentabilidad
           </button>
         </div>
 
-        <WebPodium />
+        {/* Renderiza el componente correspondiente según el estado mostrarSeguidores */}
+        {mostrarSeguidores ? <WebPodiumSeguidores /> : <WebPodium />}
         <WebTablaRentabilidad className="mx-auto" />
       </div>
 
-      <div className="basis-4/12 my-8 mx-auto mr-8 ">
+      <div className="basis-4/12 my-8 mx-auto mr-8">
         <InputSearch />
         <WebNotificaciones
           nombre="JuanJo Trader"
