@@ -37,7 +37,7 @@
 }
 
 .btn-primary {
-	@apply bg-secundario text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-blue-600;
+	@apply bg-secundario text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-fondoWebApp;
 }
 
 .btn-dark {
@@ -53,7 +53,7 @@
 }
 
 .contact {
-	@apply bg-[#000000] min-h-[5rem] w-[90%] cursor-pointer rounded-[0.2rem] p-[0.4rem] items-center flex sm:flex-col md:flex-row transition duration-200 ease-in-out border border-terciario;
+	@apply text-terciario min-h-[5rem] w-[90%] cursor-pointer p-[0.4rem] items-center flex sm:flex-col md:flex-row transition duration-200 ease-in-out border-y-2 border-tipografia;
 }
 
 .centered {
@@ -112,7 +112,7 @@
 }
 
 .selected-contact {
-	@apply bg-terciario;
+	@apply bg-tipografia;
 }
 
 .titulo {
