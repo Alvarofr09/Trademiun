@@ -6,7 +6,7 @@ import RequireAuth from "./components/RequireAuth";
 import Chat from "./views/Chat";
 import UserDetails from "./views/UserDetails";
 import CreateGroup from "./views/CreateGroup";
-// import WebBuscador from "./views/WebBuscador";
+import WebBuscador from "./views/WebBuscador";
 // import Trades from "./views/Trades";
 // import Buscador from "./views/Buscador";
 
@@ -22,6 +22,7 @@ function App() {
 
 					<Route element={<RequireAuth />}>
 						<Route path="/" element={<Chat />} />
+						<Route path="/busqueda" element={<WebBuscador />} />
 						<Route path="/user/:id" element={<UserDetails />} />
 						<Route path="/create-group/:id" element={<CreateGroup />} />
 					</Route>

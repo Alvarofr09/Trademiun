@@ -63,7 +63,7 @@ export default function ChatInput({
 
 					<form
 						onSubmit={(e) => sendChat(e)}
-						className="input-container  w-[100%] rounded-[2rem] flex content-center gap-8 bg-[#D9D9D9]"
+						className="input-container  w-[100%] rounded-[2rem] flex content-center gap-8 bg-fondoWebApp"
 					>
 						<>
 							<input

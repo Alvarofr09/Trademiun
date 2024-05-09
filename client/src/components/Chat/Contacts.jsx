@@ -27,7 +27,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
 		<>
 			{currentUserImage && currentUserName && (
 				<div
-					className="container grid grid-rows-3 overflow-hidden bg-[#080420]"
+					className="container grid grid-rows-3 overflow-hidden bg-primario"
 					style={{ gridTemplateRows: "10% 65% auto" }}
 				>
 					<div className="brand ">
@@ -64,7 +64,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
 
 						<p className=" mt-8 text-center text-xs text-[#9C9999]">
 							¿No tienes más chats? Buscalos{" "}
-							<Link to="/" className="text-blue-500 underline">
+							<Link to="/" className="text-secundario underline">
 								AQUI
 							</Link>
 						</p>
