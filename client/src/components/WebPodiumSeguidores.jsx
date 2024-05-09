@@ -1,4 +1,4 @@
-const WebPodium = () => {
+const WebPodiumSeguidores = () => {
   return (
     <section className="py-12  ">
       <div className=" flex justify-center ">
@@ -7,7 +7,7 @@ const WebPodium = () => {
             <div className="flex justify-center">
               <img
                 className="inline-block h-16 w-16 rounded-full"
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt="avatar"
               />
             </div>
@@ -15,7 +15,7 @@ const WebPodium = () => {
               <div>
                 <h1 className="text-3xl text-center">2</h1>
                 <p>Alvaro</p>
-                <h6>434%</h6>
+                <h6>8k</h6>
               </div>
             </div>
           </div>
@@ -24,7 +24,7 @@ const WebPodium = () => {
             <div className="flex justify-center">
               <img
                 className="inline-block h-16 w-16 rounded-full"
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt=""
               />
             </div>
@@ -32,7 +32,7 @@ const WebPodium = () => {
               <div>
                 <h1 className="text-3xl text-center">1</h1>
                 <p>Parra</p>
-                <h6 className="text-center">554%</h6>
+                <h6>10K</h6>
               </div>
             </div>
           </div>
@@ -41,15 +41,15 @@ const WebPodium = () => {
             <div className="flex justify-center">
               <img
                 className="inline-block h-16 w-16 rounded-full"
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt="avatar"
               />
             </div>
-            <div className="bg-fondoWebApp rounded-lg  mt-8 w-44 2xl:w-48 h-24 flex justify-center items-center text-primario font-bold">
+            <div className="bg-fondoWebApp rounded-lg mt-8 w-44 2xl:w-48 h-24 flex justify-center items-center text-primario font-bold">
               <div>
                 <h1 className="text-3xl text-center">3</h1>
                 <p>PabloFC</p>
-                <h6 className="text-center ">327%</h6>
+                <h6>5k</h6>
               </div>
             </div>
           </div>
@@ -59,4 +59,4 @@ const WebPodium = () => {
   );
 };
 
-export default WebPodium;
+export default WebPodiumSeguidores;
