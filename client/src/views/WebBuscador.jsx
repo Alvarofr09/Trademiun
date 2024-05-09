@@ -39,7 +39,6 @@ const WebBuscador = () => {
           </button>
         </div>
 
-        {/* Renderiza el componente correspondiente según el estado mostrarSeguidores */}
         {mostrarSeguidores ? <WebPodiumSeguidores /> : <WebPodium />}
         <WebTablaRentabilidad className="mx-auto" />
       </div>
