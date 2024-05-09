@@ -1,25 +1,31 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import SideBar from "./SideBar";
 
 export default function Layout() {
-	const { auth, logout } = useAuthContext();
+	const { auth } = useAuthContext();
 	console.log(auth);
 	return (
 		<div>
 			<nav>
-				{auth && (
+				{auth ? (
 					<>
-						<Link className="link" to="/">
-							Personajes
-						</Link>
-						<button onClick={logout}>Logout</button>
+						<div className="flex">
+							<div className="basis-2/12 mx-auto">
+								<SideBar />
+							</div>
+
+							<main className="basis-10/12 mx-auto">
+								<Outlet />
+							</main>
+						</div>
 					</>
+				) : (
+					<main className="app">
+						<Outlet />
+					</main>
 				)}
 			</nav>
-
-			<main className="app">
-				<Outlet />
-			</main>
 		</div>
 	);
 }

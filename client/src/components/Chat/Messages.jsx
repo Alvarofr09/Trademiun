@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function Messages({ messages, scrollRef }) {
 	return (
-		<div className="chat-messages bg-[#000000] scrollbar-custom py-4 px-8 flex flex-col gap-4 overflow-auto">
+		<div className="chat-messages bg-white scrollbar-custom py-4 px-8 flex flex-col gap-4 overflow-auto">
 			{messages.map((message) => {
 				return (
 					<div ref={scrollRef} key={uuidv4()}>
