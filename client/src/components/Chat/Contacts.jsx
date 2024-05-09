@@ -27,13 +27,16 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
 		<>
 			{currentUserImage && currentUserName && (
 				<div
-					className="container grid grid-rows-3 overflow-hidden bg-primario"
+					className="container h-full flex flex-col overflow-hidden bg-white"
 					style={{ gridTemplateRows: "10% 65% auto" }}
 				>
-					<div className="brand ">
-						<h1 className="titulo  uppercase">Trademiun</h1>
+					<div
+						className="buscador centered
+					 basis-1/12"
+					>
+						<p className="titulo">Buenas tardes</p>
 					</div>
-					<div className="contacts ">
+					<div className="contacts basis-10/12">
 						{contacts.map((contact, index) => {
 							console.log(contact);
 							return (
@@ -54,7 +57,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
 										</div>
 									)}
 									<div className="  username">
-										<h3 className=" text-xl text-white bold">
+										<h3 className=" text-xl  bold">
 											{contact.username ? contact.username : contact.group_name}
 										</h3>
 									</div>
@@ -62,31 +65,34 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
 							);
 						})}
 
-						<p className=" mt-8 text-center text-xs text-[#9C9999]">
+						<p className=" mt-8 text-center text-xs text-primario">
 							¿No tienes más chats? Buscalos{" "}
 							<Link to="/" className="text-secundario underline">
 								AQUI
 							</Link>
 						</p>
 					</div>
-					<Link
-						to={`/user/${currentUser.id}`}
-						className="current-user bg-[#0d0d30] centered"
-					>
-						<div className="avatar h-16">
-							<img
-								className="h-full avatar-image"
-								src={currentUserImage}
-								alt="avatar"
-							/>
-						</div>
-						<div className="username">
-							<h3 className=" sm:hidden md:flex text-xl text-white uppercase">
-								{currentUserName}
-							</h3>
-						</div>
-					</Link>
-					<Logout />
+
+					<div className="usuario basis-1/12">
+						<Link
+							to={`/user/${currentUser.id}`}
+							className="current-user  bg-[#0d0d30] centered"
+						>
+							<div className="avatar h-16">
+								<img
+									className="h-full avatar-image"
+									src={currentUserImage}
+									alt="avatar"
+								/>
+							</div>
+							<div className="username">
+								<h3 className=" sm:hidden md:flex text-xl text-white uppercase">
+									{currentUserName}
+								</h3>
+							</div>
+						</Link>
+						<Logout />
+					</div>
 				</div>
 			)}
 		</>
