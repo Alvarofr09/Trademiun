@@ -7,7 +7,7 @@ import WebTablaRentabilidad from "../components/WebTablaRentabilidad";
 import WebPodiumSeguidores from "../components/WebPodiumSeguidores";
 
 const WebBuscador = () => {
-  const [mostrarSeguidores, setMostrarSeguidores] = useState(false); // Nuevo estado para controlar la visualización de seguidores
+  const [mostrarSeguidores, setMostrarSeguidores] = useState(false);
 
   const mostrarSeguidoresHandler = () => {
     setMostrarSeguidores(true);
