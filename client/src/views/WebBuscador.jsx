@@ -12,11 +12,11 @@ const WebBuscador = () => {
       </div>
 
       <div className="basis-6/12 mx-auto ">
-        <div className="flex justify-center py-12 gap-36">
-          <button className="text-primario text-xl hover:font-bold">
+        <div className="flex justify-center py-12 gap-36 2xl:gap-48">
+          <button className="text-primario text-xl font-bold">
             Top Seguidores
           </button>
-          <button className="text-primario text-xl hover:font-bold">
+          <button className="text-primario text-xl font-bold">
             Top Rentabilidad
           </button>
         </div>
