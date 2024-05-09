@@ -1,6 +1,6 @@
 const WebNotificaciones = ({ nombre, notificacion, foto }) => {
   return (
-    <div className="flex justify-start ml-12  ">
+    <div className="flex justify-start ml-12 2xl:ml-28  ">
       <div className="flex bg-fondoWebApp p-4 max-w-xs rounded-lg mb-2">
         <div className="basis-1/4 self-center">
           <img

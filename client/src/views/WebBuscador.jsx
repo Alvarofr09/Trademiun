@@ -10,9 +10,19 @@ const WebBuscador = () => {
       <div className=" basis-2/12 mx-auto">
         <SideBar />
       </div>
+
       <div className="basis-6/12 mx-auto ">
+        <div className="flex justify-center py-12 gap-36">
+          <button className="text-primario text-xl hover:font-bold">
+            Top Seguidores
+          </button>
+          <button className="text-primario text-xl hover:font-bold">
+            Top Rentabilidad
+          </button>
+        </div>
+
         <WebPodium />
-        <WebTablaRentabilidad />
+        <WebTablaRentabilidad className="mx-auto" />
       </div>
 
       <div className="basis-4/12 my-8 mx-auto mr-8 ">

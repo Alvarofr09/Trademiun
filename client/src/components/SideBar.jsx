@@ -3,9 +3,9 @@ import logo_negro from "../assets/img/logo_negro.png";
 const SideBar = () => {
   return (
     <>
-      <div className="max-w-68 h-lvh bg-white sticky top-0">
+      <div className="max-w-68 h-lvh sticky top-0 bg-slate-600">
         {/* Sidebar */}
-        <div className="py-4 w-36 ml-12 my-8">
+        <div className="py-8 w-36 ml-12 ">
           <img src={logo_negro} alt="logo" />
         </div>
 
