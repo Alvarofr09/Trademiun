@@ -97,7 +97,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 		<>
 			{currentChat && (
 				<div
-					className="container grid grid-rows-3 overflow-hidden"
+					className="container h-full grid grid-rows-3 overflow-hidden"
 					style={{ gridTemplateRows: "11% 75% auto" }}
 				>
 					<ChatHeader currentChat={currentChat} />
