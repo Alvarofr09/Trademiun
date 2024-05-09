@@ -69,21 +69,8 @@ export default function Chat() {
 	};
 
 	return (
-		<div className="h-screen w-screen centered flex-col gap-4  bg-[#131324]">
-			<div
-				className="container h-[85%] w-[85%] bg-[#00000076] grid grid-cols-2 lg:grid-cols-[35% 65%]"
-				style={{
-					gridTemplateColumns: "25% 75%",
-					"@media (min-width: 720px) and (max-width: 1080px)": {
-						gridTemplateColumns: "35% 65%",
-					},
-				}}
-			>
-				<Contacts
-					contacts={contacts}
-					currentUser={currentUser}
-					changeChat={handleChatChange}
-				/>
+		<div className="h-screen centered   bg-white">
+			<div className="basis-8/12 border-x-2 border-black mx-auto h-screen ">
 				{isLoaded && currentChat === undefined ? (
 					<Welcome currentUser={currentUser} />
 				) : (
@@ -93,6 +80,13 @@ export default function Chat() {
 						socket={socket}
 					/>
 				)}
+			</div>
+			<div className="basis-4/12 mx-auto h-full">
+				<Contacts
+					contacts={contacts}
+					currentUser={currentUser}
+					changeChat={handleChatChange}
+				/>
 			</div>
 			<ToastContainer />
 		</div>
