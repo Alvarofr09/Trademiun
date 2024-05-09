@@ -44,7 +44,7 @@ export default function ChatInput({
 	};
 
 	return (
-		<div className="container gap-6  centered bg-[#000000] px-8 py-0 pb-[0.3rem]">
+		<div className="container gap-6  centered bg-white px-8 py-0 pb-[0.3rem]">
 			{isAdmin ? (
 				<>
 					<div className="button-container flex items-center text-white gap-4">
@@ -71,19 +71,19 @@ export default function ChatInput({
 								value={message}
 								onChange={(e) => setMessage(e.target.value)}
 								placeholder="Type your message here"
-								className="w-[90%]  bg-transparent border-none pl-4 text-xl text-[#585858] focus:outline-none"
+								className="w-[90%]  bg-transparent border-none pl-4 text-xl text-terciario focus:outline-none"
 							/>
 							<button
 								type="submit"
 								className="submit-btn md:py-0 px-8 lg:py-1 rounded-[2rem] centered  border-none"
 							>
-								<IconSend2 color="#585858" size={32} />
+								<IconSend2 color="#1A1A1A" size={32} />
 							</button>
 						</>
 					</form>
 
 					<div className="signal" onClick={showSignalForm}>
-						<IconClipboardData color="#ffffff" />
+						<IconClipboardData color="#1A1A1A" />
 					</div>
 
 					{showModal && (
