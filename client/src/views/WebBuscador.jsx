@@ -4,7 +4,7 @@ import SideBar from "../components/SideBar";
 import WebNotificaciones from "../components/WebNotificaciones";
 import WebPodium from "../components/WebPodium";
 import WebTablaRentabilidad from "../components/WebTablaRentabilidad";
-import WebPodiumSeguidores from "../components/WebPodiumSeguidores";
+// import WebPodiumSeguidores from "../components/WebPodiumSeguidores";
 
 const WebBuscador = () => {
   const [mostrarSeguidores, setMostrarSeguidores] = useState(false);
@@ -39,11 +39,23 @@ const WebBuscador = () => {
           </button>
         </div>
 
-        {mostrarSeguidores ? <WebPodiumSeguidores /> : <WebPodium />}
+        {mostrarSeguidores ? (
+          <WebPodium
+            nombre="PabloFC"
+            avatar="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+            seguidores="100K"
+          />
+        ) : (
+          <WebPodium
+            nombre="Izabel"
+            avatar="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            rentabilidad="150%"
+          />
+        )}
         <WebTablaRentabilidad className="mx-auto" />
       </div>
 
-      <div className="basis-4/12 my-8 mx-auto mr-8">
+      <div className="basis-4/12 py-8 mx-auto pr-8 bg-blue-300">
         <InputSearch />
         <WebNotificaciones
           nombre="JuanJo Trader"
