@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo_negro from "../assets/img/logo_negro.png";
 
 const SideBar = () => {
@@ -9,7 +10,7 @@ const SideBar = () => {
 					<img src={logo_negro} alt="logo" />
 				</div>
 
-				<div className="flex hover:cursor-pointer mb-8">
+				<Link to={"/"} className="flex hover:cursor-pointer mb-8">
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -31,9 +32,9 @@ const SideBar = () => {
 					<div>
 						<p className="ml-4">Chats</p>
 					</div>
-				</div>
+				</Link>
 
-				<div className="flex hover:cursor-pointer mb-8">
+				<Link to={"/busqueda"} className="flex hover:cursor-pointer mb-8">
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +55,7 @@ const SideBar = () => {
 					<div>
 						<p className="ml-4">Búsqueda</p>
 					</div>
-				</div>
+				</Link>
 
 				<div className="flex hover:cursor-pointer mb-8">
 					<div>
