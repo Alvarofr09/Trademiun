@@ -1,16 +1,21 @@
 import { useField } from "formik";
+import ImageAdd from "../../assets/File_Image.svg";
+import { IconFilePlus } from "@tabler/icons-react";
 
 export default function Image({ ...props }) {
 	const [field, meta] = useField(props);
 	return (
 		<>
-			<div className="grid w-full max-w-xs items-center gap-1.5">
+			<div className="">
+				<label htmlFor="picture">
+					<IconFilePlus size={50} />
+				</label>
 				<input
 					{...props}
 					{...field}
 					id="picture"
 					type="file"
-					className="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+					className="appearance-none hidden opacity-0"
 				/>
 			</div>
 			{meta.touched && meta.error && <div className="error">{meta.error}</div>}
