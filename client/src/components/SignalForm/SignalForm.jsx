@@ -5,26 +5,32 @@ import { SignalFormSchema } from "./SignalFormSchema";
 import Input from "../ui/Input";
 import Select from "../ui/Select";
 import Image from "../ui/Image";
-import { sendSignalRoute, userApi } from "../../api/APIRoutes";
+import { useState } from "react";
 
-export default function SignalForm({ currentUser, currentChat }) {
+export default function SignalForm({
+	currentUser,
+	currentChat,
+	handleSendSignal,
+	closeModal,
+}) {
+	const [isCompra, setIsCompra] = useState(false);
 	async function onSubmit(values) {
-		console.log(values);
-		const { description, coin, entrada, stopLoss, takeprofit, riesgo } = values;
-		const { data } = await userApi.post(sendSignalRoute, {
+		const { description, coin, entrada, stopLoss, takeProfit, riesgo } = values;
+		const datos = {
 			from: currentUser.id,
 			to: currentChat.id,
 			description,
 			moneda: coin,
 			entrada,
 			stopLoss,
-			takeprofit,
+			takeProfit,
 			riesgo,
-		});
+			isCompra,
+		};
 
-		if (data.status) {
-			alert(data.message);
-		}
+		handleSendSignal(datos);
+
+		closeModal();
 	}
 	return (
 		<>
@@ -66,6 +72,7 @@ export default function SignalForm({ currentUser, currentChat }) {
 
 							<div className="flex gap-4">
 								<button
+									onClick={() => setIsCompra(false)}
 									className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
 									type="submit"
 									disabled={isSubmitting}
@@ -74,6 +81,7 @@ export default function SignalForm({ currentUser, currentChat }) {
 								</button>
 
 								<button
+									onClick={() => setIsCompra(true)}
 									className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
 									type="submit"
 									disabled={isSubmitting}
