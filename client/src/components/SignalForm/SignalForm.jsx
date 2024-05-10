@@ -10,16 +10,16 @@ import { sendSignalRoute, userApi } from "../../api/APIRoutes";
 export default function SignalForm({ currentUser, currentChat }) {
 	async function onSubmit(values) {
 		console.log(values);
-		const { description, coin, entrada, salida, tp, porcentaje } = values;
+		const { description, coin, entrada, stopLoss, takeprofit, riesgo } = values;
 		const { data } = await userApi.post(sendSignalRoute, {
 			from: currentUser.id,
 			to: currentChat.id,
 			description,
 			moneda: coin,
 			entrada,
-			salida,
-			tp,
-			porcentaje,
+			stopLoss,
+			takeprofit,
+			riesgo,
 		});
 
 		if (data.status) {
@@ -39,30 +39,48 @@ export default function SignalForm({ currentUser, currentChat }) {
 							<Image name="signalImage" />
 
 							<Input
-								placeholder="Signal Description"
+								placeholder="Descripcion"
 								name="description"
 								type="textarea"
 							/>
 
-							<Select name="coin" placeholder="Please select a coin">
-								<option value="">Please select a coin</option>
-								<option value="BTC">BTC</option>
-								<option value="ETH">ETH</option>
-								<option value="Doge">Doge</option>
-							</Select>
+							<h3 className="titulo tracking-widest text-black">TRADE</h3>
+							<div className="flex gap-4">
+								<Select name="coin" placeholder="Coin">
+									<option value="">Coin</option>
+									<option value="BTC">BTC</option>
+									<option value="ETH">ETH</option>
+									<option value="Doge">Doge</option>
+								</Select>
+
+								<Input placeholder="% Riesgo" name="riesgo" type="number" />
+							</div>
 
 							<Input placeholder="Entrada" name="entrada" type="number" />
-							<Input placeholder="Salida" name="salida" type="number" />
-							<Input placeholder="TP" name="tp" type="number" />
-							<Input placeholder="%" name="porcentaje" type="number" />
+							<Input placeholder="Stop Loss" name="stopLoss" type="number" />
+							<Input
+								placeholder="Take Profit"
+								name="takeProfit"
+								type="number"
+							/>
 
-							<button
-								className="btn-primary"
-								type="submit"
-								disabled={isSubmitting}
-							>
-								Enviar
-							</button>
+							<div className="flex gap-4">
+								<button
+									className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
+									type="submit"
+									disabled={isSubmitting}
+								>
+									Venta
+								</button>
+
+								<button
+									className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
+									type="submit"
+									disabled={isSubmitting}
+								>
+									Compra
+								</button>
+							</div>
 						</Form>
 					</div>
 				)}
