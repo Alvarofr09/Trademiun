@@ -12,7 +12,7 @@ export default function Input({ type, ...props }) {
 
 	return (
 		<>
-			<div className="input-container relative">
+			<div className="input-container w-full relative">
 				<input
 					{...props}
 					{...field}
