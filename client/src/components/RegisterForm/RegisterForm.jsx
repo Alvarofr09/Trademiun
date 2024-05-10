@@ -26,34 +26,8 @@ export default function RegisterForm() {
 		theme: "dark",
 	};
 
-	// useEffect(() => {
-	// 	if (localStorage.getItem("user")) {
-	// 		navigate("/");
-	// 	}
-	// }, []);
-
-	// useEffect(() => {
-	// 	const fetchData = async () => {
-	// 		try {
-	// 			const image = await axios.get(
-	// 				`${api}/${Math.round(Math.random() * 1000)}`,
-	// 				{ responseType: "arraybuffer" }
-	// 			);
-
-	// 			const buffer = Buffer.from(image.data, "binary");
-	// 			const base64 = buffer.toString("base64");
-
-	// 			setAvatar(base64);
-	// 		} catch (error) {
-	// 			console.error("Error fetching image:", error);
-	// 		}
-	// 	};
-
-	// 	fetchData();
-	// }, []);
-
 	async function onSubmit(values) {
-		console.log(values);
+		// console.log(values);
 		const { username, email, password } = values;
 		const { data } = await userApi.post(registerRoute, {
 			username,

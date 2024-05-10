@@ -26,8 +26,8 @@ export default function LoginForm() {
 	// }, []);
 
 	async function onSubmit(values) {
-		console.log(values);
-		console.log(errorMessage);
+		// console.log(values);
+		// console.log(errorMessage);
 		if (errorMessage) toast.error(errorMessage, toastOptions);
 		await login(values);
 		navigate("/");
