@@ -61,7 +61,7 @@
 }
 
 .error {
-	@apply text-red-600 text-xs -mt-6;
+	@apply text-red-600 text-xs -mt-4;
 }
 
 .input-error {
@@ -74,7 +74,7 @@
 
 .form {
 	border-radius: 2em;
-	@apply flex flex-col gap-6 justify-center items-center;
+	@apply flex flex-col gap-4 justify-center items-center;
 
 	/* py-12 px-20 */
 }
@@ -116,7 +116,7 @@
 }
 
 .titulo {
-	@apply text-secundario uppercase font-bold text-3xl;
+	@apply uppercase font-bold text-3xl;
 }
 
 /* Estilos personalizados para la barra de desplazamiento */
