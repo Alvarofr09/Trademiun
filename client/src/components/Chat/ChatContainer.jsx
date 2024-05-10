@@ -15,6 +15,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 export default function ChatContainer({ currentChat, currentUser, socket }) {
+	// const { socket } = useSocketContext();
 	const [messages, setMessages] = useState([]);
 	const [isAdministrador, setIsAdministrador] = useState(false);
 	const [arrivalMessage, setArrivalMessage] = useState(null);
