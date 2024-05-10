@@ -4,7 +4,7 @@ import { IconDotsVertical } from "@tabler/icons-react";
 export default function ChatHeader({ currentChat }) {
 	return (
 		<div className="chat-header bg-tipografia flex justify-between items-center px-8 py-0">
-			{console.log(currentChat)}
+			{/* {console.log(currentChat)} */}
 			<div className="user-details flex items-center gap-4">
 				<div className="user-image avatar-image">
 					<img className="h-12" src={currentChat.image} alt="avatar" />
