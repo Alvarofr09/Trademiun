@@ -7,13 +7,13 @@ import "./index.css";
 import AuthContextProvider from "./context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<AuthContextProvider>
-				<Routes>
-					<Route path="/*" element={<App />} />
-				</Routes>
-			</AuthContextProvider>
-		</BrowserRouter>
-	</React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthContextProvider>
+        <Routes>
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </AuthContextProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
