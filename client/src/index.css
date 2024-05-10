@@ -115,6 +115,10 @@
 	@apply bg-tipografia;
 }
 
+.signal .content {
+	@apply bg-primario;
+}
+
 .titulo {
 	@apply uppercase font-bold text-3xl;
 }
