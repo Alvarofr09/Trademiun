@@ -16,9 +16,9 @@ signalDao.addSignal = async (signalData) => {
 			description: signalData.description,
 			moneda: signalData.moneda,
 			entrada: signalData.entrada,
-			salida: signalData.salida,
-			tp: signalData.tp,
-			porcentaje: signalData.porcentaje,
+			salida: signalData.stopLoss,
+			tp: signalData.takeProfit,
+			porcentaje: signalData.riesgo,
 			date: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 

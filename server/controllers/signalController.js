@@ -9,9 +9,9 @@ const addSignal = async (req, res, next) => {
 			description,
 			moneda,
 			entrada,
-			salida,
-			tp,
-			porcentaje,
+			stopLoss,
+			takeProfit,
+			riesgo,
 		} = req.body;
 
 		const signalData = {
@@ -21,9 +21,9 @@ const addSignal = async (req, res, next) => {
 			description,
 			moneda,
 			entrada,
-			salida,
-			tp,
-			porcentaje,
+			stopLoss,
+			takeProfit,
+			riesgo,
 		};
 
 		const data = await dao.addSignal(signalData);
