@@ -15,15 +15,15 @@ export const LoginFormInitialValues = {
 export const CreateGroupFormInitialValues = {
 	groupName: "",
 	description: "",
-	price: 0,
+	price: "",
 };
 
 export const SignalFormInitialValues = {
 	signalImage: "",
 	description: "",
 	coin: "",
+	riesgo: "",
 	entrada: "",
-	salida: "",
-	tp: "",
-	porcentaje: "",
+	stopLoss: "",
+	takeProfit: "",
 };
