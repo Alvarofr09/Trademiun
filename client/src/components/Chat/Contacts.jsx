@@ -38,7 +38,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
 					</div>
 					<div className="contacts basis-10/12">
 						{contacts.map((contact, index) => {
-							console.log(contact);
+							// console.log(contact);
 							return (
 								<div
 									className={`contact  ${
