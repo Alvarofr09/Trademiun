@@ -9,7 +9,7 @@ const messageRouter = express.Router();
 
 messageRouter.post("/add-message", addMessage);
 
-messageRouter.post("/getMessages", getAllMessages);
+// messageRouter.post("/getMessages", getAllMessages);
 messageRouter.post("/getGroupMessages", getGroupMessages);
 
 module.exports = messageRouter;

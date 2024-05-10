@@ -13,8 +13,6 @@ const createGroup = async (req, res, next) => {
 			creation_date: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 
-		console.log(groupData);
-
 		const data = await dao.createGroup(groupData);
 
 		if (!data)
@@ -83,10 +81,7 @@ const isAdmin = async (req, res, next) => {
 				status: true,
 			});
 
-		console.log("user id", user_id);
-		console.log("id de la consulta", firstUser[0].user_id);
 		const isFirstUser = firstUser[0].user_id == user_id;
-		console.log("Es el primero?", isFirstUser);
 		const isAdmin = isFirstUser ? true : false;
 
 		return res.json({

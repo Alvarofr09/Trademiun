@@ -6,9 +6,7 @@ const md5 = require("md5");
 const userRegister = async (req, res, next) => {
 	try {
 		const { username, email, password, image } = req.body;
-		console.log(req.body);
 		const usernameCheck = await dao.getUserByUsername(username);
-		console.log(usernameCheck);
 
 		if (usernameCheck.length < 0)
 			return res
@@ -43,8 +41,6 @@ const userLogin = async (req, res, next) => {
 
 	if (!email || !password) return res.status(400).send("Error en el body");
 	try {
-		console.log(req.body);
-
 		let user = await dao.getUserByEmail(email);
 		if (user.length <= 0) return res.status(404).send("Usuario no registrado");
 
