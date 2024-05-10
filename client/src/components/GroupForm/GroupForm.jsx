@@ -21,7 +21,7 @@ export default function GroupForm() {
 	};
 
 	async function onSubmit(values) {
-		console.log(values);
+		// console.log(values);
 
 		const { groupName, description, price } = values;
 
@@ -32,7 +32,7 @@ export default function GroupForm() {
 			image: DefaultImage,
 		});
 
-		console.log(data);
+		// console.log(data);
 
 		if (data.status === false) {
 			toast.error(data.msg, toastOptions);
@@ -42,7 +42,7 @@ export default function GroupForm() {
 				user_id: userId,
 			});
 
-			console.log(response);
+			// console.log(response);
 			if (response.data.status === false) {
 				toast.error(response.msg, toastOptions);
 			} else {
