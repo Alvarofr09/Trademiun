@@ -16,9 +16,10 @@ signalDao.addSignal = async (signalData) => {
 			description: signalData.description,
 			moneda: signalData.moneda,
 			entrada: signalData.entrada,
-			salida: signalData.stopLoss,
-			tp: signalData.takeProfit,
-			porcentaje: signalData.riesgo,
+			stopLoss: signalData.stopLoss,
+			takeProfit: signalData.takeProfit,
+			riesgo: signalData.riesgo,
+			isCompra: signalData.isCompra,
 			date: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 
@@ -38,4 +39,21 @@ signalDao.addSignal = async (signalData) => {
 	}
 };
 
+signalDao.getSignals = async (to) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		return await db.query(
+			"SELECT * FROM signals WHERE group_id = ?",
+			to,
+			"select",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
 module.exports = signalDao;
