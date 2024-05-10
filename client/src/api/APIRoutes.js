@@ -9,7 +9,6 @@ export const getAllUsersRoute = `${host}/api/auth/allUsers`;
 export const getUserInfo = `${host}/api/auth/getUserInfo`;
 
 export const sendMessageRoute = `${host}/api/messages/add-message`;
-export const getAllMessages = `${host}/api/messages/getMessages`;
 export const getAllGroupMessages = `${host}/api/messages/getGroupMessages`;
 
 export const createGroupRoute = `${host}/api/groups/create-group`;
@@ -18,6 +17,7 @@ export const getAllGroups = `${host}/api/groups/get-groups`;
 export const isAdmin = `${host}/api/groups/is-admin`;
 
 export const sendSignalRoute = `${host}/api/signals/add-signal`;
+export const getSignalsGroup = `${host}/api/signals/get-signals`;
 
 export const userApi = axios.create({
 	baseURL: `${host}`,
