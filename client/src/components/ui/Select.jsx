@@ -13,7 +13,7 @@ export default function Select({ children, ...props }) {
 			>
 				{children}
 			</select>
-			{meta.touched && meta.error && <div className="error">{meta.error}</div>}
+			{/* {meta.touched && meta.error && <div className="error">{meta.error}</div>} */}
 		</>
 	);
 }
