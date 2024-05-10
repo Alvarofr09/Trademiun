@@ -38,7 +38,6 @@ export default function Chat() {
 
 			try {
 				const response = await axios.get(`${getAllGroups}/${user.id}`);
-				console.log(response.data.groups);
 				if (response.data.groups.length > 0) {
 					setContacts(response.data.groups);
 				}
