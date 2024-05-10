@@ -8,4 +8,5 @@ export const SignalFormSchema = yup.object().shape({
 	entrada: yup.number().positive().required("La entrada es necesaria"),
 	stopLoss: yup.number().positive().required("La salida es necesaria"),
 	takeProfit: yup.number().positive().required("El tp es necesario"),
+	isCompra: yup.boolean(),
 });
