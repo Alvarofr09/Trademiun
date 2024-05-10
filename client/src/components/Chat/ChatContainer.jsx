@@ -8,9 +8,12 @@ import { jwtDecode } from "jwt-decode";
 
 import {
 	getAllGroupMessages,
+	getSignalsGroup,
 	isAdmin,
 	// getAllMessages,
 	sendMessageRoute,
+	sendSignalRoute,
+	userApi,
 } from "../../api/APIRoutes";
 import { useEffect, useRef, useState } from "react";
 
@@ -45,12 +48,22 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 	useEffect(() => {
 		async function fetchData() {
 			if (!currentChat) return;
-			const response = await axios.post(getAllGroupMessages, {
+			const mensajes = await userApi.post(getAllGroupMessages, {
 				from: currentUser.id,
 				to: currentChat.id,
 			});
 
-			setMessages(response.data);
+			const signals = await userApi.post(getSignalsGroup, {
+				from: currentUser.id,
+				to: currentChat.id,
+			});
+
+			const allMessages = mensajes.data.concat(signals.data);
+
+			const datos = allMessages.sort(
+				(a, b) => new Date(a.date) - new Date(b.date)
+			);
+			setMessages(datos);
 		}
 
 		fetchData();
@@ -60,7 +73,25 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 	useEffect(() => {
 		if (socket.current) {
 			socket.current.on("msg-recieve", (msg) => {
-				setArrivalMessage({ fromSelf: false, message: msg });
+				if (msg.type === "message") {
+					setArrivalMessage({
+						fromSelf: false,
+						message: msg.message,
+						type: msg.type,
+					});
+				} else {
+					setArrivalMessage({
+						fromSelf: false,
+						description: msg.description,
+						moneda: msg.moneda,
+						entrada: msg.entrada,
+						stopLoss: msg.stopLoss,
+						takeProfit: msg.takeProfit,
+						riesgo: msg.riesgo,
+						isCompra: msg.isCompra,
+						type: msg.type,
+					});
+				}
 			});
 		}
 	}, []);
@@ -85,14 +116,71 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 				to: currentChat.id,
 				from: currentUser.id,
 				message: msg,
+				type: "message",
 			});
 
 			const msgs = [...messages];
-			msgs.push({ fromSelf: true, message: msg });
+			msgs.push({ fromSelf: true, message: msg, type: "message" });
 			setMessages(msgs);
 		} catch (error) {
 			alert(error);
 		}
+	};
+
+	const handleSendSignal = async (signal) => {
+		const {
+			from,
+			to,
+			description,
+			moneda,
+			entrada,
+			stopLoss,
+			takeProfit,
+			riesgo,
+			isCompra,
+		} = signal;
+
+		const { data } = await userApi.post(sendSignalRoute, {
+			from,
+			to,
+			description,
+			moneda,
+			entrada,
+			stopLoss,
+			takeProfit,
+			riesgo,
+			isCompra,
+		});
+
+		if (data.status === false) {
+			alert(data.message);
+		}
+
+		socket.current.emit("send-msg", {
+			to: currentChat.id,
+			from,
+			description,
+			moneda,
+			entrada,
+			stopLoss,
+			takeProfit,
+			riesgo,
+			isCompra,
+			type: "signal",
+		});
+		const msgs = [...messages];
+		msgs.push({
+			fromSelf: true,
+			description,
+			moneda,
+			entrada,
+			stopLoss,
+			takeProfit,
+			riesgo,
+			isCompra,
+			type: "signal",
+		});
+		setMessages(msgs);
 	};
 	return (
 		<>
@@ -108,6 +196,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 						isAdmin={isAdministrador}
 						currentUser={currentUser}
 						currentChat={currentChat}
+						handleSendSignal={handleSendSignal}
 					/>
 				</div>
 			)}
