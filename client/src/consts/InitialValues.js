@@ -26,4 +26,5 @@ export const SignalFormInitialValues = {
 	entrada: "",
 	stopLoss: "",
 	takeProfit: "",
+	isCompra: false,
 };
