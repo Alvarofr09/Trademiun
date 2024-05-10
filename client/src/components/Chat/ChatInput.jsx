@@ -2,7 +2,6 @@ import Picker from "emoji-picker-react";
 import { IconSend2 } from "@tabler/icons-react";
 import { IconMoodSmileFilled } from "@tabler/icons-react";
 import { IconClipboardData } from "@tabler/icons-react";
-import { IconChevronLeft } from "@tabler/icons-react";
 import { useState } from "react";
 import Modal from "../Modal";
 import SignalForm from "../SignalForm/SignalForm";
@@ -12,6 +11,7 @@ export default function ChatInput({
 	isAdmin,
 	currentUser,
 	currentChat,
+	handleSendSignal,
 }) {
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const [showModal, setShowModal] = useState(false);
@@ -88,16 +88,18 @@ export default function ChatInput({
 
 					{showModal && (
 						<Modal closeModal={closeModal}>
-							<SignalForm currentUser={currentUser} currentChat={currentChat} />
+							<SignalForm
+								currentUser={currentUser}
+								currentChat={currentChat}
+								handleSendSignal={handleSendSignal}
+								closeModal={closeModal}
+							/>
 						</Modal>
 					)}
 				</>
 			) : (
 				<div className="centered gap-4">
 					<button className="btn-dark">Silenciar</button>
-					<button className="btn-rounded p-2">
-						<IconChevronLeft color="#000000" size={20} />
-					</button>
 				</div>
 			)}
 		</div>
