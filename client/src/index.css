@@ -11,6 +11,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* NOTICIAS WEB */
+#headerRow,
+#ecoCurrentTime,
+.ecoTimeAndDate {
+	@apply !hidden;
+}
+
 .avatar {
 	@apply border-4 border-transparent p-2 rounded-full flex justify-center items-center transition duration-500 ease-in-out;
 }

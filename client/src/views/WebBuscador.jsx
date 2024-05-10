@@ -4,7 +4,6 @@ import InputSearch from "../components/InputSearch";
 import WebNotificaciones from "../components/WebNotificaciones";
 import WebPodium from "../components/WebPodium";
 import WebTablaRentabilidad from "../components/WebTablaRentabilidad";
-// import WebPodiumSeguidores from "../components/WebPodiumSeguidores";
 
 const WebBuscador = () => {
 	const [mostrarSeguidores, setMostrarSeguidores] = useState(true);
