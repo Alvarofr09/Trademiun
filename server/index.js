@@ -72,7 +72,7 @@ io.on("connection", (socket) => {
 
 		socket.on("send-msg", (data) => {
 			console.log("Mensaje", data);
-			socket.to(group_id).emit("msg-recieve", data.message);
+			socket.to(group_id).emit("msg-recieve", data);
 		});
 	});
 });
