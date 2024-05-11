@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const fileUpload = require("express-fileupload");
@@ -22,6 +23,8 @@ const app = express();
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
+
+const upload = multer({ dest: "../client/public/images" });
 
 // Instanciamos la libreria express-fileupload (para subir archivos)
 app.use(
