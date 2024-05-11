@@ -129,6 +129,28 @@ const createIncrementParticipantsTrigger = async () => {
 	}
 };
 
+// const createImagesTable = async () => {
+// 	let conn = await db.createConection();
+// 	try {
+// 		const SqlQuery = `
+//             CREATE TABLE IF NOT EXISTS images (
+//                 id INT AUTO_INCREMENT PRIMARY KEY,
+//                 image_type ENUM('user', 'group', 'signal') NOT NULL,
+//                 image_id INT NOT NULL,
+//                 image TEXT,
+//                 FOREIGN KEY (image_id) REFERENCES
+//                     CASE
+//                         WHEN image_type = 'user' THEN users(id)
+//                         WHEN image_type = 'group' THEN grupos(id)
+//                         WHEN image_type = 'signal' THEN signals(id)
+//                     END
+//             ); `;
+// 		await db.query(SqlQuery, null, "create", conn);
+// 	} finally {
+// 		await conn.end();
+// 	}
+// };
+
 const createImagesTable = async () => {
 	let conn = await db.createConection();
 	try {
@@ -136,14 +158,13 @@ const createImagesTable = async () => {
             CREATE TABLE IF NOT EXISTS images (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 image_type ENUM('user', 'group', 'signal') NOT NULL,
-                image_id INT NOT NULL,
+                user_id INT,
+                group_id INT,
+                signal_id INT,
                 image TEXT,
-                FOREIGN KEY (image_id) REFERENCES 
-                    CASE
-                        WHEN image_type = 'user' THEN users(id)
-                        WHEN image_type = 'group' THEN grupos(id)
-                        WHEN image_type = 'signal' THEN signals(id)
-                    END
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (group_id) REFERENCES grupos(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (signal_id) REFERENCES signals(id) ON DELETE CASCADE ON UPDATE CASCADE
             ); `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
