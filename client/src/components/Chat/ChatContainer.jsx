@@ -82,6 +82,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 				} else {
 					setArrivalMessage({
 						fromSelf: false,
+						image: msg.image,
 						description: msg.description,
 						moneda: msg.moneda,
 						entrada: msg.entrada,
@@ -128,9 +129,11 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 	};
 
 	const handleSendSignal = async (signal) => {
+		console.log(signal);
 		const {
 			from,
 			to,
+			image,
 			description,
 			moneda,
 			entrada,
@@ -140,17 +143,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 			isCompra,
 		} = signal;
 
-		const { data } = await userApi.post(sendSignalRoute, {
-			from,
-			to,
-			description,
-			moneda,
-			entrada,
-			stopLoss,
-			takeProfit,
-			riesgo,
-			isCompra,
-		});
+		const { data } = await userApi.post(sendSignalRoute, signal);
 
 		if (data.status === false) {
 			alert(data.message);
@@ -159,6 +152,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 		socket.current.emit("send-msg", {
 			to: currentChat.id,
 			from,
+			image,
 			description,
 			moneda,
 			entrada,
@@ -171,6 +165,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 		const msgs = [...messages];
 		msgs.push({
 			fromSelf: true,
+			image,
 			description,
 			moneda,
 			entrada,
