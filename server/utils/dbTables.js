@@ -129,6 +129,28 @@ const createIncrementParticipantsTrigger = async () => {
 	}
 };
 
+const createImagesTable = async () => {
+	let conn = await db.createConection();
+	try {
+		const SqlQuery = `
+            CREATE TABLE IF NOT EXISTS images (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                image_type ENUM('user', 'group', 'signal') NOT NULL,
+                image_id INT NOT NULL,
+                image TEXT,
+                FOREIGN KEY (image_id) REFERENCES 
+                    CASE
+                        WHEN image_type = 'user' THEN users(id)
+                        WHEN image_type = 'group' THEN grupos(id)
+                        WHEN image_type = 'signal' THEN signals(id)
+                    END
+            ); `;
+		await db.query(SqlQuery, null, "create", conn);
+	} finally {
+		await conn.end();
+	}
+};
+
 module.exports = {
 	createUsersTable,
 	createGroupsTable,
@@ -136,4 +158,5 @@ module.exports = {
 	createSignalsTable,
 	createMembershipTable,
 	createIncrementParticipantsTrigger,
+	createImagesTable,
 };

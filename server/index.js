@@ -14,6 +14,7 @@ const {
 	createMembershipTable,
 	createIncrementParticipantsTrigger,
 	createSignalsTable,
+	createImagesTable,
 } = require("./utils/dbTables");
 const signalRoute = require("./routers/signalsRoutes");
 
@@ -44,6 +45,7 @@ createMessagesTable();
 createSignalsTable();
 createMembershipTable();
 createIncrementParticipantsTrigger();
+createImagesTable();
 
 app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter);
