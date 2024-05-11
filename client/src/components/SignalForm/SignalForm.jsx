@@ -15,10 +15,24 @@ export default function SignalForm({
 }) {
 	const [isCompra, setIsCompra] = useState(false);
 	async function onSubmit(values) {
-		const { description, coin, entrada, stopLoss, takeProfit, riesgo } = values;
-		const datos = {
+		const formData = new FormData();
+		const {
+			signalImage,
+			description,
+			coin,
+			entrada,
+			stopLoss,
+			takeProfit,
+			riesgo,
+		} = values;
+		console.log(values);
+
+		const partsImage = signalImage.split("\\");
+		const fileName = partsImage[partsImage.length - 1];
+		const signal = {
 			from: currentUser.id,
 			to: currentChat.id,
+			image: fileName,
 			description,
 			moneda: coin,
 			entrada,
@@ -28,10 +42,12 @@ export default function SignalForm({
 			isCompra,
 		};
 
-		handleSendSignal(datos);
+		// Llama a la función handleSendSignal con el FormData en lugar de datos
+		handleSendSignal(signal);
 
 		closeModal();
 	}
+
 	return (
 		<>
 			<Formik
