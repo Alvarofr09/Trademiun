@@ -1,7 +1,10 @@
 const dao = require("../services/dao/signalsDao");
+const path = require("path");
 
 const addSignal = async (req, res, next) => {
 	try {
+		console.log(req.file);
+		console.log(req.body);
 		const {
 			from,
 			to,
@@ -27,6 +30,28 @@ const addSignal = async (req, res, next) => {
 			riesgo,
 			isCompra,
 		};
+
+		console.log(signalData);
+		console.log("Imagen: ", image);
+
+		if (signalData.image) {
+			// Construimos la ruta de carga
+			const imageFile = signalData.image;
+			const uploadPath = path.join(
+				__dirname,
+				"../../client/public/images/signals/"
+			);
+			// Movemos la imagen al servidor
+			await imageFile.mv(uploadPath);
+
+			await dao.addSignalImage({
+				image_type: "signal",
+				signal_id: 1,
+				image: imageFile,
+			});
+			// Actualizamos la ruta de la imagen en la señal
+			signalData.image = uploadPath;
+		}
 
 		const data = await dao.addSignal(signalData);
 
