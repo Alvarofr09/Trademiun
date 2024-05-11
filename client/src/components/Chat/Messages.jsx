@@ -23,9 +23,9 @@ export default function Messages({ messages, scrollRef }) {
 									message.message
 								) : (
 									<>
-										<p>
-											<strong>Descripcion: </strong> {message.description}
-										</p>
+										{message.image && <img src={message.image} alt="" />}
+										{message.description && <p>{message.description}</p>}
+
 										<p>
 											<strong>Moneda: </strong> {message.moneda}
 										</p>
