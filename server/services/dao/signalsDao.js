@@ -56,4 +56,22 @@ signalDao.getSignals = async (to) => {
 		conn && (await conn.end());
 	}
 };
+
+signalDao.addSignalImage = async (imageData) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		return await db.query(
+			"INSERT INTO images SET ?",
+			imageData,
+			"insert",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
 module.exports = signalDao;
