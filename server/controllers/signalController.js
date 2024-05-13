@@ -75,27 +75,35 @@ const getSignals = async (req, res, next) => {
 		let signals = [];
 		signals = await dao.getSignals(to);
 
-		signals.sort((a, b) => new Date(a.date) - new Date(b.date));
-		const protectSignals = signals.map((signal) => {
-			return {
-				fromSelf: signal.sender_id === from,
-				image: signal.image,
-				description: signal.description,
-				moneda: signal.moneda,
-				entrada: signal.entrada,
-				stopLoss: signal.stopLoss,
-				takeProfit: signal.takeProfit,
-				riesgo: signal.riesgo,
-				isCompra: signal.isCompra,
-				date: signal.date,
-				type: "signal",
-			};
+		signals.forEach((signal) => {
+			// Añadimos el campo 'type' a cada objeto
+			(signal.fromSelf = signal.sender_id === from), (signal.type = "signal");
 		});
 
-		return res.json(protectSignals);
+		return res.json(signals);
 	} catch (error) {
 		next(error);
 	}
 };
 
-module.exports = { addSignal, getSignals };
+const getUserSignals = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+
+		if (!id) return res.status(400).send("Error en la ruta");
+
+		let signals = [];
+		signals = await dao.getUserSignals(id);
+
+		signals.forEach((signal) => {
+			// Añadimos el campo 'type' a cada objeto
+			signal.type = "signal";
+		});
+
+		return res.json(signals);
+	} catch (error) {
+		next(error);
+	}
+};
+
+module.exports = { addSignal, getSignals, getUserSignals };
