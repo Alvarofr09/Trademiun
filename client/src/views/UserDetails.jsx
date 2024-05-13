@@ -92,6 +92,7 @@ export default function UserDetails() {
 					{signals.length === 0 ? (
 						<h3 className="mt-10 text-xl centered">No hay trades</h3>
 					) : (
+						//TODO: hacer componente de señal, para usarlo en mas sitios
 						signals.map((signal) => {
 							return (
 								<div
