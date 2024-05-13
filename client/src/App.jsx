@@ -12,26 +12,26 @@ import WebBuscador from "./views/WebBuscador";
 // import Buscador from "./views/Buscador";
 
 function App() {
-  return (
-    <>
-      {/* <WebNoticias /> */}
-      {/* <Trades /> */}
-      {/* <Buscador /> */}
-      {/* <WebBuscador /> */}
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="login" element={<Login />} />
+	return (
+		<>
+			{/* <WebNoticias /> */}
+			{/* <Trades /> */}
+			{/* <Buscador /> */}
+			{/* <WebBuscador /> */}
+			<Routes>
+				<Route path="/" element={<Layout />}>
+					<Route path="login" element={<Login />} />
 
-          <Route element={<RequireAuth />}>
-            <Route path="/" element={<Chat />} />
-            <Route path="/busqueda" element={<WebBuscador />} />
-            <Route path="/user/:id" element={<UserDetails />} />
-            <Route path="/create-group/:id" element={<CreateGroup />} />
-          </Route>
-        </Route>
-      </Routes>
-    </>
-  );
+					<Route element={<RequireAuth />}>
+						<Route path="/" element={<Chat />} />
+						<Route path="/busqueda" element={<WebBuscador />} />
+						<Route path="/user" element={<UserDetails />} />
+						<Route path="/create-group/:id" element={<CreateGroup />} />
+					</Route>
+				</Route>
+			</Routes>
+		</>
+	);
 }
 
 export default App;
