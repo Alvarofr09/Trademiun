@@ -23,7 +23,9 @@ export default function Messages({ messages, scrollRef }) {
 									message.message
 								) : (
 									<>
-										{message.image && <img src={message.image} alt="" />}
+										{message.image && (
+											<img src={message.image} className="w-full" alt="" />
+										)}
 										{message.description && <p>{message.description}</p>}
 
 										<p>

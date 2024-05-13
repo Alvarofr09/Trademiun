@@ -2,7 +2,7 @@ export default function Signal({ signal }) {
 	return (
 		<div key={signal.id} className="signal max-w-[80%] mx-auto my-8">
 			<div className="content break-normal text-white py-5 px-10 text-lg rounded-2xl">
-				{signal.image && <img src={signal.image} alt="" />}
+				{signal.image && <img src={signal.image} className="w-full" alt="" />}
 				{signal.description && <p>{signal.description}</p>}
 
 				<p>
