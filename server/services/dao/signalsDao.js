@@ -45,8 +45,26 @@ signalDao.getSignals = async (to) => {
 		conn = await db.createConection();
 
 		return await db.query(
-			"SELECT * FROM signals WHERE group_id = ?",
+			"SELECT * FROM signals WHERE group_id = ? ORDER BY date ASC",
 			to,
+			"select",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+signalDao.getUserSignals = async (user_id) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		return await db.query(
+			"SELECT * FROM signals WHERE sender_id = ? ORDER BY date ASC",
+			user_id,
 			"select",
 			conn
 		);
