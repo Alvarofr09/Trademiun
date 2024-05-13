@@ -56,6 +56,8 @@ const userLogin = async (req, res, next) => {
 			email: user.email,
 			isImageSet: user.isImageSet,
 			image: user.image,
+			seguidores: user.seguidores,
+			rentabilidad: user.rentabilidad,
 		});
 
 		// Codificamos la clave secreta definida en la variable de entorno por requisito de la libreria jose
