@@ -59,6 +59,8 @@ export default function ChatContainer({ currentChat, socket }) {
 				to: currentChat.id,
 			});
 
+			console.log(signals.data);
+
 			const allMessages = mensajes.data.concat(signals.data);
 
 			const datos = allMessages.sort(
