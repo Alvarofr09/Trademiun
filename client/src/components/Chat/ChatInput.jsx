@@ -9,7 +9,6 @@ import SignalForm from "../SignalForm/SignalForm";
 export default function ChatInput({
 	handleSendMsg,
 	isAdmin,
-	currentUser,
 	currentChat,
 	handleSendSignal,
 }) {
@@ -89,7 +88,6 @@ export default function ChatInput({
 					{showModal && (
 						<Modal closeModal={closeModal}>
 							<SignalForm
-								currentUser={currentUser}
 								currentChat={currentChat}
 								handleSendSignal={handleSendSignal}
 								closeModal={closeModal}
