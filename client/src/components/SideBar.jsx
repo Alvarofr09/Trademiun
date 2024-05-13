@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import logo_negro from "../assets/img/logo_negro.png";
+import { useUserContext } from "../context/UserContext";
 
 const SideBar = () => {
+	const { user } = useUserContext();
 	return (
 		<>
 			<div className="max-w-68 h-lvh sticky top-0 bg-slate-600">
@@ -105,7 +107,10 @@ const SideBar = () => {
 					</div>
 				</div>
 
-				<Link to={`/user`} className="flex hover:cursor-pointer mb-8">
+				<Link
+					to={`/user/${user.id}`}
+					className="flex hover:cursor-pointer mb-8"
+				>
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
