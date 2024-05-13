@@ -9,31 +9,18 @@ import Welcome from "./Welcome";
 import ChatContainer from "../components/Chat/ChatContainer";
 import { io } from "socket.io-client";
 
-import { jwtDecode } from "jwt-decode";
+import { useUserContext } from "../context/UserContext";
 
 export default function Chat() {
+	const { user } = useUserContext();
 	const socket = useRef();
 	const navigate = useNavigate();
 	const [contacts, setContacts] = useState([]);
-	const [currentUser, setCurrentUser] = useState(undefined);
 	const [currentChat, setCurrentChat] = useState(undefined);
 	const [isLoaded, setIsLoaded] = useState(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if (!localStorage.getItem("token")) {
-				navigate("/login");
-				return;
-			}
-
-			const token = localStorage.getItem("token");
-			// console.log(token);
-
-			const user = jwtDecode(token);
-
-			// console.log(user);
-
-			setCurrentUser(user);
 			setIsLoaded(true);
 
 			try {
@@ -71,21 +58,13 @@ export default function Chat() {
 		<div className="h-screen centered   bg-white">
 			<div className="basis-8/12 border-x-2 border-black mx-auto h-screen ">
 				{isLoaded && currentChat === undefined ? (
-					<Welcome currentUser={currentUser} />
+					<Welcome />
 				) : (
-					<ChatContainer
-						currentChat={currentChat}
-						currentUser={currentUser}
-						socket={socket}
-					/>
+					<ChatContainer currentChat={currentChat} socket={socket} />
 				)}
 			</div>
 			<div className="basis-4/12 mx-auto h-full">
-				<Contacts
-					contacts={contacts}
-					currentUser={currentUser}
-					changeChat={handleChatChange}
-				/>
+				<Contacts contacts={contacts} changeChat={handleChatChange} />
 			</div>
 			<ToastContainer />
 		</div>
