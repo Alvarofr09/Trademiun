@@ -6,18 +6,19 @@ import Input from "../ui/Input";
 import Select from "../ui/Select";
 import Image from "../ui/Image";
 import { useState } from "react";
+import { useUserContext } from "../../context/UserContext";
 
 export default function SignalForm({
-	currentUser,
 	currentChat,
 	handleSendSignal,
 	closeModal,
 }) {
+	const { user } = useUserContext();
 	const [isCompra, setIsCompra] = useState(false);
 	async function onSubmit(values) {
 		const { description, coin, entrada, stopLoss, takeProfit, riesgo } = values;
 		const datos = {
-			from: currentUser.id,
+			from: user.id,
 			to: currentChat.id,
 			description,
 			moneda: coin,
