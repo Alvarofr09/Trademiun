@@ -152,7 +152,7 @@ const getUser = async (req, res, next) => {
 		const id = req.params.id;
 		let user = await dao.getUserById(id);
 		[user] = user;
-		res.status(200).json({ user });
+		res.status(200).json(user);
 	} catch (error) {
 		next(error);
 	}
