@@ -16,9 +16,10 @@ import {
 	userApi,
 } from "../../api/APIRoutes";
 import { useEffect, useRef, useState } from "react";
+import { useUserContext } from "../../context/UserContext";
 
-export default function ChatContainer({ currentChat, currentUser, socket }) {
-	// const { socket } = useSocketContext();
+export default function ChatContainer({ currentChat, socket }) {
+	const { user } = useUserContext();
 	const [messages, setMessages] = useState([]);
 	const [isAdministrador, setIsAdministrador] = useState(false);
 	const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -49,12 +50,12 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 		async function fetchData() {
 			if (!currentChat) return;
 			const mensajes = await userApi.post(getAllGroupMessages, {
-				from: currentUser.id,
+				from: user.id,
 				to: currentChat.id,
 			});
 
 			const signals = await userApi.post(getSignalsGroup, {
-				from: currentUser.id,
+				from: user.id,
 				to: currentChat.id,
 			});
 
@@ -108,14 +109,14 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 	const handleSendMsg = async (msg) => {
 		try {
 			await axios.post(sendMessageRoute, {
-				from: currentUser.id,
+				from: user.id,
 				to: currentChat.id,
 				text: msg,
 			});
 
 			socket.current.emit("send-msg", {
 				to: currentChat.id,
-				from: currentUser.id,
+				from: user.id,
 				message: msg,
 				type: "message",
 			});
@@ -189,7 +190,6 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 					<ChatInput
 						handleSendMsg={handleSendMsg}
 						isAdmin={isAdministrador}
-						currentUser={currentUser}
 						currentChat={currentChat}
 						handleSendSignal={handleSendSignal}
 					/>

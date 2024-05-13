@@ -6,16 +6,16 @@ import Input from "../ui/Input";
 import Select from "../ui/Select";
 import Image from "../ui/Image";
 import { useState } from "react";
+import { useUserContext } from "../../context/UserContext";
 
 export default function SignalForm({
-	currentUser,
 	currentChat,
 	handleSendSignal,
 	closeModal,
 }) {
+	const { user } = useUserContext();
 	const [isCompra, setIsCompra] = useState(false);
 	async function onSubmit(values) {
-		const formData = new FormData();
 		const {
 			signalImage,
 			description,
@@ -30,7 +30,7 @@ export default function SignalForm({
 		const partsImage = signalImage.split("\\");
 		const fileName = partsImage[partsImage.length - 1];
 		const signal = {
-			from: currentUser.id,
+			from: user.id,
 			to: currentChat.id,
 			image: fileName,
 			description,

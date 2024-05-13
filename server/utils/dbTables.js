@@ -13,6 +13,7 @@ const createUsersTable = async () => {
         isImageSet BOOLEAN DEFAULT FALSE,
         image TEXT,
         seguidores INT DEFAULT 0,
+        rentabilidad INT DEFAULT 0,
         registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       ) `;

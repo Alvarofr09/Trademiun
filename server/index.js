@@ -8,6 +8,7 @@ const socket = require("socket.io");
 const userRouter = require("./routers/userRoutes");
 const messageRouter = require("./routers/messagesRoutes");
 const groupRouter = require("./routers/groupsRoutes");
+const signalRoute = require("./routers/signalsRoutes");
 const {
 	createUsersTable,
 	createMessagesTable,
@@ -17,7 +18,11 @@ const {
 	createSignalsTable,
 	createImagesTable,
 } = require("./utils/dbTables");
-const signalRoute = require("./routers/signalsRoutes");
+const {
+	insertUsers,
+	insertGroups,
+	insertMembership,
+} = require("./utils/dbData");
 
 const app = express();
 
@@ -49,6 +54,9 @@ createSignalsTable();
 createMembershipTable();
 createIncrementParticipantsTrigger();
 createImagesTable();
+// insertUsers();
+// insertGroups();
+// insertMembership();
 
 app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter);
