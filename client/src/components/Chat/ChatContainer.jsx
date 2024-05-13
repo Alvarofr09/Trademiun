@@ -27,6 +27,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
 	useEffect(() => {
 		async function fetchData() {
+			if (!currentChat) return;
 			const token = localStorage.getItem("token");
 			// console.log(token);
 
