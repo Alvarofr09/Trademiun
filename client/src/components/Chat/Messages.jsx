@@ -13,10 +13,10 @@ export default function Messages({ messages, scrollRef }) {
 							} ${message.type === "signal" ? "signal" : "mensaje"}`}
 						>
 							<div
-								className={`content max-w-[60%] break-all p-4 text-lg rounded-2xl  ${
+								className={`content max-w-[60%] break-normal text-lg rounded-2xl  ${
 									message.type === "signal"
-										? "text-[#ffffff]"
-										: "text-[#000000]"
+										? "text-[#ffffff] py-5 px-10"
+										: "text-[#000000] p-4 "
 								}`}
 							>
 								{message.type === "message" ? (
