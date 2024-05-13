@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Logout from "../Logout";
 import { Link } from "react-router-dom";
+import InputSearch from "../InputSearch";
 
 export default function Contacts({ contacts, changeChat }) {
 	const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -17,11 +18,8 @@ export default function Contacts({ contacts, changeChat }) {
 				className="container h-full flex flex-col overflow-hidden bg-white"
 				style={{ gridTemplateRows: "10% 65% auto" }}
 			>
-				<div
-					className="buscador centered
-					 basis-1/12"
-				>
-					<p className="titulo">Buenas tardes</p>
+				<div className="basis-1/12 w-full">
+					<InputSearch />
 				</div>
 				<div className="contacts basis-10/12">
 					{contacts.map((contact, index) => {
