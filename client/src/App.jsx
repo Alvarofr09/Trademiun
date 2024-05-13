@@ -25,7 +25,7 @@ function App() {
 					<Route element={<RequireAuth />}>
 						<Route path="/" element={<Chat />} />
 						<Route path="/busqueda" element={<WebBuscador />} />
-						<Route path="/user" element={<UserDetails />} />
+						<Route path="/user/:id" element={<UserDetails />} />
 						<Route path="/create-group/:id" element={<CreateGroup />} />
 					</Route>
 				</Route>
