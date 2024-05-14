@@ -55,7 +55,7 @@ const WebBuscador = () => {
 
 	return (
 		<div className="flex h-full">
-			<div className="basis-8/12 mx-auto">
+			<div className="basis-8/12 mx-auto border-y-2 border-primario">
 				<div className="flex justify-center  py-12 gap-36 2xl:gap-48">
 					<button
 						className={`text-primario text-3xl px-4 py-2 font-bold ${
@@ -86,7 +86,7 @@ const WebBuscador = () => {
 				</div>
 			</div>
 
-			<div className="basis-4/12 py-8 mx-auto pr-8 bg-blue-300">
+			<div className="basis-4/12 py-8 mx-auto pr-8 bg-fondoWebApp">
 				<InputSearch />
 				<WebNotificaciones
 					nombre="JuanJo Trader"
