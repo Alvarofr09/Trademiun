@@ -7,6 +7,7 @@ import Select from "../ui/Select";
 import Image from "../ui/Image";
 import { useState } from "react";
 import { useUserContext } from "../../context/UserContext";
+import { sendSignalRoute, userApi } from "../../api/APIRoutes";
 
 export default function SignalForm({
 	currentChat,
@@ -16,6 +17,7 @@ export default function SignalForm({
 	const { user } = useUserContext();
 	const [isCompra, setIsCompra] = useState(false);
 	async function onSubmit(values) {
+		let formData = new FormData();
 		const {
 			signalImage,
 			description,
@@ -25,14 +27,11 @@ export default function SignalForm({
 			takeProfit,
 			riesgo,
 		} = values;
-		console.log(values);
 
-		const partsImage = signalImage.split("\\");
-		const fileName = partsImage[partsImage.length - 1];
-		const signal = {
+		const signalData = {
 			from: user.id,
 			to: currentChat.id,
-			image: fileName,
+			image: signalImage,
 			description,
 			moneda: coin,
 			entrada,
@@ -42,10 +41,57 @@ export default function SignalForm({
 			isCompra,
 		};
 
-		// Llama a la función handleSendSignal con el FormData en lugar de datos
-		handleSendSignal(signal);
+		console.log(values);
 
+		// Obtener el nombre del archivo
+		const partsImage = signalImage.split("\\");
+		const fileName = partsImage[partsImage.length - 1];
+
+		// Agregar los valores al FormData
+		formData.append("from", user.id);
+		formData.append("to", currentChat.id);
+		formData.append("image", fileName);
+		formData.append("description", description);
+		formData.append("moneda", coin);
+		formData.append("entrada", entrada);
+		formData.append("stopLoss", stopLoss);
+		formData.append("takeProfit", takeProfit);
+		formData.append("riesgo", riesgo);
+		formData.append("isCompra", isCompra);
+
+		// Verificar si el archivo es de tipo imagen por su extensión
+		const validImageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+		const fileExtension = fileName.split(".").pop().toLowerCase();
+
+		if (validImageExtensions.includes(fileExtension)) {
+			// Suponiendo que signalImage es un objeto File si es una imagen válida
+			formData.append("signalImage", signalImage);
+		} else {
+			console.warn(
+				"signalImage no es un archivo de imagen válido",
+				signalImage
+			);
+		}
+
+		logFormData(formData);
+		console.log(formData);
+
+		const { data } = await userApi.post(sendSignalRoute, formData);
+
+		if (data.status === false) {
+			alert(data.message);
+		}
+		// Llamar a la función para enviar la señal
+		handleSendSignal(signalData);
+
+		// Cerrar el modal
 		closeModal();
+	}
+
+	function logFormData(formData) {
+		for (let pair of formData.entries()) {
+			console.log(`${pair[0]}: ${pair[1]}`);
+		}
 	}
 
 	return (
