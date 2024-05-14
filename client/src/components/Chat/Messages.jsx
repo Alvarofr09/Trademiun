@@ -7,7 +7,13 @@ export default function Messages({ messages, scrollRef }) {
 			{messages.map((message) => {
 				console.log(message);
 				return (
-					<div ref={scrollRef} key={uuidv4()}>
+					<div
+						ref={scrollRef}
+						key={uuidv4()}
+						className={`${message.type === "signal" && "flex"} ${
+							message.fromSelf ? "sended" : "recieved"
+						}`}
+					>
 						{message.type === "message" ? (
 							<div
 								className={`flex items-center mensaje ${
@@ -19,7 +25,7 @@ export default function Messages({ messages, scrollRef }) {
 								</div>
 							</div>
 						) : (
-							<Signal signal={message} />
+							<Signal signal={message} isMessage={true} />
 						)}
 					</div>
 				);
