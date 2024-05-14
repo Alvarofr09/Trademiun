@@ -12,7 +12,6 @@ import {
 	isAdmin,
 	// getAllMessages,
 	sendMessageRoute,
-	sendSignalRoute,
 	userApi,
 } from "../../api/APIRoutes";
 import { useEffect, useRef, useState } from "react";
@@ -146,12 +145,6 @@ export default function ChatContainer({ currentChat, socket }) {
 			riesgo,
 			isCompra,
 		} = signal;
-
-		const { data } = await userApi.post(sendSignalRoute, signal);
-
-		if (data.status === false) {
-			alert(data.message);
-		}
 
 		socket.current.emit("send-msg", {
 			to: currentChat.id,
