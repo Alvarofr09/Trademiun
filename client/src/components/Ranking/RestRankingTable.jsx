@@ -1,20 +1,16 @@
 import { Table } from "flowbite-react";
 
 export default function RestRankingTable({ users }) {
-	console.log(users);
 	return (
 		<div className="overflow-x-auto ">
-			<Table hoverable className="mx-auto" style={{ width: "60%" }}>
-				<Table.Head>
+			<Table hoverable className=" mx-auto">
+				<Table.Head className="text-center text-xl">
 					<Table.HeadCell>Posición</Table.HeadCell>
 					<Table.HeadCell>Usuario</Table.HeadCell>
 					<Table.HeadCell>Rentabilidad</Table.HeadCell>
 					<Table.HeadCell>Seguidores</Table.HeadCell>
-					<Table.HeadCell>
-						{/* <span className="sr-only">Edit</span> */}
-					</Table.HeadCell>
 				</Table.Head>
-				<Table.Body className="divide-y text-center">
+				<Table.Body className="divide-y text-center text-xl">
 					{users.map((user) => (
 						<Table.Row
 							key={user.ranking}
@@ -23,9 +19,9 @@ export default function RestRankingTable({ users }) {
 							<Table.Cell className=" whitespace-nowrap font-medium text-gray-900 dark:text-white">
 								{user.ranking}
 							</Table.Cell>
-							<Table.Cell className="flex items-center justify-start">
+							<Table.Cell className="flex items-center justify-start pl-12">
 								<img
-									className="w-6 h-6 rounded-full"
+									className="w-6 h-6 rounded-full  mr-4"
 									src={user.image}
 									alt="user"
 								/>
@@ -33,14 +29,6 @@ export default function RestRankingTable({ users }) {
 							</Table.Cell>
 							<Table.Cell>{user.rentabilidad}%</Table.Cell>
 							<Table.Cell>{user.seguidores}</Table.Cell>
-							<Table.Cell>
-								{/* <a
-                href="#"
-                className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-              >
-                Edit
-              </a> */}
-							</Table.Cell>
 						</Table.Row>
 					))}
 				</Table.Body>
