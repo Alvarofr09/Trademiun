@@ -5,10 +5,10 @@ const addSignal = async (req, res, next) => {
 	try {
 		console.log(req.file);
 		console.log(req.body);
+
 		const {
 			from,
 			to,
-			image,
 			description,
 			moneda,
 			entrada,
@@ -21,7 +21,7 @@ const addSignal = async (req, res, next) => {
 		const signalData = {
 			from,
 			to,
-			image,
+			image: req.file ? req.file.filename : null,
 			description,
 			moneda,
 			entrada,
@@ -32,33 +32,24 @@ const addSignal = async (req, res, next) => {
 		};
 
 		console.log(signalData);
-		console.log("Imagen: ", image);
 
-		if (signalData.image) {
-			// Construimos la ruta de carga
-			const imageFile = signalData.image;
-			const uploadPath = path.join(
-				__dirname,
-				"../../client/public/images/signals/"
-			);
-			// Movemos la imagen al servidor
-			await imageFile.mv(uploadPath);
-
-			await dao.addSignalImage({
-				image_type: "signal",
-				signal_id: 1,
-				image: imageFile,
-			});
-			// Actualizamos la ruta de la imagen en la señal
-			signalData.image = uploadPath;
-		}
-
+		// Guardar la señal en la base de datos
 		const data = await dao.addSignal(signalData);
 
-		if (!data)
+		if (!data) {
 			return res
 				.status(500)
 				.json({ message: "Error al enviar la señal", status: false });
+		}
+
+		// Si se subió una imagen, guardarla en la base de datos de imágenes
+		if (req.file) {
+			await dao.addSignalImage({
+				image_type: "signal",
+				signal_id: data.id, // Asegúrate de que `data.id` sea el ID de la señal recién creada
+				image: req.file.filename,
+			});
+		}
 
 		return res.json({ message: "Señal enviada correctamente", status: true });
 	} catch (error) {
