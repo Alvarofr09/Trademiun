@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import InputSearch from "../components/InputSearch";
 import WebNotificaciones from "../components/WebNotificaciones";
-import WebPodium from "../components/WebPodium";
-import WebTablaRentabilidad from "../components/WebTablaRentabilidad";
 import {
 	getTopRentabilidad,
 	getTopSeguidores,
@@ -56,35 +54,39 @@ const WebBuscador = () => {
 	};
 
 	return (
-		<div className="flex">
-			<div className="basis-7/12 mx-auto">
-				<div className="flex justify-center py-12 gap-36 2xl:gap-48">
+		<div className="flex h-full">
+			<div className="basis-8/12 mx-auto">
+				<div className="flex justify-center  py-12 gap-36 2xl:gap-48">
 					<button
-						className="text-primario text-xl font-bold"
+						className={`text-primario text-3xl px-4 py-2 font-bold ${
+							mostrarSeguidores ? "bg-fondoWebApp rounded-2xl" : ""
+						}`}
 						onClick={mostrarSeguidoresHandler}
 					>
 						Top Seguidores
 					</button>
 					<button
-						className="text-primario text-xl font-bold"
+						className={`text-primario text-3xl px-4 py-2 font-bold ${
+							mostrarSeguidores ? "" : "bg-fondoWebApp rounded-2xl"
+						}`}
 						onClick={mostrarRentabilidadHandler}
 					>
 						Top Rentabilidad
 					</button>
 				</div>
 
-				<section className="podium">
+				<section className="podium max-w-[90%] mx-auto">
 					<div className="flex justify-center">
 						<Podium podium={topThree} seguidores={mostrarSeguidores} />
 					</div>
 				</section>
 
-				<div className="rest-ranking mt-8">
+				<div className="rest-ranking mt-8 max-w-[90%] mx-auto">
 					<RestRankingTable users={restoRanking} />
 				</div>
 			</div>
 
-			<div className="basis-5/12 py-8 mx-auto pr-8 bg-blue-300">
+			<div className="basis-4/12 py-8 mx-auto pr-8 bg-blue-300">
 				<InputSearch />
 				<WebNotificaciones
 					nombre="JuanJo Trader"
