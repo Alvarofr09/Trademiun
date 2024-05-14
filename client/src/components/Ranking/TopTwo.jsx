@@ -2,9 +2,9 @@ import PodiumAvatar from "./PodiumAvatar";
 
 export default function TopTwo({ user, seguidores }) {
 	return (
-		<div className="flex flex-col justify-between">
+		<div className="basis-1/3 flex flex-col justify-end">
 			<PodiumAvatar image={user.image} ranking={user.ranking} />
-			<div className="bg-fondoWebApp rounded-lg mt-4 w-44 2xl:w-48 h-24 flex justify-center text-center items-end text-primario font-bold">
+			<div className="bg-fondoWebApp pb-4 h-36 rounded-tl-xl text-2xl flex justify-center text-center items-end text-primario font-bold">
 				<div>
 					<p>{user.username}</p>
 					{seguidores ? (
