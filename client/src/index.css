@@ -83,6 +83,10 @@
 	@apply text-secundario no-underline font-bold;
 }
 
+.line-height-0 {
+	line-height: 0;
+}
+
 .form {
 	border-radius: 2em;
 	@apply flex flex-col gap-4 justify-center items-center;
