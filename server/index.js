@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const fileUpload = require("express-fileupload");
 const socket = require("socket.io");
+const path = require("path");
 
 const userRouter = require("./routers/userRoutes");
 const messageRouter = require("./routers/messagesRoutes");
@@ -29,7 +30,7 @@ const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
-const upload = multer({ dest: "../client/public/images" });
+app.use(express.static(path.resolve("./images")));
 
 // Instanciamos la libreria express-fileupload (para subir archivos)
 app.use(
@@ -47,16 +48,20 @@ app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
-createUsersTable();
-createGroupsTable();
-createMessagesTable();
-createSignalsTable();
-createMembershipTable();
-createIncrementParticipantsTrigger();
-createImagesTable();
-// insertUsers();
-// insertGroups();
+const dbSetup = async () => {
+	await createUsersTable();
+	await createGroupsTable();
+	await createMessagesTable();
+	await createSignalsTable();
+	await createMembershipTable();
+	await createImagesTable();
+	await createIncrementParticipantsTrigger();
+	// await insertUsers();
+	// await insertGroups();
+	// await insertMembership();
+};
 // insertMembership();
+// dbSetup().catch((error) => console.error(error));
 
 app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter);
