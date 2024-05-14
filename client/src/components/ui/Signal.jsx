@@ -1,6 +1,11 @@
-export default function Signal({ signal }) {
+export default function Signal({ signal, isMessage }) {
 	return (
-		<div key={signal.id} className="signal max-w-[80%] my-8">
+		<div
+			key={signal.id}
+			className={`signal my-8 flex items-center justify-end ${
+				isMessage ? "max-w-[60%]" : "max-w-[80%] mx-auto"
+			}`}
+		>
 			<div className="content break-normal text-white py-5 px-10 text-lg rounded-2xl">
 				{signal.image && <img src={signal.image} className="w-full" alt="" />}
 				{signal.description && <p>{signal.description}</p>}
