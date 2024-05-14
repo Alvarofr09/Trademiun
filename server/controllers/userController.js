@@ -161,6 +161,12 @@ const getUser = async (req, res, next) => {
 const getUsersByRentabilidad = async (req, res, next) => {
 	try {
 		let users = await dao.getAllUsersByRentabilidad();
+
+		// Añadir campo de orden tipo "ranking" a cada usuario
+		users = users.map((user, index) => {
+			return { ...user, ranking: index + 1 };
+		});
+
 		res.status(200).json(users);
 	} catch (error) {
 		next(error);
@@ -170,6 +176,12 @@ const getUsersByRentabilidad = async (req, res, next) => {
 const getUsersBySeguidores = async (req, res, next) => {
 	try {
 		let users = await dao.getAllUsersBySeguidores();
+
+		// Añadir campo de orden tipo "ranking" a cada usuario
+		users = users.map((user, index) => {
+			return { ...user, ranking: index + 1 };
+		});
+
 		res.status(200).json(users);
 	} catch (error) {
 		next(error);
