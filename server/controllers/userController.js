@@ -158,10 +158,30 @@ const getUser = async (req, res, next) => {
 	}
 };
 
+const getUsersByRentabilidad = async (req, res, next) => {
+	try {
+		let users = await dao.getAllUsersByRentabilidad();
+		res.status(200).json(users);
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getUsersBySeguidores = async (req, res, next) => {
+	try {
+		let users = await dao.getAllUsersBySeguidores();
+		res.status(200).json(users);
+	} catch (error) {
+		next(error);
+	}
+};
+
 module.exports = {
 	userRegister,
 	userLogin,
 	setAvatar,
 	getAllUsers,
 	getUser,
+	getUsersByRentabilidad,
+	getUsersBySeguidores,
 };
