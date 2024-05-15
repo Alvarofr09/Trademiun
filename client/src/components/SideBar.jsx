@@ -7,9 +7,9 @@ const SideBar = () => {
 	const location = useLocation();
 	return (
 		<>
-			<div className="max-w-68 h-lvh sticky top-0 bg-fondoWebApp">
+			<div className="max-w-68 h-lvh sticky lg:text-lg text-2xl top-0 bg-fondoWebApp">
 				{/* Sidebar */}
-				<div className="py-8 w-36 ml-12 ">
+				<div className="py-8 w-52 lg:w-36 ml-12 ">
 					<img src={logo_negro} alt="logo" />
 				</div>
 
