@@ -164,11 +164,11 @@ export default function UserDetails() {
 				</section>
 			)}
 
-			<article className="trades centered flex-col basis-4/12 h-full ">
-				<div className="basis-1/12 centered">
+			<article className="trades centered overflow-x-scroll flex-col basis-4/12 h-full ">
+				<div className="basis-1/12 centered h-full mt-10">
 					<h2 className="titulo">Ultimos Trades</h2>
 				</div>
-				<div className="basis-11/12 w-full">
+				<div className="basis-11/12 w-full h-full">
 					{signals.length === 0 ? (
 						<h3 className="mt-10 text-xl centered">No hay trades</h3>
 					) : (
