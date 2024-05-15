@@ -103,7 +103,7 @@
 }
 
 .modal-content {
-	@apply bg-white rounded-lg p-8 max-w-md w-full relative;
+	@apply bg-white rounded-lg p-8  w-full relative;
 }
 
 .close-btn {
