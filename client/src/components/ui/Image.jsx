@@ -7,13 +7,14 @@ export default function Image({ ...props }) {
 	return (
 		<>
 			<div className="">
-				<label htmlFor="picture">
+				<label htmlFor="signalImage">
 					<IconFilePlus size={50} />
 				</label>
 				<input
 					{...props}
 					{...field}
-					id="picture"
+					onChange={(e) => alert(e.target.files[0])}
+					id="signalImage"
 					type="file"
 					className="appearance-none hidden opacity-0"
 				/>
