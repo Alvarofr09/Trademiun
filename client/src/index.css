@@ -35,6 +35,10 @@
 	);
 }
 
+.bordered {
+	@apply border-2 border-fondoWebApp rounded-[20px];
+}
+
 .brand {
 	@apply centered gap-4 my-8;
 }
@@ -77,6 +81,10 @@
 
 .link {
 	@apply text-secundario no-underline font-bold;
+}
+
+.line-height-0 {
+	line-height: 0;
 }
 
 .form {

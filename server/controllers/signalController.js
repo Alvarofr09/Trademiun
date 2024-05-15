@@ -1,7 +1,10 @@
 const dao = require("../services/dao/signalsDao");
+const cloudinary = require("../services/cloudinary");
 
 const addSignal = async (req, res, next) => {
 	try {
+		console.log(req.body);
+
 		const {
 			from,
 			to,
@@ -15,10 +18,25 @@ const addSignal = async (req, res, next) => {
 			isCompra,
 		} = req.body;
 
+		const uploadedImage = await cloudinary.uploader.upload(
+			image,
+			{
+				upload_preset: "signal_upload",
+				public_id: `signal_${new Date()}`,
+				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+			},
+			function (error, result) {
+				if (error) console.log(error);
+				console.log(result);
+			}
+		);
+
+		// res.status(200).json(uploadedImage);
+
 		const signalData = {
 			from,
 			to,
-			image,
+			image: uploadedImage.public_id,
 			description,
 			moneda,
 			entrada,
@@ -28,14 +46,29 @@ const addSignal = async (req, res, next) => {
 			isCompra,
 		};
 
+		console.log(signalData);
+
+		// res.status(200);
+		// Llamar a la función para enviar la señal
+		// // Guardar la señal en la base de datos
 		const data = await dao.addSignal(signalData);
 
-		if (!data)
+		let signal = await dao.getSignalById(data);
+		[signal] = signal;
+
+		console.log(signal);
+
+		if (!data) {
 			return res
 				.status(500)
 				.json({ message: "Error al enviar la señal", status: false });
+		}
 
-		return res.json({ message: "Señal enviada correctamente", status: true });
+		return res.json({
+			message: "Señal enviada correctamente",
+			status: true,
+			signal,
+		});
 	} catch (error) {
 		next(error);
 	}
@@ -50,27 +83,35 @@ const getSignals = async (req, res, next) => {
 		let signals = [];
 		signals = await dao.getSignals(to);
 
-		signals.sort((a, b) => new Date(a.date) - new Date(b.date));
-		const protectSignals = signals.map((signal) => {
-			return {
-				fromSelf: signal.sender_id === from,
-				image: signal.image,
-				description: signal.description,
-				moneda: signal.moneda,
-				entrada: signal.entrada,
-				stopLoss: signal.stopLoss,
-				takeProfit: signal.takeProfit,
-				riesgo: signal.riesgo,
-				isCompra: signal.isCompra,
-				date: signal.date,
-				type: "signal",
-			};
+		signals.forEach((signal) => {
+			// Añadimos el campo 'type' a cada objeto
+			(signal.fromSelf = signal.sender_id === from), (signal.type = "signal");
 		});
 
-		return res.json(protectSignals);
+		return res.json(signals);
 	} catch (error) {
 		next(error);
 	}
 };
 
-module.exports = { addSignal, getSignals };
+const getUserSignals = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+
+		if (!id) return res.status(400).send("Error en la ruta");
+
+		let signals = [];
+		signals = await dao.getUserSignals(id);
+
+		signals.forEach((signal) => {
+			// Añadimos el campo 'type' a cada objeto
+			signal.type = "signal";
+		});
+
+		return res.json(signals);
+	} catch (error) {
+		next(error);
+	}
+};
+
+module.exports = { addSignal, getSignals, getUserSignals };

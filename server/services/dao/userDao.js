@@ -146,4 +146,40 @@ userDao.updateUser = async (id, userData) => {
 	}
 };
 
+userDao.getAllUsersByRentabilidad = async () => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		return await db.query(
+			"SELECT * FROM users ORDER BY rentabilidad DESC",
+			null,
+			"select",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+userDao.getAllUsersBySeguidores = async () => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		return await db.query(
+			"SELECT * FROM users ORDER BY seguidores DESC",
+			null,
+			"select",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 module.exports = userDao;

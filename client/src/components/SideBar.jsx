@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo_negro from "../assets/img/logo_negro.png";
 import { useUserContext } from "../context/UserContext";
 
 const SideBar = () => {
 	const { user } = useUserContext();
+	const location = useLocation();
 	return (
 		<>
-			<div className="max-w-68 h-lvh sticky top-0 bg-slate-600">
+			<div className="max-w-68 h-lvh sticky lg:text-lg text-2xl top-0 bg-fondoWebApp">
 				{/* Sidebar */}
-				<div className="py-8 w-36 ml-12 ">
+				<div className="py-8 w-52 lg:w-36 ml-12 ">
 					<img src={logo_negro} alt="logo" />
 				</div>
 
@@ -32,7 +33,9 @@ const SideBar = () => {
 						</svg>
 					</div>
 					<div>
-						<p className="ml-4">Chats</p>
+						<p className={`ml-4 ${location.pathname === "/" && "font-bold"}`}>
+							Chats
+						</p>
 					</div>
 				</Link>
 
@@ -55,11 +58,17 @@ const SideBar = () => {
 						</svg>
 					</div>
 					<div>
-						<p className="ml-4">Búsqueda</p>
+						<p
+							className={`ml-4 ${
+								location.pathname === "/busqueda" && "font-bold"
+							}`}
+						>
+							Búsqueda
+						</p>
 					</div>
 				</Link>
 
-				<div className="flex hover:cursor-pointer mb-8">
+				<Link to={"/noticias"} className="flex hover:cursor-pointer mb-8">
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -80,11 +89,17 @@ const SideBar = () => {
 						</svg>
 					</div>
 					<div>
-						<p className="ml-4">Noticias</p>
+						<p
+							className={`ml-4 ${
+								location.pathname === "/noticias" && "font-bold"
+							}`}
+						>
+							Noticias
+						</p>
 					</div>
-				</div>
+				</Link>
 
-				<div className="flex hover:cursor-pointer mb-8">
+				<Link to={"/cursos"} className="flex hover:cursor-pointer mb-8">
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -103,9 +118,15 @@ const SideBar = () => {
 						</svg>
 					</div>
 					<div>
-						<p className="ml-4">Cursos</p>
+						<p
+							className={`ml-4 ${
+								location.pathname === "/cursos" && "font-bold"
+							}`}
+						>
+							Cursos
+						</p>
 					</div>
-				</div>
+				</Link>
 
 				<Link
 					to={`/user/${user.id}`}
@@ -130,11 +151,17 @@ const SideBar = () => {
 						</svg>
 					</div>
 					<div>
-						<p className="ml-4">Perfil</p>
+						<p
+							className={`ml-4 ${
+								location.pathname === `/user/${user.id}` && "font-bold"
+							}`}
+						>
+							Perfil
+						</p>
 					</div>
 				</Link>
 
-				<div className="flex hover:cursor-pointer mb-8">
+				<Link to={"/pagos"} className="flex hover:cursor-pointer mb-8">
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -155,9 +182,15 @@ const SideBar = () => {
 						</svg>
 					</div>
 					<div>
-						<p className="ml-4">Pagos</p>
+						<p
+							className={`ml-4 ${
+								location.pathname === "/pagos" && "font-bold"
+							}`}
+						>
+							Pagos
+						</p>
 					</div>
-				</div>
+				</Link>
 			</div>
 		</>
 	);

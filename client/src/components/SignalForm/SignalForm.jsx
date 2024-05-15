@@ -2,11 +2,14 @@ import { Formik, Form } from "formik";
 import { SignalFormInitialValues } from "../../consts/InitialValues";
 import { SignalFormSchema } from "./SignalFormSchema";
 
+import { IconFilePlus } from "@tabler/icons-react";
+
 import Input from "../ui/Input";
 import Select from "../ui/Select";
-import Image from "../ui/Image";
 import { useState } from "react";
 import { useUserContext } from "../../context/UserContext";
+import { sendSignalRoute, userApi } from "../../api/APIRoutes";
+import { previewFiles } from "../../utils/previewFile";
 
 export default function SignalForm({
 	currentChat,
@@ -15,11 +18,23 @@ export default function SignalForm({
 }) {
 	const { user } = useUserContext();
 	const [isCompra, setIsCompra] = useState(false);
+	const [file, setFile] = useState("");
+	const [image, setImage] = useState("");
+
+	const handleChange = (e) => {
+		const file = e.target.files[0];
+		setFile(file);
+		previewFiles(file, setImage);
+	};
+
 	async function onSubmit(values) {
+		// let formData = new FormData();
 		const { description, coin, entrada, stopLoss, takeProfit, riesgo } = values;
-		const datos = {
+
+		const signalData = {
 			from: user.id,
 			to: currentChat.id,
+			image: image,
 			description,
 			moneda: coin,
 			entrada,
@@ -29,21 +44,46 @@ export default function SignalForm({
 			isCompra,
 		};
 
-		handleSendSignal(datos);
+		const { data } = await userApi.post(sendSignalRoute, signalData);
 
+		console.log(data);
+
+		if (data.status === false) {
+			alert(data.message);
+		}
+		// Llamar a la función para enviar la señal
+		handleSendSignal(data.signal);
+
+		// Cerrar el modal
 		closeModal();
 	}
+
 	return (
 		<>
 			<Formik
 				initialValues={SignalFormInitialValues}
 				validationSchema={SignalFormSchema}
 				onSubmit={onSubmit}
+				enctype="multipart/form-data"
 			>
 				{(values, errors, isSubmitting) => (
 					<div className="">
 						<Form className="form">
-							<Image name="signalImage" />
+							<div className="">
+								<label htmlFor="signalImage">
+									<IconFilePlus size={50} />
+								</label>
+								<input
+									type="file"
+									name="fileInsignalImageput"
+									id="signalImage"
+									onChange={(e) => handleChange(e)}
+									required
+									accept="image/png, image/jpeg, image/jpg, image/svg, image/ico, image/jfif, image/webp"
+									className="appearance-none hidden opacity-0"
+								/>
+							</div>
+							{image && <img src={image} alt="Preview" className="h-20 w-20" />}
 
 							<Input
 								placeholder="Descripcion"

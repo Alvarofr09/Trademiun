@@ -12,7 +12,6 @@ import {
 	isAdmin,
 	// getAllMessages,
 	sendMessageRoute,
-	sendSignalRoute,
 	userApi,
 } from "../../api/APIRoutes";
 import { useEffect, useRef, useState } from "react";
@@ -27,6 +26,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
 	useEffect(() => {
 		async function fetchData() {
+			if (!currentChat) return;
 			const token = localStorage.getItem("token");
 			// console.log(token);
 
@@ -59,6 +59,8 @@ export default function ChatContainer({ currentChat, socket }) {
 				to: currentChat.id,
 			});
 
+			console.log(signals.data);
+
 			const allMessages = mensajes.data.concat(signals.data);
 
 			const datos = allMessages.sort(
@@ -83,6 +85,7 @@ export default function ChatContainer({ currentChat, socket }) {
 				} else {
 					setArrivalMessage({
 						fromSelf: false,
+						image: msg.image,
 						description: msg.description,
 						moneda: msg.moneda,
 						entrada: msg.entrada,
@@ -129,9 +132,11 @@ export default function ChatContainer({ currentChat, socket }) {
 	};
 
 	const handleSendSignal = async (signal) => {
+		console.log(signal);
 		const {
-			from,
-			to,
+			sender_id,
+			group_id,
+			image,
 			description,
 			moneda,
 			entrada,
@@ -141,25 +146,10 @@ export default function ChatContainer({ currentChat, socket }) {
 			isCompra,
 		} = signal;
 
-		const { data } = await userApi.post(sendSignalRoute, {
-			from,
-			to,
-			description,
-			moneda,
-			entrada,
-			stopLoss,
-			takeProfit,
-			riesgo,
-			isCompra,
-		});
-
-		if (data.status === false) {
-			alert(data.message);
-		}
-
 		socket.current.emit("send-msg", {
-			to: currentChat.id,
-			from,
+			to: group_id,
+			from: sender_id,
+			image,
 			description,
 			moneda,
 			entrada,
@@ -172,6 +162,7 @@ export default function ChatContainer({ currentChat, socket }) {
 		const msgs = [...messages];
 		msgs.push({
 			fromSelf: true,
+			image,
 			description,
 			moneda,
 			entrada,

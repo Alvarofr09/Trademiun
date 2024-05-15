@@ -56,6 +56,8 @@ const userLogin = async (req, res, next) => {
 			email: user.email,
 			isImageSet: user.isImageSet,
 			image: user.image,
+			seguidores: user.seguidores,
+			rentabilidad: user.rentabilidad,
 		});
 
 		// Codificamos la clave secreta definida en la variable de entorno por requisito de la libreria jose
@@ -150,7 +152,37 @@ const getUser = async (req, res, next) => {
 		const id = req.params.id;
 		let user = await dao.getUserById(id);
 		[user] = user;
-		res.status(200).json({ user });
+		res.status(200).json(user);
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getUsersByRentabilidad = async (req, res, next) => {
+	try {
+		let users = await dao.getAllUsersByRentabilidad();
+
+		// Añadir campo de orden tipo "ranking" a cada usuario
+		users = users.map((user, index) => {
+			return { ...user, ranking: index + 1 };
+		});
+
+		res.status(200).json(users);
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getUsersBySeguidores = async (req, res, next) => {
+	try {
+		let users = await dao.getAllUsersBySeguidores();
+
+		// Añadir campo de orden tipo "ranking" a cada usuario
+		users = users.map((user, index) => {
+			return { ...user, ranking: index + 1 };
+		});
+
+		res.status(200).json(users);
 	} catch (error) {
 		next(error);
 	}
@@ -162,4 +194,6 @@ module.exports = {
 	setAvatar,
 	getAllUsers,
 	getUser,
+	getUsersByRentabilidad,
+	getUsersBySeguidores,
 };

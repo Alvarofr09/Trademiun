@@ -7,6 +7,8 @@ export const loginRoute = `/api/auth/login`;
 export const setAvatarRoute = `${host}/api/auth/setAvatar`;
 export const getAllUsersRoute = `${host}/api/auth/allUsers`;
 export const getUserInfo = `${host}/api/auth/getUserInfo`;
+export const getTopRentabilidad = `${host}/api/auth/get-users-by-rentabilidad`;
+export const getTopSeguidores = `${host}/api/auth/get-users-by-seguidores`;
 
 export const sendMessageRoute = `${host}/api/messages/add-message`;
 export const getAllGroupMessages = `${host}/api/messages/getGroupMessages`;
@@ -18,6 +20,7 @@ export const isAdmin = `${host}/api/groups/is-admin`;
 
 export const sendSignalRoute = `${host}/api/signals/add-signal`;
 export const getSignalsGroup = `${host}/api/signals/get-signals`;
+export const getUserSignals = `${host}/api/signals/get-user-signals`;
 
 export const userApi = axios.create({
 	baseURL: `${host}`,
