@@ -1,16 +1,75 @@
 // import { Link } from "react-router-dom";
-
 import { useEffect, useState } from "react";
+import { Chart as ChartJS, defaults } from "chart.js/auto";
+import { Bar } from "react-chartjs-2";
+
 import { useUserContext } from "../context/UserContext";
 import { getUserInfo, getUserSignals, userApi } from "../api/APIRoutes";
 import { useParams } from "react-router-dom";
 import Signal from "../components/ui/Signal";
 
+const chartData = [
+	{ label: "Enero", value: 65 },
+	{ label: "Febrero", value: -59 },
+	{ label: "Marzo", value: 80 },
+	{ label: "Abril", value: -81 },
+	{ label: "Mayo", value: 56 },
+	{ label: "Junio", value: -55 },
+	{ label: "Julio", value: -60 },
+	{ label: "Agosto", value: 100 },
+];
+
+const chartConfig = {
+	type: "bar",
+	data: {
+		labels: chartData.map((data) => data.label),
+		datasets: [
+			{
+				label: "Ganacias",
+				data: chartData.map((data) => data.value),
+				backgroundColor: function (context) {
+					const chart = context.chart;
+					const { ctx, chartArea } = chart;
+
+					if (!chartArea) {
+						// Este caso ocurre en la primera renderización, donde no hay área del gráfico todavía
+						return null;
+					}
+
+					// Crear gradiente
+					const gradient = ctx.createLinearGradient(
+						0,
+						chartArea.top,
+						0,
+						chartArea.bottom
+					);
+
+					if (context.raw >= 0) {
+						// Gradiente de gris a verde para valores positivos
+						gradient.addColorStop(0, "#30BC30"); // Verde
+						gradient.addColorStop(1, "#F0F0F0"); // Gris
+					} else {
+						// Gradiente de gris a rojo para valores negativos
+						gradient.addColorStop(0, "#F0F0F0"); // Gris
+						gradient.addColorStop(1, "#CF2D2D"); // Rojo
+					}
+
+					return gradient;
+				},
+				borderWidth: 1,
+			},
+		],
+	},
+};
+
+defaults.maintainAspectRatio = false;
+defaults.responsive = true;
 export default function UserDetails() {
 	const { id } = useParams();
 	const { user } = useUserContext();
 	const [userData, setUserData] = useState(null);
 	const [signals, setSignals] = useState([]);
+	// const [chartData, setChartData] = useState([]);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -36,8 +95,8 @@ export default function UserDetails() {
 	return (
 		<main className="h-screen centered bg-white">
 			{userData && (
-				<section className="basis-8/12 border-x-2 gap-11 border-black h-screen user-info centered flex-col">
-					<div className="bordered centered gap-16 w-full py-5 px-12">
+				<section className="basis-8/12 border-x-2 gap-11  border-black h-screen user-info centered flex-col ">
+					<div className="bordered centered gap-16 py-5 px-12 w-[90%] mx-auto">
 						<div className="user-image basis-1/4">
 							<img
 								className="avatar-image"
@@ -45,7 +104,7 @@ export default function UserDetails() {
 								alt={`Avatar de ${userData.username}`}
 							/>
 						</div>
-						<div className="user-details basis-3/4 text-3xl">
+						<div className="user-details basis-3/4 lg:text-2xl text-3xl">
 							<p>
 								<strong>Usuario: </strong>
 								{userData.username}
@@ -60,8 +119,12 @@ export default function UserDetails() {
 							</p>
 						</div>
 					</div>
-					<div className="bordered centered w-full"></div>
-					<div className="bordered centered w-full gap-6 text-2xl py-16 px-20">
+					<div className="bordered w-[90%] mx-auto">
+						<div className="chart-container centered lg:h-72 h-96 w-full">
+							<Bar data={chartConfig.data} className="h-full w-full" />
+						</div>
+					</div>
+					<div className="bordered centered gap-6 lg:text-xl text-2xl lg:py-6 lg:px-8 py-16 px-20  w-[90%] mx-auto">
 						<ul className="w-1/2">
 							<li>
 								<strong>Señales: </strong>
@@ -109,7 +172,6 @@ export default function UserDetails() {
 					{signals.length === 0 ? (
 						<h3 className="mt-10 text-xl centered">No hay trades</h3>
 					) : (
-						//TODO: hacer componente de señal, para usarlo en mas sitios
 						signals.map((signal) => {
 							return <Signal key={signal.id} signal={signal} />;
 						})
