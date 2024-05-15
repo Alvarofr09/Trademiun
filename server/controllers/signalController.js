@@ -1,6 +1,5 @@
 const dao = require("../services/dao/signalsDao");
-const path = require("path");
-const uploadImage = require("../utils/uploadImage");
+const cloudinary = require("../services/cloudinary");
 
 const addSignal = async (req, res, next) => {
 	try {
@@ -19,50 +18,57 @@ const addSignal = async (req, res, next) => {
 			isCompra,
 		} = req.body;
 
-		console.log(image);
+		const uploadedImage = await cloudinary.uploader.upload(
+			image,
+			{
+				upload_preset: "signal_upload",
+				public_id: `signal_${new Date()}`,
+				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+			},
+			function (error, result) {
+				if (error) console.log(error);
+				console.log(result);
+			}
+		);
 
-		uploadImage(image)
-			.then((url) => {
-				res.send(url);
-			})
-			.catch((error) => {
-				res.status(500).send(error);
-			});
+		// res.status(200).json(uploadedImage);
 
-		// const signalData = {
-		// 	from,
-		// 	to,
-		// 	image: req.file ? req.file.filename : null,
-		// 	description,
-		// 	moneda,
-		// 	entrada,
-		// 	stopLoss,
-		// 	takeProfit,
-		// 	riesgo,
-		// 	isCompra,
-		// };
+		const signalData = {
+			from,
+			to,
+			image: uploadedImage.public_id,
+			description,
+			moneda,
+			entrada,
+			stopLoss,
+			takeProfit,
+			riesgo,
+			isCompra,
+		};
 
-		// console.log(signalData);
+		console.log(signalData);
 
+		// res.status(200);
+		// Llamar a la función para enviar la señal
 		// // Guardar la señal en la base de datos
-		// const data = await dao.addSignal(signalData);
+		const data = await dao.addSignal(signalData);
 
-		// if (!data) {
-		// 	return res
-		// 		.status(500)
-		// 		.json({ message: "Error al enviar la señal", status: false });
-		// }
+		let signal = await dao.getSignalById(data);
+		[signal] = signal;
 
-		// // Si se subió una imagen, guardarla en la base de datos de imágenes
-		// if (req.file) {
-		// 	await dao.addSignalImage({
-		// 		image_type: "signal",
-		// 		signal_id: data.id, // Asegúrate de que `data.id` sea el ID de la señal recién creada
-		// 		image: req.file.filename,
-		// 	});
-		// }
+		console.log(signal);
 
-		return res.json({ message: "Señal enviada correctamente", status: true });
+		if (!data) {
+			return res
+				.status(500)
+				.json({ message: "Error al enviar la señal", status: false });
+		}
+
+		return res.json({
+			message: "Señal enviada correctamente",
+			status: true,
+			signal,
+		});
 	} catch (error) {
 		next(error);
 	}
