@@ -6,7 +6,6 @@ import { IconFilePlus } from "@tabler/icons-react";
 
 import Input from "../ui/Input";
 import Select from "../ui/Select";
-import Image from "../ui/Image";
 import { useState } from "react";
 import { useUserContext } from "../../context/UserContext";
 import { sendSignalRoute, userApi } from "../../api/APIRoutes";
