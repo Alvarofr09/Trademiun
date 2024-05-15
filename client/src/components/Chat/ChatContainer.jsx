@@ -134,8 +134,8 @@ export default function ChatContainer({ currentChat, socket }) {
 	const handleSendSignal = async (signal) => {
 		console.log(signal);
 		const {
-			from,
-			to,
+			sender_id,
+			group_id,
 			image,
 			description,
 			moneda,
@@ -147,8 +147,8 @@ export default function ChatContainer({ currentChat, socket }) {
 		} = signal;
 
 		socket.current.emit("send-msg", {
-			to: currentChat.id,
-			from,
+			to: group_id,
+			from: sender_id,
 			image,
 			description,
 			moneda,
