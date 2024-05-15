@@ -26,11 +26,6 @@ export default function Signal({ signal, isMessage }) {
 						{signal.description}
 					</p>
 				)}
-				{/* {signal.description && (
-					<button onClick={handleToggle} className=" text-xs">
-						{isExpanded ? "Ver menos" : "Ver más"}
-					</button>
-				)} */}
 
 				<p>
 					<strong>Moneda: </strong> {signal.moneda}
