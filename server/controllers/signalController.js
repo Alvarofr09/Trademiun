@@ -1,14 +1,15 @@
 const dao = require("../services/dao/signalsDao");
 const path = require("path");
+const uploadImage = require("../utils/uploadImage");
 
 const addSignal = async (req, res, next) => {
 	try {
-		console.log(req.file);
 		console.log(req.body);
 
 		const {
 			from,
 			to,
+			image,
 			description,
 			moneda,
 			entrada,
@@ -18,38 +19,48 @@ const addSignal = async (req, res, next) => {
 			isCompra,
 		} = req.body;
 
-		const signalData = {
-			from,
-			to,
-			image: req.file ? req.file.filename : null,
-			description,
-			moneda,
-			entrada,
-			stopLoss,
-			takeProfit,
-			riesgo,
-			isCompra,
-		};
+		console.log(image);
 
-		console.log(signalData);
-
-		// Guardar la señal en la base de datos
-		const data = await dao.addSignal(signalData);
-
-		if (!data) {
-			return res
-				.status(500)
-				.json({ message: "Error al enviar la señal", status: false });
-		}
-
-		// Si se subió una imagen, guardarla en la base de datos de imágenes
-		if (req.file) {
-			await dao.addSignalImage({
-				image_type: "signal",
-				signal_id: data.id, // Asegúrate de que `data.id` sea el ID de la señal recién creada
-				image: req.file.filename,
+		uploadImage(image)
+			.then((url) => {
+				res.send(url);
+			})
+			.catch((error) => {
+				res.status(500).send(error);
 			});
-		}
+
+		// const signalData = {
+		// 	from,
+		// 	to,
+		// 	image: req.file ? req.file.filename : null,
+		// 	description,
+		// 	moneda,
+		// 	entrada,
+		// 	stopLoss,
+		// 	takeProfit,
+		// 	riesgo,
+		// 	isCompra,
+		// };
+
+		// console.log(signalData);
+
+		// // Guardar la señal en la base de datos
+		// const data = await dao.addSignal(signalData);
+
+		// if (!data) {
+		// 	return res
+		// 		.status(500)
+		// 		.json({ message: "Error al enviar la señal", status: false });
+		// }
+
+		// // Si se subió una imagen, guardarla en la base de datos de imágenes
+		// if (req.file) {
+		// 	await dao.addSignalImage({
+		// 		image_type: "signal",
+		// 		signal_id: data.id, // Asegúrate de que `data.id` sea el ID de la señal recién creada
+		// 		image: req.file.filename,
+		// 	});
+		// }
 
 		return res.json({ message: "Señal enviada correctamente", status: true });
 	} catch (error) {

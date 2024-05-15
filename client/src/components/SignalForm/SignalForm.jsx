@@ -8,6 +8,7 @@ import Image from "../ui/Image";
 import { useState } from "react";
 import { useUserContext } from "../../context/UserContext";
 import { sendSignalRoute, userApi } from "../../api/APIRoutes";
+import { convertToBase64 } from "../../utils/convertToBase64";
 
 export default function SignalForm({
 	currentChat,
@@ -17,7 +18,7 @@ export default function SignalForm({
 	const { user } = useUserContext();
 	const [isCompra, setIsCompra] = useState(false);
 	async function onSubmit(values) {
-		let formData = new FormData();
+		// let formData = new FormData();
 		const {
 			signalImage,
 			description,
@@ -27,6 +28,8 @@ export default function SignalForm({
 			takeProfit,
 			riesgo,
 		} = values;
+
+		// const base64 = await convertToBase64(signalImage);
 
 		const signalData = {
 			from: user.id,
@@ -41,42 +44,44 @@ export default function SignalForm({
 			isCompra,
 		};
 
-		console.log(values);
+		console.log(signalData);
 
 		// Obtener el nombre del archivo
-		const partsImage = signalImage.split("\\");
-		const fileName = partsImage[partsImage.length - 1];
+		// const partsImage = signalImage.split("\\");
+		// const fileName = partsImage[partsImage.length - 1];
 
-		// Agregar los valores al FormData
-		formData.append("from", user.id);
-		formData.append("to", currentChat.id);
-		formData.append("image", fileName);
-		formData.append("description", description);
-		formData.append("moneda", coin);
-		formData.append("entrada", entrada);
-		formData.append("stopLoss", stopLoss);
-		formData.append("takeProfit", takeProfit);
-		formData.append("riesgo", riesgo);
-		formData.append("isCompra", isCompra);
+		// // Agregar los valores al FormData
+		// formData.append("from", user.id);
+		// formData.append("to", currentChat.id);
+		// formData.append("image", fileName);
+		// formData.append("description", description);
+		// formData.append("moneda", coin);
+		// formData.append("entrada", entrada);
+		// formData.append("stopLoss", stopLoss);
+		// formData.append("takeProfit", takeProfit);
+		// formData.append("riesgo", riesgo);
+		// formData.append("isCompra", isCompra);
 
 		// Verificar si el archivo es de tipo imagen por su extensión
-		const validImageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
-		const fileExtension = fileName.split(".").pop().toLowerCase();
+		// const validImageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+		// const fileExtension = fileName.split(".").pop().toLowerCase();
 
-		if (validImageExtensions.includes(fileExtension)) {
-			// Suponiendo que signalImage es un objeto File si es una imagen válida
-			formData.append("signalImage", signalImage);
-		} else {
-			console.warn(
-				"signalImage no es un archivo de imagen válido",
-				signalImage
-			);
-		}
+		// if (validImageExtensions.includes(fileExtension)) {
+		// 	// Suponiendo que signalImage es un objeto File si es una imagen válida
+		// 	formData.append("signalImage", signalImage);
+		// } else {
+		// 	console.warn(
+		// 		"signalImage no es un archivo de imagen válido",
+		// 		signalImage
+		// 	);
+		// }
 
-		logFormData(formData);
-		console.log(formData);
+		// logFormData(formData);
+		// console.log(formData);
 
-		const { data } = await userApi.post(sendSignalRoute, formData);
+		const { data } = await userApi.post(sendSignalRoute, signalData);
+
+		console.log(data);
 
 		if (data.status === false) {
 			alert(data.message);
@@ -88,11 +93,11 @@ export default function SignalForm({
 		closeModal();
 	}
 
-	function logFormData(formData) {
-		for (let pair of formData.entries()) {
-			console.log(`${pair[0]}: ${pair[1]}`);
-		}
-	}
+	// function logFormData(formData) {
+	// 	for (let pair of formData.entries()) {
+	// 		console.log(`${pair[0]}: ${pair[1]}`);
+	// 	}
+	// }
 
 	return (
 		<>
@@ -100,6 +105,7 @@ export default function SignalForm({
 				initialValues={SignalFormInitialValues}
 				validationSchema={SignalFormSchema}
 				onSubmit={onSubmit}
+				enctype="multipart/form-data"
 			>
 				{(values, errors, isSubmitting) => (
 					<div className="">
