@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Img from "./CloudinaryImg";
 
 export default function Signal({ signal, isMessage }) {
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -14,10 +15,10 @@ export default function Signal({ signal, isMessage }) {
 			}`}
 		>
 			<div className="content break-normal text-white py-5 px-10 text-2xl rounded-2xl">
-				{signal.image && <img src={signal.image} className="w-full" alt="" />}
+				{signal.image && <Img uploadedImg={signal.image} className="w-full " />}
 				{signal.description && (
 					<p
-						className={`text-xs mb-2 ${
+						className={`text-xs mb-2 cursor-pointer ${
 							isExpanded ? "line-clamp-none" : "line-clamp-3"
 						} overflow-hidden`}
 						onClick={handleToggle}
