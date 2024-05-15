@@ -1,5 +1,3 @@
-import React from "react";
-
 import { IconX } from "@tabler/icons-react";
 
 export default function Modal({ closeModal, isImg, children }) {
