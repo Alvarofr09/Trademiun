@@ -2,13 +2,15 @@ import { Formik, Form } from "formik";
 import { SignalFormInitialValues } from "../../consts/InitialValues";
 import { SignalFormSchema } from "./SignalFormSchema";
 
+import { IconFilePlus } from "@tabler/icons-react";
+
 import Input from "../ui/Input";
 import Select from "../ui/Select";
 import Image from "../ui/Image";
 import { useState } from "react";
 import { useUserContext } from "../../context/UserContext";
 import { sendSignalRoute, userApi } from "../../api/APIRoutes";
-import { convertToBase64 } from "../../utils/convertToBase64";
+import { previewFiles } from "../../utils/previewFile";
 
 export default function SignalForm({
 	currentChat,
@@ -17,24 +19,23 @@ export default function SignalForm({
 }) {
 	const { user } = useUserContext();
 	const [isCompra, setIsCompra] = useState(false);
+	const [file, setFile] = useState("");
+	const [image, setImage] = useState("");
+
+	const handleChange = (e) => {
+		const file = e.target.files[0];
+		setFile(file);
+		previewFiles(file, setImage);
+	};
+
 	async function onSubmit(values) {
 		// let formData = new FormData();
-		const {
-			signalImage,
-			description,
-			coin,
-			entrada,
-			stopLoss,
-			takeProfit,
-			riesgo,
-		} = values;
-
-		// const base64 = await convertToBase64(signalImage);
+		const { description, coin, entrada, stopLoss, takeProfit, riesgo } = values;
 
 		const signalData = {
 			from: user.id,
 			to: currentChat.id,
-			image: signalImage,
+			image: image,
 			description,
 			moneda: coin,
 			entrada,
@@ -44,41 +45,6 @@ export default function SignalForm({
 			isCompra,
 		};
 
-		console.log(signalData);
-
-		// Obtener el nombre del archivo
-		// const partsImage = signalImage.split("\\");
-		// const fileName = partsImage[partsImage.length - 1];
-
-		// // Agregar los valores al FormData
-		// formData.append("from", user.id);
-		// formData.append("to", currentChat.id);
-		// formData.append("image", fileName);
-		// formData.append("description", description);
-		// formData.append("moneda", coin);
-		// formData.append("entrada", entrada);
-		// formData.append("stopLoss", stopLoss);
-		// formData.append("takeProfit", takeProfit);
-		// formData.append("riesgo", riesgo);
-		// formData.append("isCompra", isCompra);
-
-		// Verificar si el archivo es de tipo imagen por su extensión
-		// const validImageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
-		// const fileExtension = fileName.split(".").pop().toLowerCase();
-
-		// if (validImageExtensions.includes(fileExtension)) {
-		// 	// Suponiendo que signalImage es un objeto File si es una imagen válida
-		// 	formData.append("signalImage", signalImage);
-		// } else {
-		// 	console.warn(
-		// 		"signalImage no es un archivo de imagen válido",
-		// 		signalImage
-		// 	);
-		// }
-
-		// logFormData(formData);
-		// console.log(formData);
-
 		const { data } = await userApi.post(sendSignalRoute, signalData);
 
 		console.log(data);
@@ -87,17 +53,11 @@ export default function SignalForm({
 			alert(data.message);
 		}
 		// Llamar a la función para enviar la señal
-		handleSendSignal(signalData);
+		handleSendSignal(data.signal);
 
 		// Cerrar el modal
 		closeModal();
 	}
-
-	// function logFormData(formData) {
-	// 	for (let pair of formData.entries()) {
-	// 		console.log(`${pair[0]}: ${pair[1]}`);
-	// 	}
-	// }
 
 	return (
 		<>
@@ -110,7 +70,21 @@ export default function SignalForm({
 				{(values, errors, isSubmitting) => (
 					<div className="">
 						<Form className="form">
-							<Image name="signalImage" />
+							<div className="">
+								<label htmlFor="signalImage">
+									<IconFilePlus size={50} />
+								</label>
+								<input
+									type="file"
+									name="fileInsignalImageput"
+									id="signalImage"
+									onChange={(e) => handleChange(e)}
+									required
+									accept="image/png, image/jpeg, image/jpg, image/svg, image/ico, image/jfif, image/webp"
+									className="appearance-none hidden opacity-0"
+								/>
+							</div>
+							{image && <img src={image} alt="Preview" className="h-20 w-20" />}
 
 							<Input
 								placeholder="Descripcion"
