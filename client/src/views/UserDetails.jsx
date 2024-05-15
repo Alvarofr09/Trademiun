@@ -1,6 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Chart as ChartJS, defaults } from "chart.js/auto";
+import { defaults } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 
 import { useUserContext } from "../context/UserContext";
@@ -168,7 +168,7 @@ export default function UserDetails() {
 				<div className="basis-1/12 centered">
 					<h2 className="titulo">Ultimos Trades</h2>
 				</div>
-				<div className="basis-11/12 ">
+				<div className="basis-11/12 w-full">
 					{signals.length === 0 ? (
 						<h3 className="mt-10 text-xl centered">No hay trades</h3>
 					) : (
