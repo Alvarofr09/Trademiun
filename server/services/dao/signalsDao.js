@@ -75,15 +75,15 @@ signalDao.getUserSignals = async (user_id) => {
 	}
 };
 
-signalDao.addSignalImage = async (imageData) => {
+signalDao.getSignalById = async (id) => {
 	let conn = null;
 	try {
 		conn = await db.createConection();
 
 		return await db.query(
-			"INSERT INTO images SET ?",
-			imageData,
-			"insert",
+			"SELECT * FROM signals WHERE id = ?",
+			id,
+			"select",
 			conn
 		);
 	} catch (error) {
