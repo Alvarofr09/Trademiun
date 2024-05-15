@@ -86,7 +86,7 @@ export default function ChatInput({
 					</div>
 
 					{showModal && (
-						<Modal closeModal={closeModal}>
+						<Modal closeModal={closeModal} isImg={false}>
 							<SignalForm
 								currentChat={currentChat}
 								handleSendSignal={handleSendSignal}
