@@ -97,35 +97,15 @@ userDao.createUser = async (userData) => {
 	}
 };
 
-userDao.setAvatar = async (id, image) => {
-	let conn = null;
-	try {
-		conn = await db.createConection();
-
-		return await db.query(
-			"UPDATE users SET image = ? WHERE id = ?",
-			[image, id],
-			"update",
-			conn
-		);
-	} catch (error) {
-		throw new Error(error);
-	} finally {
-		conn && (await conn.end());
-	}
-};
-
 userDao.updateUser = async (id, userData) => {
 	let conn = null;
 	try {
 		conn = await db.createConection();
 
 		let userObj = {
-			name: userData.name,
-			surname: userData.surname,
+			username: userData.username,
 			email: userData.email,
 			password: userData.password ? md5(userData.password) : undefined,
-			isImageSet: userData.isImageSet,
 			image: userData.image,
 			updateDate: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
