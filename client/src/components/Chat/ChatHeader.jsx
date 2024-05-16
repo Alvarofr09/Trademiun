@@ -1,5 +1,6 @@
 import { IconMessage } from "@tabler/icons-react";
 import { IconDotsVertical } from "@tabler/icons-react";
+import Img from "../ui/CloudinaryImg";
 
 export default function ChatHeader({ currentChat }) {
 	return (
@@ -7,7 +8,12 @@ export default function ChatHeader({ currentChat }) {
 			{/* {console.log(currentChat)} */}
 			<div className="user-details flex items-center gap-4">
 				<div className="user-image avatar-image">
-					<img className="h-12" src={currentChat.image} alt="avatar" />
+					<Img
+						isContact={false}
+						className="h-14 w-14 avatar-image"
+						uploadedImg={currentChat.image}
+						alt="avatar"
+					/>
 				</div>
 				<div className="username">
 					<h3 className="text-primario text-xl font-bold">
