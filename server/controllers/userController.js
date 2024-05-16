@@ -1,11 +1,11 @@
 const dao = require("../services/dao/userDao");
 const { SignJWT } = require("jose");
-const jwt = require("jsonwebtoken");
 const md5 = require("md5");
+const cloudinary = require("../services/cloudinary");
 
 const userRegister = async (req, res, next) => {
 	try {
-		const { username, email, password, image } = req.body;
+		const { username, email, password } = req.body;
 		const usernameCheck = await dao.getUserByUsername(username);
 
 		if (usernameCheck.length < 0)
@@ -24,7 +24,7 @@ const userRegister = async (req, res, next) => {
 			email,
 			password,
 			isImageSet: true,
-			image,
+			image: "Trademiun/User_Avatar/imagenDefecto_pipbdh",
 		};
 
 		const user = await dao.createUser(newUser);
@@ -73,64 +73,6 @@ const userLogin = async (req, res, next) => {
 			.sign(encoder.encode("8ZxUbKjJro"));
 
 		res.status(201).json({ token, status: true });
-	} catch (error) {
-		next(error);
-	}
-};
-
-const setAvatar = async (req, res, next) => {
-	try {
-		const userId = req.params.id;
-		const { image } = req.body;
-		// let userData = await dao.getUserByEmail(userId);
-		// [userData] = userData;
-
-		if (image) {
-			const images = !image.length ? [image] : image;
-
-			const user = await dao.setAvatar(userId, image);
-
-			if (!user) return res.json({ status: false });
-
-			const userObj = {
-				isImageSet: true,
-				image: image,
-			};
-
-			const updatedUser = await dao.updateUser(userId, userObj);
-
-			if (!updatedUser) return res.json({ status: false });
-
-			let userData = await dao.getUserById(userId);
-			[userData] = userData;
-
-			// GENERAR TOKEN
-			const jwtConstructor = new SignJWT({
-				id: userData.id,
-				username: userData.username,
-				email: userData.email,
-				isImageSet: userData.isImageSet,
-				image: userData.image,
-			});
-
-			// Codificamos la clave secreta definida en la variable de entorno por requisito de la libreria jose
-			// y poder pasarla en el formato correcto (uint8Array) en el metodo .sign
-			const encoder = new TextEncoder();
-
-			// Generamos el JWT. Lo hacemos asincrono, ya que nos devuelve una promesa.
-			// Le indicamos la cabecera, la creacion, la expiracion y la firma (clave secreta)
-			const token = await jwtConstructor
-				.setProtectedHeader({ alg: "HS256", typ: "JWT" })
-				.setIssuedAt()
-				.setExpirationTime("1h")
-				.sign(encoder.encode("8ZxUbKjJro"));
-
-			return res.json({
-				token,
-			});
-		}
-
-		// if (user.isImageSet) return res.json({ isSet: true });
 	} catch (error) {
 		next(error);
 	}
@@ -188,12 +130,54 @@ const getUsersBySeguidores = async (req, res, next) => {
 	}
 };
 
+const updateUser = async (req, res, next) => {
+	try {
+		const id = req.params.id;
+		if (Object.entries(req.body).length === 0)
+			return res.status(400).send("Error al recibir el body");
+
+		const { username, email, password, image } = req.body;
+
+		const uploadedImage = await cloudinary.uploader.upload(
+			image,
+			{
+				upload_preset: "user_upload",
+				public_id: `${username}_${new Date()}`,
+				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+			},
+			function (error, result) {
+				if (error) console.log(error);
+				console.log(result);
+			}
+		);
+
+		const newUserData = {
+			username,
+			email,
+			password,
+			image: uploadedImage.public_id,
+		};
+
+		const isUserUpdate = await dao.updateUser(id, newUserData);
+
+		if (!isUserUpdate)
+			return res.status(500).send("No se ha podido actualizar el usuario");
+
+		let user = await dao.getUserById(id);
+		[user] = user;
+
+		res.status(200).json(user);
+	} catch (error) {
+		next(error);
+	}
+};
+
 module.exports = {
 	userRegister,
 	userLogin,
-	setAvatar,
 	getAllUsers,
 	getUser,
 	getUsersByRentabilidad,
 	getUsersBySeguidores,
+	updateUser,
 };
