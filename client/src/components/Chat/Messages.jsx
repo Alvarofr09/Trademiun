@@ -1,5 +1,20 @@
 import { v4 as uuidv4 } from "uuid";
 import Signal from "../ui/Signal";
+import { parseISO, format, isToday } from "date-fns";
+
+const fechaFormateada = (fecha) => {
+	// Convertir la cadena de fecha y hora a un objeto Date
+	const fechaObj = parseISO(fecha);
+
+	// Verificar si la fecha es hoy
+	const esHoy = isToday(fechaObj);
+
+	// Formatear la fecha según si es hoy o no
+	const formato = esHoy ? "HH:mm:ss" : "dd/MM HH:mm:ss";
+	const fechaFormateada = format(fechaObj, formato);
+
+	return fechaFormateada;
+};
 
 export default function Messages({ messages, scrollRef }) {
 	return (
@@ -20,8 +35,14 @@ export default function Messages({ messages, scrollRef }) {
 									message.fromSelf ? "sended" : "recieved"
 								}`}
 							>
-								<div className="content max-w-[60%] break-normal text-lg rounded-2xl text-[#000000] p-4">
+								<div className="content max-w-[60%] break-normal text-lg flex flex-col rounded-2xl text-[#000000] p-4">
+									{/* <span className="text-xs">
+										{message.fromSelf ? "Tu" : message.username}
+									</span> */}
 									{message.message}
+									<span className="text-xs">
+										{fechaFormateada(message.date)}
+									</span>
 								</div>
 							</div>
 						) : (
