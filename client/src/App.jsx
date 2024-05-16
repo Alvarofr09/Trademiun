@@ -8,6 +8,9 @@ import UserDetails from "./views/UserDetails";
 import CreateGroup from "./views/CreateGroup";
 
 import WebBuscador from "./views/WebBuscador";
+import WebRegistro from "./views/WebRegistro";
+// import WebLogin from "./views/WebLogin";
+
 // import WebNoticias from "./views/WebNoticias";
 // import Trades from "./views/Trades";
 // import Buscador from "./views/Buscador";
@@ -18,7 +21,9 @@ function App() {
       {/* <WebNoticias /> */}
       {/* <Trades /> */}
       {/* <Buscador /> */}
-      <WebBuscador />
+      {/* <WebBuscador /> */}
+      {/* <WebLogin /> */}
+      <WebRegistro />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="login" element={<Login />} />
