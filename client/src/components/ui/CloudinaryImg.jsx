@@ -41,7 +41,7 @@ export default function Img({ uploadedImg, className }) {
 			{showModal && (
 				<Modal closeModal={closeModal} isImg={true}>
 					<AdvancedImage
-						className="max-w[700px] max-h-[700px] w-full h-full"
+						className=" max-w[700px] lg:max-h-[500px] max-h-[700px] w-full h-full"
 						cldImg={myImage}
 						plugins={[lazyload(), placeholder({ mode: "blur" })]}
 					/>
