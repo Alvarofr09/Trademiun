@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom";
 import Signal from "../components/ui/Signal";
 import Modal from "../components/Modal";
 import GroupForm from "../components/GroupForm/GroupForm";
+import UserForm from "../components/UserForm/UserForm";
+import Img from "../components/ui/CloudinaryImg";
 
 const chartData = [
 	{ label: "Enero", value: 65 },
@@ -71,9 +73,8 @@ export default function UserDetails() {
 	const { user } = useUserContext();
 	const [userData, setUserData] = useState(null);
 	const [signals, setSignals] = useState([]);
-	const [showModal, setShowModal] = useState(false);
-	const [isEdit, setIsEdit] = useState(false);
-	// const [chartData, setChartData] = useState([]);
+	const [showGroupModal, setShowGroupModal] = useState(false);
+	const [showUserModal, setShowUserModal] = useState(false);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -97,11 +98,16 @@ export default function UserDetails() {
 	}, [id, user]);
 
 	const showGroupForm = () => {
-		setShowModal(true); // Mostrar el modal al activar la función
+		setShowGroupModal(true); // Mostrar el modal al activar la función
+	};
+
+	const showUserForm = () => {
+		setShowUserModal(true); // Mostrar el modal al activar la función
 	};
 
 	const closeModal = () => {
-		setShowModal(false); // Cerrar el modal
+		setShowGroupModal(false); // Cerrar el modal
+		setShowUserModal(false);
 	};
 
 	return (
@@ -110,26 +116,22 @@ export default function UserDetails() {
 				<section className="basis-8/12 border-x-2 gap-11  border-black h-screen user-info centered flex-col ">
 					<div className="bordered basis-1/3 centered gap-16 py-5 px-12 w-[90%] mx-auto">
 						<div className="user-image basis-1/4">
-							<img
+							<Img
 								className="avatar-image"
-								src={userData.image}
+								uploadedImg={userData.image}
 								alt={`Avatar de ${userData.username}`}
 							/>
 						</div>
 						<div className="user-details basis-2/4 lg:text-xl text-3xl">
-							{!isEdit && (
-								<p>
-									<strong>Usuario: </strong>
-									{userData.username}
-								</p>
-							)}
+							<p>
+								<strong>Usuario: </strong>
+								{userData.username}
+							</p>
 
-							{!isEdit && (
-								<p>
-									<strong>Email: </strong>
-									{userData.email}
-								</p>
-							)}
+							<p>
+								<strong>Email: </strong>
+								{userData.email}
+							</p>
 
 							<p>
 								<strong>Seguidores: </strong>
@@ -138,10 +140,7 @@ export default function UserDetails() {
 						</div>
 
 						<div className="user-options basis-1/4 centered flex-col gap-4">
-							<button
-								className="btn-dark"
-								onClick={() => alert("Editar Perfil")}
-							>
+							<button className="btn-dark" onClick={showUserForm}>
 								Editar Perfil
 							</button>
 							<button className="btn-dark" onClick={showGroupForm}>
@@ -209,9 +208,15 @@ export default function UserDetails() {
 				</div>
 			</article>
 
-			{showModal && (
+			{showGroupModal && (
 				<Modal closeModal={closeModal} isImg={false} title="Crear Grupo">
 					<GroupForm />
+				</Modal>
+			)}
+
+			{showUserModal && (
+				<Modal closeModal={closeModal} isImg={false} title="Editar Perfil">
+					<UserForm closeModal={closeModal} />
 				</Modal>
 			)}
 		</main>
