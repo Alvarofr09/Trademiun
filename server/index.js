@@ -1,11 +1,8 @@
 const express = require("express");
-const multer = require("multer");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const fileUpload = require("express-fileupload");
 const socket = require("socket.io");
-const path = require("path");
 
 const userRouter = require("./routers/userRoutes");
 const messageRouter = require("./routers/messagesRoutes");
@@ -31,9 +28,13 @@ const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.resolve("./images")));
+const corsOptions = {
+	origin: "http://localhost:5173",
+	methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+	credentials: true,
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.text());
 app.use(bodyParser.json());
@@ -48,9 +49,9 @@ const dbSetup = async () => {
 	await createMembershipTable();
 	await createImagesTable();
 	await createIncrementParticipantsTrigger();
-	// await insertUsers();
-	// await insertGroups();
-	// await insertMembership();
+	await insertUsers();
+	await insertGroups();
+	await insertMembership();
 };
 
 // dbSetup().catch((error) => console.error(error));
