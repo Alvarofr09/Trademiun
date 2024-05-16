@@ -19,12 +19,6 @@ export default function LoginForm() {
 		theme: "dark",
 	};
 
-	// useEffect(() => {
-	// 	if (localStorage.getItem("user")) {
-	// 		navigate("/");
-	// 	}
-	// }, []);
-
 	async function onSubmit(values) {
 		// console.log(values);
 		// console.log(errorMessage);
