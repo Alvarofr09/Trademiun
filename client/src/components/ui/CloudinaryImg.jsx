@@ -11,7 +11,7 @@ import Modal from "../Modal";
 // FocusOn hace focus en un punto de la imagen: el centro, la cara etc
 // import { FocusOn } from "@cloudinary/url-gen/qualifiers/focusOn";
 
-export default function Img({ uploadedImg, className }) {
+export default function Img({ isContact, uploadedImg, className }) {
 	const [showModal, setShowModal] = useState(false);
 	const cld = new Cloudinary({
 		cloud: {
@@ -32,7 +32,7 @@ export default function Img({ uploadedImg, className }) {
 	return (
 		<>
 			<AdvancedImage
-				onClick={showImage}
+				onClick={isContact ? undefined : showImage}
 				className={className}
 				cldImg={myImage}
 				plugins={[lazyload(), placeholder({ mode: "blur" })]}
