@@ -24,6 +24,7 @@ export default function ChatContainer({ currentChat, socket }) {
 	const [arrivalMessage, setArrivalMessage] = useState(null);
 	const scrollRef = useRef();
 
+	console.log(user);
 	useEffect(() => {
 		async function fetchData() {
 			if (!currentChat) return;
@@ -79,12 +80,14 @@ export default function ChatContainer({ currentChat, socket }) {
 				if (msg.type === "message") {
 					setArrivalMessage({
 						fromSelf: false,
+						username: user.username,
 						message: msg.message,
 						type: msg.type,
 					});
 				} else {
 					setArrivalMessage({
 						fromSelf: false,
+						username: user.username,
 						image: msg.image,
 						description: msg.description,
 						moneda: msg.moneda,
@@ -119,12 +122,18 @@ export default function ChatContainer({ currentChat, socket }) {
 			socket.current.emit("send-msg", {
 				to: currentChat.id,
 				from: user.id,
+				username: user.username,
 				message: msg,
 				type: "message",
 			});
 
 			const msgs = [...messages];
-			msgs.push({ fromSelf: true, message: msg, type: "message" });
+			msgs.push({
+				fromSelf: true,
+				message: msg,
+				type: "message",
+				username: user.username,
+			});
 			setMessages(msgs);
 		} catch (error) {
 			alert(error);
@@ -149,6 +158,7 @@ export default function ChatContainer({ currentChat, socket }) {
 		socket.current.emit("send-msg", {
 			to: group_id,
 			from: sender_id,
+			username: user.username,
 			image,
 			description,
 			moneda,
@@ -162,6 +172,7 @@ export default function ChatContainer({ currentChat, socket }) {
 		const msgs = [...messages];
 		msgs.push({
 			fromSelf: true,
+			username: user.username,
 			image,
 			description,
 			moneda,
