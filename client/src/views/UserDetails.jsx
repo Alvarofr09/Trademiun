@@ -124,10 +124,13 @@ export default function UserDetails() {
 								</p>
 							)}
 
-							<p>
-								<strong>Email: </strong>
-								{userData.email}
-							</p>
+							{!isEdit && (
+								<p>
+									<strong>Email: </strong>
+									{userData.email}
+								</p>
+							)}
+
 							<p>
 								<strong>Seguidores: </strong>
 								{userData.seguidores}
