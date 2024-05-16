@@ -4,7 +4,6 @@ import SideBar from "./SideBar";
 
 export default function Layout() {
 	const { auth } = useAuthContext();
-	console.log(auth);
 	return (
 		<div>
 			<nav>
