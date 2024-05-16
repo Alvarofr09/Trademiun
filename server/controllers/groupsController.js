@@ -1,15 +1,29 @@
 const dao = require("../services/dao/groupsDao");
 const moment = require("moment");
+const cloudinary = require("../services/cloudinary");
 
 const createGroup = async (req, res, next) => {
 	try {
 		const { group_name, description, price, image } = req.body;
 
+		const uploadedImage = await cloudinary.uploader.upload(
+			image,
+			{
+				upload_preset: "group_upload",
+				public_id: `${group_name}_${new Date()}`,
+				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+			},
+			function (error, result) {
+				if (error) console.log(error);
+				console.log(result);
+			}
+		);
+
 		const groupData = {
 			group_name,
 			description,
 			price,
-			image,
+			image: uploadedImage.public_id,
 			creation_date: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 

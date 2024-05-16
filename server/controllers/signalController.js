@@ -46,8 +46,6 @@ const addSignal = async (req, res, next) => {
 			isCompra,
 		};
 
-		console.log(signalData);
-
 		// res.status(200);
 		// Llamar a la función para enviar la señal
 		// // Guardar la señal en la base de datos
@@ -55,8 +53,6 @@ const addSignal = async (req, res, next) => {
 
 		let signal = await dao.getSignalById(data);
 		[signal] = signal;
-
-		console.log(signal);
 
 		if (!data) {
 			return res

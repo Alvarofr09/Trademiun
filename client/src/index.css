@@ -99,11 +99,11 @@
 }
 
 .modal-container {
-	@apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
+	@apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10;
 }
 
 .modal-content {
-	@apply bg-white rounded-lg p-8 max-w-md w-full relative;
+	@apply bg-white rounded-lg p-8  w-full relative;
 }
 
 .close-btn {
@@ -156,10 +156,10 @@
 
 /* ESTILOS DE LOS EMOTICONOS */
 .EmojiPickerReact {
-	@apply -top-[470px]  shadow-md shadow-[#9a86f3] border-[#9186f3];
-	position: absolute !important;
-	background-color: #080420 !important;
-	border: 1px solid #9186f3 !important;
+	@apply -top-[470px]  shadow-md shadow-primario !absolute !bg-white !border !border-primario;
+	/* position: absolute !important;
+	background-color:  !important;
+	border: 1px solid #9186f3 !important; */
 }
 
 .epr-category-nav button {
@@ -167,20 +167,22 @@
 }
 
 .epr_-8623pq {
-	background-color: transparent !important;
-	border: 1px solid #9186f3 !important;
+	@apply !bg-transparent !border !bg-white
+	/* background-color: transparent !important; */
+	/* border: 1px solid #9186f3 !important; */;
 }
 
 .epr_-99lr9q {
-	background-color: #080420 !important;
+	@apply !bg-white;
+	/* background-color: #080420 !important; */
 }
 
 .epr-body::-webkit-scrollbar {
-	@apply bg-primario w-1;
+	@apply bg-white w-1;
 }
 
 .epr-body::-webkit-scrollbar-thumb {
-	@apply bg-[#9186f3];
+	@apply bg-primario;
 }
 
 /* ESTILOS DE LOS EMOTICONOS */

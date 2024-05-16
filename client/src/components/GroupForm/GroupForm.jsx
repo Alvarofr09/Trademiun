@@ -7,17 +7,28 @@ import Input from "../ui/Input";
 import { useNavigate, useParams } from "react-router-dom";
 // import TextArea from "../ui/TextArea";
 import { createGroupRoute, joinGroupRoute, userApi } from "../../api/APIRoutes";
-import DefaultImage from "../../assets/img/imagenDefectoGrupos.png";
+// import DefaultImage from "../../assets/img/imagenDefectoGrupos.png";
+import { IconFilePlus } from "@tabler/icons-react";
+import { previewFiles } from "../../utils/previewFile";
+import { useState } from "react";
 
 export default function GroupForm() {
 	const { id: userId } = useParams();
 	const navigate = useNavigate();
+	const [file, setFile] = useState("");
+	const [image, setImage] = useState("");
 	const toastOptions = {
 		position: "bottom-right",
 		autoClose: 5000,
 		pauseOnHover: true,
 		draggable: true,
 		theme: "dark",
+	};
+
+	const handleChange = (e) => {
+		const file = e.target.files[0];
+		setFile(file);
+		previewFiles(file, setImage);
 	};
 
 	async function onSubmit(values) {
@@ -29,7 +40,7 @@ export default function GroupForm() {
 			group_name: groupName,
 			description,
 			price,
-			image: DefaultImage,
+			image,
 		});
 
 		// console.log(data);
@@ -59,8 +70,32 @@ export default function GroupForm() {
 				onSubmit={onSubmit}
 			>
 				{(values, errors, isSubmitting) => (
-					<div className="container-form">
+					<div className="">
 						<Form className="form">
+							<div className="centered">
+								{image ? (
+									<img
+										src={image}
+										alt="Preview"
+										className="h-24 w-24 rounded-full"
+									/>
+								) : (
+									<>
+										<label htmlFor="signalImage">
+											<IconFilePlus size={50} />
+										</label>
+										<input
+											type="file"
+											name="fileInsignalImageput"
+											id="signalImage"
+											onChange={(e) => handleChange(e)}
+											required
+											accept="image/png, image/jpeg, image/jpg, image/svg, image/ico, image/jfif, image/webp"
+											className="appearance-none hidden opacity-0"
+										/>
+									</>
+								)}
+							</div>
 							<Input
 								placeholder="Nombre del Grupo"
 								name="groupName"
@@ -79,7 +114,7 @@ export default function GroupForm() {
 							<Input placeholder="Precio" name="price" type="number" />
 
 							<button
-								className="btn-primary"
+								className="btn-dark mt-3"
 								type="submit"
 								disabled={isSubmitting}
 							>

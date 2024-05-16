@@ -10,8 +10,8 @@ export default function Signal({ signal, isMessage }) {
 	return (
 		<div
 			key={signal.id}
-			className={`signal my-8 flex items-center justify-end ${
-				isMessage ? "max-w-[60%]" : "max-w-[80%] mx-auto centered"
+			className={`signal  flex items-center justify-end ${
+				isMessage ? "max-w-[60%] my-4" : "max-w-[80%] mx-auto centered my-8"
 			}`}
 		>
 			<div className="content break-normal text-white py-5 px-10 text-2xl rounded-2xl">
@@ -26,11 +26,6 @@ export default function Signal({ signal, isMessage }) {
 						{signal.description}
 					</p>
 				)}
-				{/* {signal.description && (
-					<button onClick={handleToggle} className=" text-xs">
-						{isExpanded ? "Ver menos" : "Ver más"}
-					</button>
-				)} */}
 
 				<p>
 					<strong>Moneda: </strong> {signal.moneda}
