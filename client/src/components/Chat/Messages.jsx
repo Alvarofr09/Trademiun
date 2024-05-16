@@ -36,9 +36,9 @@ export default function Messages({ messages, scrollRef }) {
 								}`}
 							>
 								<div className="content max-w-[60%] break-normal text-lg flex flex-col rounded-2xl text-[#000000] p-4">
-									{/* <span className="text-xs">
+									<span className="text-xs">
 										{message.fromSelf ? "Tu" : message.username}
-									</span> */}
+									</span>
 									{message.message}
 									<span className="text-xs">
 										{fechaFormateada(message.date)}
