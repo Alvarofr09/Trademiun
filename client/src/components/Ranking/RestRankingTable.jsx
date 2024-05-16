@@ -1,4 +1,6 @@
 import { Table } from "flowbite-react";
+import { Link } from "react-router-dom";
+import Img from "../ui/CloudinaryImg";
 
 export default function RestRankingTable({ users }) {
 	return (
@@ -19,13 +21,19 @@ export default function RestRankingTable({ users }) {
 							<Table.Cell className=" whitespace-nowrap font-medium text-gray-900 dark:text-white">
 								{user.ranking}
 							</Table.Cell>
-							<Table.Cell className="flex items-center justify-start pl-12">
-								<img
-									className="w-6 h-6 rounded-full  mr-4"
-									src={user.image}
-									alt="user"
-								/>
-								{user.username}
+							<Table.Cell>
+								<Link
+									to={`/user/${user.id}`}
+									className="flex items-center justify-start pl-12"
+								>
+									<Img
+										isContact={true}
+										className="w-6 h-6 rounded-full  mr-4"
+										uploadedImg={user.image}
+										alt="user"
+									/>
+									{user.username}
+								</Link>
 							</Table.Cell>
 							<Table.Cell>{user.rentabilidad}%</Table.Cell>
 							<Table.Cell>{user.seguidores}</Table.Cell>
