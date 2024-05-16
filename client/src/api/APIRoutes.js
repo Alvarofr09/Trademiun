@@ -9,6 +9,7 @@ export const getAllUsersRoute = `${host}/api/auth/allUsers`;
 export const getUserInfo = `${host}/api/auth/getUserInfo`;
 export const getTopRentabilidad = `${host}/api/auth/get-users-by-rentabilidad`;
 export const getTopSeguidores = `${host}/api/auth/get-users-by-seguidores`;
+export const updateUserRoute = `${host}/api/auth/update-user`;
 
 export const sendMessageRoute = `${host}/api/messages/add-message`;
 export const getAllGroupMessages = `${host}/api/messages/getGroupMessages`;
