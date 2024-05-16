@@ -3,6 +3,7 @@ import { useState } from "react";
 import Logout from "../Logout";
 import { Link } from "react-router-dom";
 import InputSearch from "../InputSearch";
+import Img from "../ui/CloudinaryImg";
 
 export default function Contacts({ contacts, changeChat }) {
 	const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -16,7 +17,7 @@ export default function Contacts({ contacts, changeChat }) {
 		<>
 			<div
 				className="container h-full flex flex-col overflow-hidden bg-white"
-				style={{ gridTemplateRows: "10% 65% auto" }}
+				// style={{ gridTemplateRows: "10% 65% auto" }}
 			>
 				<div className="basis-1/12 w-full">
 					<InputSearch />
@@ -33,9 +34,9 @@ export default function Contacts({ contacts, changeChat }) {
 							>
 								{contact.image && (
 									<div className="avatar">
-										<img
-											className="h-12 avatar-image"
-											src={contact.image}
+										<Img
+											className="h-14 w-14 avatar-image"
+											uploadedImg={contact.image}
 											alt="avatar"
 										/>
 									</div>
