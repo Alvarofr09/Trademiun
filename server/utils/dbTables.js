@@ -10,12 +10,13 @@ const createUsersTable = async () => {
         email VARCHAR(255), 
         password VARCHAR(255),
         userRole BOOLEAN DEFAULT FALSE,
-        isImageSet BOOLEAN DEFAULT FALSE,
+        group_id INT DEFAULT NULL,
         image TEXT,
         seguidores INT DEFAULT 0,
         rentabilidad INT DEFAULT 0,
         registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (group_id) REFERENCES grupos(id)
       ) `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
