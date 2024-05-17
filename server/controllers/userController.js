@@ -23,7 +23,6 @@ const userRegister = async (req, res, next) => {
 			username,
 			email,
 			password,
-			isImageSet: true,
 			image: "Trademiun/User_Avatar/imagenDefecto_pipbdh",
 		};
 
@@ -54,8 +53,8 @@ const userLogin = async (req, res, next) => {
 			id: user.id,
 			username: user.username,
 			email: user.email,
-			isImageSet: user.isImageSet,
 			image: user.image,
+			group_id: user.group_id,
 			seguidores: user.seguidores,
 			rentabilidad: user.rentabilidad,
 		});
@@ -172,6 +171,32 @@ const updateUser = async (req, res, next) => {
 	}
 };
 
+const hasGroup = async (req, res, next) => {
+	try {
+		const user_id = req.params.id;
+
+		const tiene_grupo = await dao.hasGroup(user_id);
+		console.log("hasGroup", tiene_grupo[0].tiene_grupo);
+		const has_group = tiene_grupo[0].tiene_grupo;
+
+		if (has_group) {
+			return res.status(400).json({
+				message: "Ya has creado un grupo",
+				status: false,
+				hasGroup: true,
+			});
+		} else {
+			return res.status(200).json({
+				message: "Puedes crear un grupo",
+				status: true,
+				hasGroup: false,
+			});
+		}
+	} catch (error) {
+		next(error);
+	}
+};
+
 module.exports = {
 	userRegister,
 	userLogin,
@@ -180,4 +205,5 @@ module.exports = {
 	getUsersByRentabilidad,
 	getUsersBySeguidores,
 	updateUser,
+	hasGroup,
 };
