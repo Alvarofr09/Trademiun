@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Input from "../ui/Input";
 import { useNavigate, useParams } from "react-router-dom";
 // import TextArea from "../ui/TextArea";
-import { createGroupRoute, joinGroupRoute, userApi } from "../../api/APIRoutes";
+import { createGroupRoute, userApi } from "../../api/APIRoutes";
 import { IconFilePlus } from "@tabler/icons-react";
 import { previewFiles } from "../../utils/previewFile";
 import { useState } from "react";
@@ -36,29 +36,18 @@ export default function GroupForm() {
 		const { groupName, description, price } = values;
 
 		const { data } = await userApi.post(createGroupRoute, {
+			user_id: userId,
 			group_name: groupName,
 			description,
 			price,
 			image,
 		});
 
-		// console.log(data);
-
 		if (data.status === false) {
 			toast.error(data.msg, toastOptions);
 		} else {
-			const response = await userApi.post(joinGroupRoute, {
-				group_id: data.group_id,
-				user_id: userId,
-			});
-
-			// console.log(response);
-			if (response.data.status === false) {
-				toast.error(response.msg, toastOptions);
-			} else {
-				toast.success(response.msg, toastOptions);
-				navigate("/");
-			}
+			toast.success(data.message, toastOptions);
+			navigate("/");
 		}
 	}
 	return (
@@ -80,15 +69,14 @@ export default function GroupForm() {
 									/>
 								) : (
 									<>
-										<label htmlFor="signalImage">
+										<label htmlFor="groupImage">
 											<IconFilePlus size={50} />
 										</label>
 										<input
 											type="file"
-											name="fileInsignalImageput"
-											id="signalImage"
+											name="groupImage"
+											id="groupImage"
 											onChange={(e) => handleChange(e)}
-											required
 											accept="image/png, image/jpeg, image/jpg, image/svg, image/ico, image/jfif, image/webp"
 											className="appearance-none hidden opacity-0"
 										/>
