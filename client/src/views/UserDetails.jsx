@@ -11,6 +11,7 @@ import Modal from "../components/Modal";
 import GroupForm from "../components/GroupForm/GroupForm";
 import UserForm from "../components/UserForm/UserForm";
 import Img from "../components/ui/CloudinaryImg";
+import { ToastContainer, toast } from "react-toastify";
 
 const chartData = [
 	{ label: "Enero", value: 65 },
@@ -68,13 +69,41 @@ const chartConfig = {
 
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
+
+const toastError = {
+	position: "bottom-right",
+	autoClose: 5000,
+	pauseOnHover: true,
+	draggable: true,
+	theme: "dark",
+	background: "black",
+};
+
+const toastSuccess = {
+	position: "bottom-right",
+	autoClose: 5000,
+	pauseOnHover: true,
+	draggable: true,
+	theme: "green",
+	background: "black",
+};
 export default function UserDetails() {
 	const { id } = useParams();
 	const { user } = useUserContext();
 	const [userData, setUserData] = useState(null);
 	const [signals, setSignals] = useState([]);
+	const [isCurrentUser, setIsCurrentUser] = useState(false);
+	const [isFollowing, setIsFollowing] = useState(false);
 	const [showGroupModal, setShowGroupModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
+
+	useEffect(() => {
+		if (id == user.id) {
+			setIsCurrentUser(true);
+		} else {
+			setIsCurrentUser(false);
+		}
+	}, [id, user]);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -110,115 +139,153 @@ export default function UserDetails() {
 		setShowUserModal(false);
 	};
 
+	const handleFollow = () => {
+		setIsFollowing(true);
+		toast.success(`Siguiendo a ${userData.username}`, toastSuccess);
+	};
+
+	const handleUnfollow = () => {
+		setIsFollowing(false);
+		toast.success(`Dejaste de seguir a ${userData.username}`, toastSuccess);
+	};
+
+	const handleJoinGroup = () => {
+		alert("Unido al grupo");
+	};
+
 	return (
-		<main className="h-screen centered bg-white">
-			{userData && (
-				<section className="basis-8/12 border-x-2 gap-11  border-black h-screen user-info centered flex-col ">
-					<div className="bordered basis-1/3 centered gap-16 py-5 px-12 w-[90%] mx-auto">
-						<div className="user-image basis-1/4">
-							<Img
-								className="avatar-image"
-								uploadedImg={userData.image}
-								alt={`Avatar de ${userData.username}`}
-							/>
-						</div>
-						<div className="user-details basis-2/4 lg:text-xl text-3xl">
-							<p>
-								<strong>Usuario: </strong>
-								{userData.username}
-							</p>
+		<>
+			<main className="h-screen centered bg-white">
+				{userData && (
+					<section className="basis-8/12 border-x-2 gap-11  border-black h-screen user-info centered flex-col ">
+						<div className="bordered basis-1/3 centered gap-16 py-5 px-12 w-[90%] mx-auto">
+							<div className="user-image basis-1/4">
+								<Img
+									className="avatar-image"
+									uploadedImg={userData.image}
+									alt={`Avatar de ${userData.username}`}
+								/>
+							</div>
+							<div className="user-details basis-2/4 lg:text-xl text-3xl">
+								<p>
+									<strong>Usuario: </strong>
+									{userData.username}
+								</p>
 
-							<p>
-								<strong>Email: </strong>
-								{userData.email}
-							</p>
+								<p>
+									<strong>Email: </strong>
+									{userData.email}
+								</p>
 
-							<p>
-								<strong>Seguidores: </strong>
-								{userData.seguidores}
-							</p>
-						</div>
+								<p>
+									<strong>Seguidores: </strong>
+									{userData.seguidores}
+								</p>
+							</div>
 
-						<div className="user-options basis-1/4 centered flex-col gap-4">
-							<button className="btn-dark" onClick={showUserForm}>
-								Editar Perfil
-							</button>
-							<button className="btn-dark" onClick={showGroupForm}>
-								Crear Grupo
-							</button>
+							<div className="user-options basis-1/4 centered flex-col gap-4">
+								{isCurrentUser ? (
+									<>
+										<button className="btn-dark" onClick={showUserForm}>
+											Editar Perfil
+										</button>
+										<button className="btn-dark" onClick={showGroupForm}>
+											Crear Grupo
+										</button>
+									</>
+								) : (
+									<>
+										{!isFollowing ? (
+											<button className="btn-dark" onClick={handleFollow}>
+												Seguir
+											</button>
+										) : (
+											<>
+												<button className="btn-dark" onClick={handleUnfollow}>
+													Dejar de Seguir
+												</button>
+												<button className="btn-dark" onClick={handleJoinGroup}>
+													Unirse a grupo
+												</button>
+											</>
+										)}
+									</>
+								)}
+							</div>
 						</div>
+						<div className="bordered basis-1/3 w-[90%] mx-auto">
+							<div className="chart-container centered lg:h-72 h-96 w-full">
+								<Bar data={chartConfig.data} className="h-full w-full" />
+							</div>
+						</div>
+						<div className="bordered basis-1/3 centered gap-6 lg:text-xl text-2xl lg:py-6 lg:px-8 py-16 px-20  w-[90%] mx-auto">
+							<ul className="w-1/2">
+								<li>
+									<strong>Señales: </strong>
+									120
+								</li>
+								<li>
+									<strong>Aciertos: </strong>
+									80/120
+								</li>
+								<li>
+									<strong>Ganancia promedio: </strong>
+									45 pips
+								</li>
+								<li>
+									<strong>Perdida promedio: </strong>6 pips
+								</li>
+							</ul>
+							<ul className="w-1/2">
+								<li>
+									<strong>Duración promedio: </strong>4 horas
+								</li>
+								<li>
+									<strong>Riesgo promedio: </strong>
+									1.6 %
+								</li>
+								<li>
+									<strong>Sesión promedio: </strong>
+									Asia
+								</li>
+								<li>
+									<strong>Total rentabilidad: </strong>
+									{/* {user.rentabilidad} % */}
+									54%
+								</li>
+							</ul>
+						</div>
+					</section>
+				)}
+
+				<article className="trades centered overflow-y-scroll scrollbar-custom flex-col basis-4/12 h-full  ">
+					<div className="basis-1/12 centered h-full mt-10">
+						<h2 className="titulo">Ultimos Trades</h2>
 					</div>
-					<div className="bordered basis-1/3 w-[90%] mx-auto">
-						<div className="chart-container centered lg:h-72 h-96 w-full">
-							<Bar data={chartConfig.data} className="h-full w-full" />
-						</div>
+					<div className="basis-11/12 w-full h-full">
+						{signals.length === 0 ? (
+							<h3 className="mt-10 text-xl centered">No hay trades</h3>
+						) : (
+							signals.map((signal) => {
+								return <Signal key={signal.id} signal={signal} />;
+							})
+						)}
 					</div>
-					<div className="bordered basis-1/3 centered gap-6 lg:text-xl text-2xl lg:py-6 lg:px-8 py-16 px-20  w-[90%] mx-auto">
-						<ul className="w-1/2">
-							<li>
-								<strong>Señales: </strong>
-								120
-							</li>
-							<li>
-								<strong>Aciertos: </strong>
-								80/120
-							</li>
-							<li>
-								<strong>Ganancia promedio: </strong>
-								45 pips
-							</li>
-							<li>
-								<strong>Perdida promedio: </strong>6 pips
-							</li>
-						</ul>
-						<ul className="w-1/2">
-							<li>
-								<strong>Duración promedio: </strong>4 horas
-							</li>
-							<li>
-								<strong>Riesgo promedio: </strong>
-								1.6 %
-							</li>
-							<li>
-								<strong>Sesión promedio: </strong>
-								Asia
-							</li>
-							<li>
-								<strong>Total rentabilidad: </strong>
-								{/* {user.rentabilidad} % */}
-								54%
-							</li>
-						</ul>
-					</div>
-				</section>
-			)}
+				</article>
 
-			<article className="trades centered overflow-y-scroll scrollbar-custom flex-col basis-4/12 h-full  ">
-				<div className="basis-1/12 centered h-full mt-10">
-					<h2 className="titulo">Ultimos Trades</h2>
-				</div>
-				<div className="basis-11/12 w-full h-full">
-					{signals.length === 0 ? (
-						<h3 className="mt-10 text-xl centered">No hay trades</h3>
-					) : (
-						signals.map((signal) => {
-							return <Signal key={signal.id} signal={signal} />;
-						})
-					)}
-				</div>
-			</article>
+				{showGroupModal && (
+					<Modal closeModal={closeModal} isImg={false} title="Crear Grupo">
+						<GroupForm />
+					</Modal>
+				)}
 
-			{showGroupModal && (
-				<Modal closeModal={closeModal} isImg={false} title="Crear Grupo">
-					<GroupForm />
-				</Modal>
-			)}
-
-			{showUserModal && (
-				<Modal closeModal={closeModal} isImg={false} title="Editar Perfil">
-					<UserForm closeModal={closeModal} />
-				</Modal>
-			)}
-		</main>
+				{showUserModal && (
+					<Modal closeModal={closeModal} isImg={false} title="Editar Perfil">
+						<UserForm closeModal={closeModal} />
+					</Modal>
+				)}
+			</main>
+			<ToastContainer />
+		</>
 	);
 }
