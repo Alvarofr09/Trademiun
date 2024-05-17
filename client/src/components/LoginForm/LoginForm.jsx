@@ -23,7 +23,12 @@ export default function LoginForm() {
 		// console.log(values);
 		// console.log(errorMessage);
 		if (errorMessage) toast.error(errorMessage, toastOptions);
-		await login(values);
+		const user = {
+			email: values.email,
+			password: values.password,
+			isEncrypted: false,
+		};
+		await login(user);
 		navigate("/");
 	}
 	return (
