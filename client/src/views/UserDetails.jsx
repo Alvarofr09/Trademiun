@@ -4,7 +4,13 @@ import { defaults } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 
 import { useUserContext } from "../context/UserContext";
-import { getUserInfo, getUserSignals, userApi } from "../api/APIRoutes";
+import {
+	getUserInfo,
+	getUserSignals,
+	hasGroupRoute,
+	joinGroupRoute,
+	userApi,
+} from "../api/APIRoutes";
 import { useParams } from "react-router-dom";
 import Signal from "../components/ui/Signal";
 import Modal from "../components/Modal";
@@ -70,22 +76,12 @@ const chartConfig = {
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 
-const toastError = {
+const toastConfig = {
 	position: "bottom-right",
 	autoClose: 5000,
 	pauseOnHover: true,
 	draggable: true,
 	theme: "dark",
-	background: "black",
-};
-
-const toastSuccess = {
-	position: "bottom-right",
-	autoClose: 5000,
-	pauseOnHover: true,
-	draggable: true,
-	theme: "green",
-	background: "black",
 };
 export default function UserDetails() {
 	const { id } = useParams();
@@ -96,13 +92,13 @@ export default function UserDetails() {
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [showGroupModal, setShowGroupModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
+	const [showJoinModal, setShowJoinModal] = useState(false);
+	const [hasNotGroup, setHasNotGroup] = useState(false);
+
+	console.log(user);
 
 	useEffect(() => {
-		if (id == user.id) {
-			setIsCurrentUser(true);
-		} else {
-			setIsCurrentUser(false);
-		}
+		setIsCurrentUser(id == user.id);
 	}, [id, user]);
 
 	useEffect(() => {
@@ -121,6 +117,15 @@ export default function UserDetails() {
 				`${getUserSignals}/${userDataResponse.data.id}`
 			);
 			setSignals(signalsResponse.data);
+
+			if (isCurrentUser) {
+				console.log(userDataResponse.data.id);
+				const { data } = await userApi.get(
+					`${hasGroupRoute}/${userDataResponse.data.id}`
+				);
+				console.log(data);
+				setHasNotGroup(data.hasGroup);
+			}
 		}
 
 		fetchData();
@@ -134,23 +139,38 @@ export default function UserDetails() {
 		setShowUserModal(true); // Mostrar el modal al activar la función
 	};
 
+	const showJoinForm = () => {
+		setShowJoinModal(true); // Mostrar el modal al activar la función
+	};
+
 	const closeModal = () => {
 		setShowGroupModal(false); // Cerrar el modal
 		setShowUserModal(false);
+		setShowJoinModal(false);
 	};
 
 	const handleFollow = () => {
 		setIsFollowing(true);
-		toast.success(`Siguiendo a ${userData.username}`, toastSuccess);
+		toast.success(`Siguiendo a ${userData.username}`, toastConfig);
 	};
 
 	const handleUnfollow = () => {
 		setIsFollowing(false);
-		toast.success(`Dejaste de seguir a ${userData.username}`, toastSuccess);
+		toast.success(`Dejaste de seguir a ${userData.username}`, toastConfig);
 	};
 
-	const handleJoinGroup = () => {
-		alert("Unido al grupo");
+	const handleJoinGroup = async () => {
+		try {
+			await userApi.post(joinGroupRoute, {
+				group_id: user.id,
+				user_id: userData.id,
+			});
+			toast.success(`Te has unido al grupo`, toastConfig);
+			closeModal();
+		} catch (error) {
+			toast.error(`Error al unirse al grupo: ${error.message}`, toastConfig);
+			closeModal();
+		}
 	};
 
 	return (
@@ -189,9 +209,11 @@ export default function UserDetails() {
 										<button className="btn-dark" onClick={showUserForm}>
 											Editar Perfil
 										</button>
-										<button className="btn-dark" onClick={showGroupForm}>
-											Crear Grupo
-										</button>
+										{hasNotGroup && (
+											<button className="btn-dark" onClick={showGroupForm}>
+												Crear Grupo
+											</button>
+										)}
 									</>
 								) : (
 									<>
@@ -204,7 +226,7 @@ export default function UserDetails() {
 												<button className="btn-dark" onClick={handleUnfollow}>
 													Dejar de Seguir
 												</button>
-												<button className="btn-dark" onClick={handleJoinGroup}>
+												<button className="btn-dark" onClick={showJoinForm}>
 													Unirse a grupo
 												</button>
 											</>
@@ -282,6 +304,32 @@ export default function UserDetails() {
 				{showUserModal && (
 					<Modal closeModal={closeModal} isImg={false} title="Editar Perfil">
 						<UserForm closeModal={closeModal} />
+					</Modal>
+				)}
+
+				{showJoinModal && (
+					<Modal
+						closeModal={closeModal}
+						isImg={false}
+						title={`Unirse a grupo de ${userData.username}?`}
+					>
+						<div className="gap-4 centered">
+							<button
+								onClick={() => handleJoinGroup()}
+								className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
+								type="submit"
+							>
+								Unirme
+							</button>
+
+							<button
+								onClick={() => closeModal()}
+								className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
+								type="submit"
+							>
+								Cancelar
+							</button>
+						</div>
 					</Modal>
 				)}
 			</main>
