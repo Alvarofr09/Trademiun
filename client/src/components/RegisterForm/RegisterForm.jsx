@@ -37,6 +37,7 @@ export default function RegisterForm() {
 		const user = {
 			email,
 			password,
+			isEncrypted: false,
 		};
 
 		if (data.status === false) {
