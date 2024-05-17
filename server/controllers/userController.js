@@ -37,14 +37,14 @@ const userRegister = async (req, res, next) => {
 };
 
 const userLogin = async (req, res, next) => {
-	const { email, password } = req.body;
+	const { email, password, isEncrypted } = req.body;
 
 	if (!email || !password) return res.status(400).send("Error en el body");
 	try {
 		let user = await dao.getUserByEmail(email);
 		if (user.length <= 0) return res.status(404).send("Usuario no registrado");
 
-		const clientPassword = md5(password);
+		const clientPassword = isEncrypted ? password : md5(password);
 		[user] = user;
 
 		if (user.password !== clientPassword) return res.sendStatus(401);
@@ -166,7 +166,7 @@ const updateUser = async (req, res, next) => {
 		let user = await dao.getUserById(id);
 		[user] = user;
 
-		res.status(200).json(user);
+		res.status(201).json({ user, status: true });
 	} catch (error) {
 		next(error);
 	}
