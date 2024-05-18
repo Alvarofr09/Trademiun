@@ -9,8 +9,7 @@ import CreateGroup from "./views/CreateGroup";
 
 import WebBuscador from "./views/WebBuscador";
 import WebRegistro from "./views/WebRegistro";
-import WebLogin from "./views/WebLogin";
-import WebPagos from "./views/WebPagos";
+// import WebLogin from "./views/WebLogin";
 
 // import WebNoticias from "./views/WebNoticias";
 // import Trades from "./views/Trades";
@@ -26,8 +25,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="login" element={<Login />} />
-          <Route path="prueba" element={<WebRegistro />} />
-          <Route path="prueba2" element={<WebLogin />} />
 
           <Route element={<RequireAuth />}>
             <Route path="/" element={<Chat />} />

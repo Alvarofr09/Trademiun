@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom";
 import Signal from "../components/ui/Signal";
 import Modal from "../components/Modal";
 import GroupForm from "../components/GroupForm/GroupForm";
+import UserForm from "../components/UserForm/UserForm";
+import Img from "../components/ui/CloudinaryImg";
 
 const chartData = [
   { label: "Enero", value: 65 },

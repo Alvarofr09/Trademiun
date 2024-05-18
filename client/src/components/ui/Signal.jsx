@@ -15,7 +15,13 @@ export default function Signal({ signal, isMessage }) {
 			}`}
 		>
 			<div className="content break-normal text-white py-5 px-10 text-2xl rounded-2xl">
-				{signal.image && <Img uploadedImg={signal.image} className="w-full " />}
+				{signal.image && (
+					<Img
+						isContact={false}
+						uploadedImg={signal.image}
+						className="w-full "
+					/>
+				)}
 				{signal.description && (
 					<p
 						className={`text-xs mb-2 cursor-pointer ${

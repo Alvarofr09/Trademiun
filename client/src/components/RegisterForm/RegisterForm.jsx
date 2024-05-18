@@ -7,15 +7,15 @@ import Checkbox from "../ui/Checkbox";
 import { useNavigate } from "react-router-dom";
 import { registerRoute, userApi } from "../../api/APIRoutes";
 import { useAuthContext } from "../../context/AuthContext";
-import { useState } from "react";
+// import { useState } from "react";
 
 import Input from "../ui/Input";
 
-import DefaultImage from "../../assets/img/imagenDefecto.png";
+// import DefaultImage from "../../assets/img/imagenDefecto.png";
 
 export default function RegisterForm() {
 	// const api = "https://api.multiavatar.com/45678945";
-	const [avatar, setAvatar] = useState(DefaultImage);
+	// const [avatar, setAvatar] = useState(DefaultImage);
 	const { login } = useAuthContext();
 	const navigate = useNavigate();
 	const toastOptions = {
@@ -33,7 +33,6 @@ export default function RegisterForm() {
 			username,
 			email,
 			password,
-			image: avatar,
 		});
 		const user = {
 			email,

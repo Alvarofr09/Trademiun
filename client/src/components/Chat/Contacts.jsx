@@ -35,6 +35,7 @@ export default function Contacts({ contacts, changeChat }) {
 								{contact.image && (
 									<div className="avatar">
 										<Img
+											isContact={true}
 											className="h-14 w-14 avatar-image"
 											uploadedImg={contact.image}
 											alt="avatar"

@@ -7,7 +7,6 @@ import Input from "../ui/Input";
 import { useNavigate, useParams } from "react-router-dom";
 // import TextArea from "../ui/TextArea";
 import { createGroupRoute, joinGroupRoute, userApi } from "../../api/APIRoutes";
-// import DefaultImage from "../../assets/img/imagenDefectoGrupos.png";
 import { IconFilePlus } from "@tabler/icons-react";
 import { previewFiles } from "../../utils/previewFile";
 import { useState } from "react";
