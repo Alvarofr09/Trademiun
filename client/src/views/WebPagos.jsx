@@ -44,23 +44,23 @@ const WebPagos = () => {
 
         <div className=" bordered w-[70%] mx-auto p-2 m-8 flex ">
           <div className="flex flex-col basis-1/3">
-            <p className="text-center font-bold py-2">Introducir retiro</p>
+            <p className="text-center font-bold py-4">Introducir retiro</p>
             <input
               className="border-solid border-2 border-primario p-2 px-3 rounded-md"
               type="number"
             />
           </div>
           <div className="flex flex-col basis-2/3 ">
-            <p className="text-center py-2 font-bold">Métodos de pago</p>
+            <p className="text-center py-4 font-bold">Métodos de pago</p>
 
             <div className="flex justify-around">
-              <button className="border-solid border-2 border-primario p-2 px-3 rounded-md">
+              <button className="font-bold border-solid  border-2 border-primario p-2 px-8 rounded-md ">
                 Crypto
               </button>
-              <button className="border-solid border-2 border-primario p-2 px-3 rounded-md">
+              <button className="font-bold border-solid  border-2 border-primario p-2 px-8 rounded-md">
                 Banco
               </button>
-              <button className="border-solid border-2 border-primario bg-primario p-2 px-3 rounded-md text-white">
+              <button className="font-bold border-solid  border-2 border-primario bg-primario p-2 px-8 rounded-md text-white">
                 Solicitar
               </button>
             </div>

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-// const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 //min 5 characters, 1 uppercase, 1 lowercase, 1 numeric digit
 
 export const LoginSchema = yup.object().shape({

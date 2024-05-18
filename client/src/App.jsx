@@ -8,29 +8,27 @@ import UserDetails from "./views/UserDetails";
 import CreateGroup from "./views/CreateGroup";
 
 import WebBuscador from "./views/WebBuscador";
-import WebRegistro from "./views/WebRegistro";
-// import WebLogin from "./views/WebLogin";
+import WebPagos from "./views/WebPagos";
 
-// import WebNoticias from "./views/WebNoticias";
-// import Trades from "./views/Trades";
-// import Buscador from "./views/Buscador";
+import WebNoticias from "./views/WebNoticias";
+import CommingSoon from "./views/CommingSoon";
+import WebLogin from "./views/WebLogin";
+import WebRegistro from "./views/WebRegistro";
 
 function App() {
   return (
     <>
-      {/* <WebNoticias /> */}
-      {/* <Trades /> */}
-      {/* <Buscador /> */}
-      {/* <WebBuscador /> */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="login" element={<Login />} />
+          <Route path="Weblogin" element={<WebLogin />} />
+          <Route path="WebRegistro" element={<WebRegistro />} />
 
           <Route element={<RequireAuth />}>
             <Route path="/" element={<Chat />} />
             <Route path="/busqueda" element={<WebBuscador />} />
-            {/* <Route path="/noticias" element={<CommingSoon />} /> */}
-            {/* <Route path="/cursos" element={<CommingSoon />} /> */}
+            <Route path="/noticias" element={<WebNoticias />} />
+            <Route path="/cursos" element={<CommingSoon />} />
             <Route path="/user/:id" element={<UserDetails />} />
             <Route path="/create-group/:id" element={<CreateGroup />} />
             <Route path="/pagos" element={<WebPagos />} />
