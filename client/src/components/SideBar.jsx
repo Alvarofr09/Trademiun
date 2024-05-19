@@ -11,7 +11,7 @@ const SideBar = () => {
 	const location = useLocation();
 	return (
 		<>
-			<div className="max-w-68 h-lvh sticky lg:text-lg text-2xl top-0 bg-white">
+			<div className="max-w-68 h-lvh sticky md:text-base lg:text-lg text-2xl top-0 bg-white">
 				{/* Sidebar */}
 				<div className="py-8 w-52 lg:w-36 ml-12 ">
 					<img src={logo_negro} alt="logo" />
