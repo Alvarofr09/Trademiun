@@ -1,7 +1,7 @@
 const WebNoticias = () => {
   return (
-    <div className="flex">
-      <div className="basis-7/12 px-24 py-8 ">
+    <div className="flex w-[100%]">
+      <div className="basis-7/12 px-12 py-8 ">
         <>
           <h1 className="text-center text-3xl font-bold ">Noticias</h1>
           <iframe
@@ -14,7 +14,7 @@ const WebNoticias = () => {
         </>
       </div>
 
-      <div className="basis-5/12  mx-auto py-8">
+      <div className="basis-5/12  mx-auto py-8 w-[100%]">
         <>
           <h1 className="text-center text-3xl font-bold ">Divisas</h1>
           <div className="flex justify-center">
