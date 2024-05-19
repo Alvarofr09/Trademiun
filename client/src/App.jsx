@@ -17,10 +17,6 @@ import WebToggle from "./components/WebForms/WebToggle";
 function App() {
 	return (
 		<>
-			{/* <WebNoticias /> */}
-			{/* <Trades /> */}
-			{/* <Buscador /> */}
-			{/* <WebBuscador /> */}
 			<Routes>
 				<Route path="/" element={<Layout />}>
 					<Route path="login" element={<Login />} />
