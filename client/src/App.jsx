@@ -6,9 +6,7 @@ import RequireAuth from "./components/RequireAuth";
 import Chat from "./views/Chat";
 import UserDetails from "./views/UserDetails";
 import CreateGroup from "./views/CreateGroup";
-
 import WebBuscador from "./views/WebBuscador";
-import WebToggle from "./components/WebForms/WebToggle";
 
 // import WebNoticias from "./views/WebNoticias";
 // import Trades from "./views/Trades";
@@ -20,8 +18,6 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Layout />}>
 					<Route path="login" element={<Login />} />
-
-					<Route path="login2" element={<WebToggle />} />
 
 					<Route element={<RequireAuth />}>
 						<Route path="/" element={<Chat />} />
