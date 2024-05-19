@@ -142,7 +142,16 @@ const updateUser = async (req, res, next) => {
 			{
 				upload_preset: "user_upload",
 				public_id: `${username}_${new Date()}`,
-				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+				allowed_formats: [
+					"jpg",
+					"png",
+					"jpeg",
+					"svg",
+					"ico",
+					"jfif",
+					"webp",
+					"gif",
+				],
 			},
 			function (error, result) {
 				if (error) console.log(error);
