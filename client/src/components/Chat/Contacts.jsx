@@ -1,6 +1,4 @@
 import { useState } from "react";
-
-import Logout from "../Logout";
 import { Link } from "react-router-dom";
 import InputSearch from "../InputSearch";
 import Img from "../ui/CloudinaryImg";
