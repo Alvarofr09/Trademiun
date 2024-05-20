@@ -9,9 +9,10 @@ import {
 	getUserSignals,
 	hasGroupRoute,
 	joinGroupRoute,
+	leaveGroupRoute,
 	userApi,
 } from "../api/APIRoutes";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Signal from "../components/ui/Signal";
 import Modal from "../components/Modal";
 import GroupForm from "../components/GroupForm/GroupForm";
@@ -86,6 +87,7 @@ const toastConfig = {
 export default function UserDetails() {
 	const { id } = useParams();
 	const { user } = useUserContext();
+	const navigate = useNavigate();
 	const [userData, setUserData] = useState(null);
 	const [signals, setSignals] = useState([]);
 	const [isCurrentUser, setIsCurrentUser] = useState(false);
@@ -94,6 +96,7 @@ export default function UserDetails() {
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
 	const [hasNotGroup, setHasNotGroup] = useState(false);
+	const [isInGroup, setIsInGroup] = useState(false);
 
 	console.log(user);
 
@@ -167,8 +170,23 @@ export default function UserDetails() {
 			});
 			toast.success(`Te has unido al grupo`, toastConfig);
 			closeModal();
+			navigate("/");
 		} catch (error) {
 			toast.error(`Error al unirse al grupo: ${error.message}`, toastConfig);
+			closeModal();
+		}
+	};
+
+	const handleLeaveGroup = async () => {
+		try {
+			await userApi.post(leaveGroupRoute, {
+				group_id: user.id,
+				user_id: userData.id,
+			});
+			toast.success(`Te has salido del grupo`, toastConfig);
+			closeModal();
+		} catch (error) {
+			toast.error(`Error al salirse del grupo: ${error.message}`, toastConfig);
 			closeModal();
 		}
 	};
