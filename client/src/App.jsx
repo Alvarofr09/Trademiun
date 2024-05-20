@@ -16,6 +16,9 @@ import WebLogin from "./views/WebLogin";
 import WebRegistro from "./views/WebRegistro";
 import WebBlog from "./views/WebBlog";
 
+// import Buscador from "./views/Buscador";
+// import Trades from "./views/Trades";
+
 function App() {
   return (
     <>
