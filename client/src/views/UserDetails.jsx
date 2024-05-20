@@ -1,10 +1,9 @@
-// import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { defaults } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
-
 import { useUserContext } from "../context/UserContext";
 import {
+	followRoute,
 	getUserInfo,
 	getUserSignals,
 	hasGroupRoute,
@@ -38,7 +37,7 @@ const chartConfig = {
 		labels: chartData.map((data) => data.label),
 		datasets: [
 			{
-				label: "Ganacias",
+				label: "Ganancias",
 				data: chartData.map((data) => data.value),
 				backgroundColor: function (context) {
 					const chart = context.chart;
@@ -85,6 +84,7 @@ const toastConfig = {
 	draggable: true,
 	theme: "dark",
 };
+
 export default function UserDetails() {
 	const { id } = useParams();
 	const { user } = useUserContext();
@@ -100,8 +100,6 @@ export default function UserDetails() {
 	const [hasNotGroup, setHasNotGroup] = useState(false);
 	const [isInGroup, setIsInGroup] = useState(false);
 
-	console.log(user);
-
 	useEffect(() => {
 		setIsCurrentUser(id == user.id);
 	}, [id, user]);
@@ -109,7 +107,7 @@ export default function UserDetails() {
 	useEffect(() => {
 		async function fetchData() {
 			let userDataResponse;
-			if (isCurrentUser) {
+			if (id !== user.id) {
 				// Si el ID de los parámetros es diferente al ID del usuario logueado, realiza una petición para obtener los datos del usuario correspondiente al ID de los parámetros
 				userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
 			} else {
@@ -124,26 +122,23 @@ export default function UserDetails() {
 			setSignals(signalsResponse.data);
 
 			if (isCurrentUser) {
-				console.log(userDataResponse.data.id);
 				const { data } = await userApi.get(
 					`${hasGroupRoute}/${userDataResponse.data.id}`
 				);
-				console.log(data);
 				setHasNotGroup(data.hasGroup);
 			}
 
-			if (!isCurrentUser) {
+			if (id !== user.id) {
 				const { data } = await userApi.post(isInGroupRoute, {
 					user_id: userDataResponse.data.id,
 					group_id: user.id,
 				});
-
 				setIsInGroup(data.isInGroup);
 			}
 		}
 
 		fetchData();
-	}, [isCurrentUser, id, user]);
+	}, [id, user, isCurrentUser, isFollowing]);
 
 	const showGroupForm = () => {
 		setShowGroupModal(true); // Mostrar el modal al activar la función
@@ -168,14 +163,34 @@ export default function UserDetails() {
 		setShowLeaveModal(false);
 	};
 
-	const handleFollow = () => {
-		setIsFollowing(true);
+	const handleFollow = async () => {
+		const response = await userApi.post(followRoute, {
+			user_id: user.id,
+			to_follow: userData.id,
+		});
+
+		console.log(response);
+
+		if (response.status) {
+			setIsFollowing(true);
+		}
+
 		toast.success(`Siguiendo a ${userData.username}`, toastConfig);
+		const { data } = await userApi.post(isInGroupRoute, {
+			user_id: userData.id,
+			group_id: user.id,
+		});
+
+		if (data.isInGroup) {
+			setIsInGroup(true);
+		}
+		// setIsInGroup(data.isInGroup);
 	};
 
-	const handleUnfollow = () => {
+	const handleUnfollow = async () => {
 		setIsFollowing(false);
 		toast.success(`Dejaste de seguir a ${userData.username}`, toastConfig);
+		setIsInGroup(false); // Reset the group status when unfollowing
 	};
 
 	const handleJoinGroup = async () => {
@@ -185,8 +200,8 @@ export default function UserDetails() {
 				user_id: userData.id,
 			});
 			toast.success(`Te has unido al grupo`, toastConfig);
+			setIsInGroup(true);
 			closeModal();
-			navigate("/");
 		} catch (error) {
 			toast.error(`Error al unirse al grupo: ${error.message}`, toastConfig);
 			closeModal();
@@ -200,6 +215,7 @@ export default function UserDetails() {
 				user_id: userData.id,
 			});
 			toast.success(`Te has salido del grupo`, toastConfig);
+			setIsInGroup(false);
 			closeModal();
 		} catch (error) {
 			toast.error(`Error al salirse del grupo: ${error.message}`, toastConfig);
@@ -209,9 +225,9 @@ export default function UserDetails() {
 
 	return (
 		<>
-			<main className="h-screen centered bg-white">
+			<main className="h-full centered bg-white">
 				{userData && (
-					<section className="basis-8/12 border-x-2 gap-11  border-black h-screen user-info centered flex-col ">
+					<section className="basis-8/12 border-x-2 gap-11 py-8 border-black h-screen user-info centered flex-col ">
 						<div className="bordered basis-1/3 centered gap-16 py-5 px-12 w-[90%] mx-auto">
 							<div className="user-image basis-1/4">
 								<Img
@@ -243,7 +259,7 @@ export default function UserDetails() {
 										<button className="btn-dark" onClick={showUserForm}>
 											Editar Perfil
 										</button>
-										{hasNotGroup && (
+										{!hasNotGroup && (
 											<button className="btn-dark" onClick={showGroupForm}>
 												Crear Grupo
 											</button>
@@ -280,7 +296,7 @@ export default function UserDetails() {
 								<Bar data={chartConfig.data} className="h-full w-full" />
 							</div>
 						</div>
-						<div className="bordered basis-1/3 centered gap-6 lg:text-xl text-2xl lg:py-6 lg:px-8 py-16 px-20  w-[90%] mx-auto">
+						<div className="bordered basis-1/3 centered gap-6 lg:text-xl text-2xl lg:py-6 lg:px-8   w-[90%] mx-auto">
 							<ul className="w-1/2">
 								<li>
 									<strong>Señales: </strong>
@@ -312,7 +328,6 @@ export default function UserDetails() {
 								</li>
 								<li>
 									<strong>Total rentabilidad: </strong>
-									{/* {user.rentabilidad} % */}
 									54%
 								</li>
 							</ul>
