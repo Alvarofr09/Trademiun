@@ -1,4 +1,4 @@
-import grafica from "../img/tradesView/grafica.png";
+import grafica from "../assets/img/tradesView/grafica.png";
 
 const CardUltimosTrades = () => {
   return (

@@ -1,7 +1,7 @@
 const CardSeguidores = () => {
   return (
     <section className="py-2 mx-2">
-      <div className="flex flex-row max-w-lg mx-auto p-2 bg-terciario rounded-full">
+      <div className="flex flex-row w-full mx-auto p-2 bg-terciario rounded-full">
         <div className="ml-1 self-center">
           <img
             className="inline-block h-20 w-20 rounded-full ring-2 ring-transparent basis-4/12 "
