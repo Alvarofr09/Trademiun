@@ -23,7 +23,6 @@ const userRegister = async (req, res, next) => {
 			username,
 			email,
 			password,
-			isImageSet: true,
 			image: "Trademiun/User_Avatar/imagenDefecto_pipbdh",
 		};
 
@@ -37,14 +36,14 @@ const userRegister = async (req, res, next) => {
 };
 
 const userLogin = async (req, res, next) => {
-	const { email, password } = req.body;
+	const { email, password, isEncrypted } = req.body;
 
 	if (!email || !password) return res.status(400).send("Error en el body");
 	try {
 		let user = await dao.getUserByEmail(email);
 		if (user.length <= 0) return res.status(404).send("Usuario no registrado");
 
-		const clientPassword = md5(password);
+		const clientPassword = isEncrypted ? password : md5(password);
 		[user] = user;
 
 		if (user.password !== clientPassword) return res.sendStatus(401);
@@ -54,8 +53,8 @@ const userLogin = async (req, res, next) => {
 			id: user.id,
 			username: user.username,
 			email: user.email,
-			isImageSet: user.isImageSet,
 			image: user.image,
+			group_id: user.group_id,
 			seguidores: user.seguidores,
 			rentabilidad: user.rentabilidad,
 		});
@@ -143,7 +142,16 @@ const updateUser = async (req, res, next) => {
 			{
 				upload_preset: "user_upload",
 				public_id: `${username}_${new Date()}`,
-				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+				allowed_formats: [
+					"jpg",
+					"png",
+					"jpeg",
+					"svg",
+					"ico",
+					"jfif",
+					"webp",
+					"gif",
+				],
 			},
 			function (error, result) {
 				if (error) console.log(error);
@@ -166,7 +174,33 @@ const updateUser = async (req, res, next) => {
 		let user = await dao.getUserById(id);
 		[user] = user;
 
-		res.status(200).json(user);
+		res.status(201).json({ user, status: true });
+	} catch (error) {
+		next(error);
+	}
+};
+
+const hasGroup = async (req, res, next) => {
+	try {
+		const user_id = req.params.id;
+
+		const tiene_grupo = await dao.hasGroup(user_id);
+		console.log("hasGroup", tiene_grupo[0].tiene_grupo);
+		const has_group = tiene_grupo[0].tiene_grupo;
+
+		if (has_group) {
+			return res.status(400).json({
+				message: "Ya has creado un grupo",
+				status: false,
+				hasGroup: true,
+			});
+		} else {
+			return res.status(200).json({
+				message: "Puedes crear un grupo",
+				status: true,
+				hasGroup: false,
+			});
+		}
 	} catch (error) {
 		next(error);
 	}
@@ -180,4 +214,5 @@ module.exports = {
 	getUsersByRentabilidad,
 	getUsersBySeguidores,
 	updateUser,
+	hasGroup,
 };

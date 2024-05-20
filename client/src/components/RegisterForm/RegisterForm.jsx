@@ -3,7 +3,6 @@ import { RegisterFormInitialValues } from "../../consts/InitialValues";
 import { ToastContainer, toast } from "react-toastify";
 import { RegisterFormSchema } from "./RegisterFormSchema";
 
-import Checkbox from "../ui/Checkbox";
 import { useNavigate } from "react-router-dom";
 import { registerRoute, userApi } from "../../api/APIRoutes";
 import { useAuthContext } from "../../context/AuthContext";
@@ -37,6 +36,7 @@ export default function RegisterForm() {
 		const user = {
 			email,
 			password,
+			isEncrypted: false,
 		};
 
 		if (data.status === false) {
@@ -60,11 +60,6 @@ export default function RegisterForm() {
 							<Input placeholder="Username" name="username" type="text" />
 
 							<Input placeholder="Email" name="email" type="email" />
-							<Input
-								placeholder="Confirmar Email"
-								name="confirmEmail"
-								type="email"
-							/>
 
 							<Input placeholder="Password" name="password" type="password" />
 							<Input
@@ -72,7 +67,6 @@ export default function RegisterForm() {
 								name="confirmPassword"
 								type="password"
 							/>
-							<Checkbox type="checkbox" name="acceptedTC" />
 							<button
 								className="btn-primary"
 								type="submit"

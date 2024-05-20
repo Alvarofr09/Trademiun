@@ -1,12 +1,12 @@
 import { useFormik } from "formik";
 
-import { useAuthContext } from "../context/AuthContext";
-import { LoginSchema } from "../components/Formik/LoginSchema";
+import { Link } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
+import { LoginSchema } from "../Formik/LoginSchema";
 
-import "../App.css";
 import { useNavigate } from "react-router-dom";
 
-function WebLogin() {
+function WebLogin({ setView }) {
 	const { login } = useAuthContext();
 	const navigate = useNavigate();
 
@@ -27,9 +27,13 @@ function WebLogin() {
 		onSubmit,
 	});
 
-	async function onSubmit(values, actions) {
+	async function onSubmit(values) {
 		console.log("values", values);
-		const user = { email: values.email, password: values.password };
+		const user = {
+			email: values.email,
+			password: values.password,
+			isEncrypted: false,
+		};
 
 		await login(user);
 		navigate("/");
@@ -95,6 +99,15 @@ function WebLogin() {
 							)}
 						</div>
 						<div className="mt-8">
+							<p>
+								No tienes una cuenta?{" "}
+								<Link
+									className="text-secundario"
+									onClick={() => setView("register")}
+								>
+									¡¡Createla aquí!!
+								</Link>
+							</p>
 							<button
 								type="submit"
 								disabled={isSubmitting}
@@ -136,7 +149,7 @@ function WebLogin() {
 								/>
 							</svg>
 						</div>
-						<h1 className="px-4 py-3 w-5/6 text-center text-gray-600 font-bold">
+						<h1 className="py-3 w-5/6 text-center text-gray-600 font-bold">
 							Google
 						</h1>
 					</a>

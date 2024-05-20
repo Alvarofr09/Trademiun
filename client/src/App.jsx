@@ -6,10 +6,7 @@ import RequireAuth from "./components/RequireAuth";
 import Chat from "./views/Chat";
 import UserDetails from "./views/UserDetails";
 import CreateGroup from "./views/CreateGroup";
-
 import WebBuscador from "./views/WebBuscador";
-import WebRegistro from "./views/WebRegistro";
-import WebLogin from "./views/WebLogin";
 
 // import WebNoticias from "./views/WebNoticias";
 // import Trades from "./views/Trades";
@@ -18,17 +15,9 @@ import WebLogin from "./views/WebLogin";
 function App() {
 	return (
 		<>
-			{/* <WebNoticias /> */}
-			{/* <Trades /> */}
-			{/* <Buscador /> */}
-			{/* <WebBuscador /> */}
 			<Routes>
 				<Route path="/" element={<Layout />}>
 					<Route path="login" element={<Login />} />
-
-					<Route path="register" element={<WebRegistro />} />
-
-					<Route path="login2" element={<WebLogin />} />
 
 					<Route element={<RequireAuth />}>
 						<Route path="/" element={<Chat />} />

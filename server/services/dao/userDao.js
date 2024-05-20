@@ -162,4 +162,44 @@ userDao.getAllUsersBySeguidores = async () => {
 	}
 };
 
+userDao.insertGroupToUser = async (user_id, group_id) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		return await db.query(
+			"UPDATE users SET group_id = ? WHERE id = ?",
+			[group_id, parseInt(user_id)],
+			"update",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+userDao.hasGroup = async (id) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		return await db.query(
+			`SELECT EXISTS (
+                SELECT 1
+                FROM users
+                WHERE group_id IS NOT NULL AND id = ?
+            ) AS tiene_grupo`,
+			[id],
+			"select",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 module.exports = userDao;

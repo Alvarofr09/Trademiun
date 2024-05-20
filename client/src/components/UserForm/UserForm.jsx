@@ -11,10 +11,12 @@ import { useUserContext } from "../../context/UserContext";
 import { useAuthContext } from "../../context/AuthContext";
 
 export default function UserForm({ closeModal }) {
-	const { login } = useAuthContext();
+	const { login, logout } = useAuthContext();
 	const { user } = useUserContext();
 	const [file, setFile] = useState("");
 	const [image, setImage] = useState("");
+
+	console.log(user);
 
 	const UpdateUserFormInitialValues = {
 		username: user.username,
@@ -45,9 +47,11 @@ export default function UserForm({ closeModal }) {
 
 		if (data.status) {
 			const user = {
-				email,
-				password,
+				email: data.user.email,
+				password: data.user.password,
+				isEncrypted: true,
 			};
+
 			await login(user);
 
 			closeModal();

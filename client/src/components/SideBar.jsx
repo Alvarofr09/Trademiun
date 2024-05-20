@@ -1,13 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
 import logo_negro from "../assets/img/logo_negro.png";
+import { IconLogout } from "@tabler/icons-react";
+
 import { useUserContext } from "../context/UserContext";
+import { useAuthContext } from "../context/AuthContext";
 
 const SideBar = () => {
 	const { user } = useUserContext();
+	const { logout } = useAuthContext();
 	const location = useLocation();
 	return (
 		<>
-			<div className="max-w-68 h-lvh sticky lg:text-lg text-2xl top-0 bg-fondoWebApp">
+			<div className="max-w-68 h-lvh sticky md:text-base lg:text-lg text-2xl top-0 bg-white">
 				{/* Sidebar */}
 				<div className="py-8 w-52 lg:w-36 ml-12 ">
 					<img src={logo_negro} alt="logo" />
@@ -191,6 +195,17 @@ const SideBar = () => {
 						</p>
 					</div>
 				</Link>
+				<div
+					onClick={() => logout()}
+					className="flex hover:cursor-pointer mb-8"
+				>
+					<div>
+						<IconLogout size={24} className="ml-12" />
+					</div>
+					<div>
+						<p className={`ml-4 `}>Logout </p>
+					</div>
+				</div>
 			</div>
 		</>
 	);

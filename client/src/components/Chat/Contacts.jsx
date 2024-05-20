@@ -1,6 +1,4 @@
 import { useState } from "react";
-
-import Logout from "../Logout";
 import { Link } from "react-router-dom";
 import InputSearch from "../InputSearch";
 import Img from "../ui/CloudinaryImg";
@@ -22,7 +20,7 @@ export default function Contacts({ contacts, changeChat }) {
 				<div className="basis-1/12 w-full">
 					<InputSearch />
 				</div>
-				<div className="contacts basis-10/12">
+				<div className="contacts basis-11/12">
 					{contacts.map((contact, index) => {
 						return (
 							<div
@@ -57,10 +55,6 @@ export default function Contacts({ contacts, changeChat }) {
 							AQUI
 						</Link>
 					</p>
-				</div>
-
-				<div className="usuario basis-1/12">
-					<Logout />
 				</div>
 			</div>
 		</>

@@ -29,11 +29,12 @@ export default function AuthContextProvider({ children }) {
 	}, [auth]);
 
 	async function login(user) {
-		const { email, password } = user;
+		const { email, password, isEncrypted } = user;
 
 		const { data } = await userApi.post(loginRoute, {
 			email,
 			password,
+			isEncrypted,
 		});
 
 		console.log(data);

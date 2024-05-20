@@ -47,6 +47,29 @@ groupDao.joinGroup = async (membershipData) => {
 	}
 };
 
+groupDao.leaveGroup = async (membershipData) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		const membershipObj = {
+			group_id: membershipData.group_id,
+			user_id: membershipData.user_id,
+		};
+
+		return await db.query(
+			"DELETE FROM grupos_membership WHERE group_id = ? AND user_id = ?",
+			membershipObj,
+			"delete",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 groupDao.getAllGroups = async (user_id) => {
 	let conn = null;
 	try {

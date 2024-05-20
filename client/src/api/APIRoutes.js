@@ -10,12 +10,14 @@ export const getUserInfo = `${host}/api/auth/getUserInfo`;
 export const getTopRentabilidad = `${host}/api/auth/get-users-by-rentabilidad`;
 export const getTopSeguidores = `${host}/api/auth/get-users-by-seguidores`;
 export const updateUserRoute = `${host}/api/auth/update-user`;
+export const hasGroupRoute = `${host}/api/auth/has-group`;
 
 export const sendMessageRoute = `${host}/api/messages/add-message`;
 export const getAllGroupMessages = `${host}/api/messages/getGroupMessages`;
 
 export const createGroupRoute = `${host}/api/groups/create-group`;
 export const joinGroupRoute = `${host}/api/groups/join-group`;
+export const leaveGroupRoute = `${host}/api/groups/leave-group`;
 export const getAllGroups = `${host}/api/groups/get-groups`;
 export const isAdmin = `${host}/api/groups/is-admin`;
 

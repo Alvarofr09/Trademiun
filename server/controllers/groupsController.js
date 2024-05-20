@@ -1,23 +1,25 @@
 const dao = require("../services/dao/groupsDao");
 const moment = require("moment");
 const cloudinary = require("../services/cloudinary");
+const { insertGroupToUser } = require("../services/dao/userDao");
 
 const createGroup = async (req, res, next) => {
 	try {
-		const { group_name, description, price, image } = req.body;
+		const { user_id, group_name, description, price, image } = req.body;
 
-		const uploadedImage = await cloudinary.uploader.upload(
-			image,
-			{
-				upload_preset: "group_upload",
-				public_id: `${group_name}_${new Date()}`,
-				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
-			},
-			function (error, result) {
-				if (error) console.log(error);
-				console.log(result);
-			}
-		);
+		// Subir imagen a Cloudinary
+		const uploadedImage = await cloudinary.uploader.upload(image, {
+			upload_preset: "group_upload",
+			public_id: `${group_name}_${new Date().toISOString()}`,
+			allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+		});
+
+		if (!uploadedImage) {
+			return res.status(500).json({
+				message: "Error al subir la imagen",
+				status: false,
+			});
+		}
 
 		const groupData = {
 			group_name,
@@ -33,6 +35,22 @@ const createGroup = async (req, res, next) => {
 			return res
 				.status(500)
 				.json({ message: "Error al crear un grupo", status: false });
+
+		const membershipData = {
+			group_id: data,
+			user_id,
+		};
+
+		// Añadir grupo a user
+		await insertGroupToUser(user_id, data);
+
+		// Unir usuario al grupo
+		const result = await dao.joinGroup(membershipData);
+
+		if (!result)
+			return res
+				.status(500)
+				.json({ message: "Error al unirse al grupo", status: false });
 
 		return res.json({
 			message: "Grupo creado correctamente",
@@ -62,6 +80,28 @@ const joinGroup = async (req, res, next) => {
 				.json({ message: "Error al enviar el mensaje", status: false });
 
 		return res.json({ message: "Te has unido al grupo", status: true });
+	} catch (error) {
+		next(error);
+	}
+};
+
+const leaveGroup = async (req, res, next) => {
+	try {
+		const { group_id, user_id } = req.body;
+
+		const membershipData = {
+			group_id,
+			user_id,
+		};
+
+		const data = await dao.leaveGroup(membershipData);
+
+		if (!data)
+			return res
+				.status(500)
+				.json({ message: "Error al salir del grupo", status: false });
+
+		return res.json({ message: "Te has salido del grupo", status: true });
 	} catch (error) {
 		next(error);
 	}
@@ -105,4 +145,5 @@ const isAdmin = async (req, res, next) => {
 		next(error);
 	}
 };
-module.exports = { createGroup, joinGroup, getAllGroups, isAdmin };
+
+module.exports = { createGroup, joinGroup, leaveGroup, getAllGroups, isAdmin };
