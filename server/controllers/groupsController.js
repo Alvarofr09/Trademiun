@@ -174,6 +174,20 @@ const isAdmin = async (req, res, next) => {
 	}
 };
 
+const getGroupInfo = async (req, res, next) => {
+	try {
+		const chat_id = req.params.id;
+
+		const group = await dao.getGroupInfo(chat_id);
+
+		if (group.length === 0)
+			return res.json({ message: "Este grupo no existe", status: true });
+
+		return res.json({ group });
+	} catch (error) {
+		next(error);
+	}
+};
 module.exports = {
 	createGroup,
 	joinGroup,
@@ -181,4 +195,5 @@ module.exports = {
 	getAllGroups,
 	isInGroup,
 	isAdmin,
+	getGroupInfo,
 };

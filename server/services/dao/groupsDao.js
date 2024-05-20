@@ -90,6 +90,25 @@ groupDao.getAllGroups = async (user_id) => {
 	}
 };
 
+groupDao.getGroupInfo = async (chat_id) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		const sqlQuery = `
+      		SELECT *
+    		FROM grupos
+    		WHERE id = ?
+    	`;
+
+		return await db.query(sqlQuery, chat_id, "select", conn);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 groupDao.isInGroup = async (membershipData) => {
 	let conn = null;
 	try {
