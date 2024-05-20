@@ -8,6 +8,7 @@ import {
 	getUserInfo,
 	getUserSignals,
 	hasGroupRoute,
+	isInGroupRoute,
 	joinGroupRoute,
 	leaveGroupRoute,
 	userApi,
@@ -95,6 +96,7 @@ export default function UserDetails() {
 	const [showGroupModal, setShowGroupModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
+	const [showLeaveModal, setShowLeaveModal] = useState(false);
 	const [hasNotGroup, setHasNotGroup] = useState(false);
 	const [isInGroup, setIsInGroup] = useState(false);
 
@@ -129,6 +131,15 @@ export default function UserDetails() {
 				console.log(data);
 				setHasNotGroup(data.hasGroup);
 			}
+
+			if (!isCurrentUser) {
+				const { data } = await userApi.post(isInGroupRoute, {
+					user_id: userDataResponse.data.id,
+					group_id: user.id,
+				});
+
+				setIsInGroup(data.isInGroup);
+			}
 		}
 
 		fetchData();
@@ -146,10 +157,15 @@ export default function UserDetails() {
 		setShowJoinModal(true); // Mostrar el modal al activar la función
 	};
 
+	const showLeaveForm = () => {
+		setShowLeaveModal(true); // Mostrar el modal al activar la función
+	};
+
 	const closeModal = () => {
 		setShowGroupModal(false); // Cerrar el modal
 		setShowUserModal(false);
 		setShowJoinModal(false);
+		setShowLeaveModal(false);
 	};
 
 	const handleFollow = () => {
@@ -244,9 +260,15 @@ export default function UserDetails() {
 												<button className="btn-dark" onClick={handleUnfollow}>
 													Dejar de Seguir
 												</button>
-												<button className="btn-dark" onClick={showJoinForm}>
-													Unirse a grupo
-												</button>
+												{!isInGroup ? (
+													<button className="btn-dark" onClick={showJoinForm}>
+														Unirse a grupo
+													</button>
+												) : (
+													<button className="btn-dark" onClick={showLeaveForm}>
+														Salir del grupo
+													</button>
+												)}
 											</>
 										)}
 									</>
@@ -338,6 +360,32 @@ export default function UserDetails() {
 								type="submit"
 							>
 								Unirme
+							</button>
+
+							<button
+								onClick={() => closeModal()}
+								className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
+								type="submit"
+							>
+								Cancelar
+							</button>
+						</div>
+					</Modal>
+				)}
+
+				{showJoinModal && (
+					<Modal
+						closeModal={closeModal}
+						isImg={false}
+						title={`Salirse del grupo de ${userData.username}?`}
+					>
+						<div className="gap-4 centered">
+							<button
+								onClick={() => handleLeaveGroup()}
+								className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
+								type="submit"
+							>
+								Salirme
 							</button>
 
 							<button
