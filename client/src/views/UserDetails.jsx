@@ -373,7 +373,7 @@ export default function UserDetails() {
 					</Modal>
 				)}
 
-				{showJoinModal && (
+				{showLeaveModal && (
 					<Modal
 						closeModal={closeModal}
 						isImg={false}
