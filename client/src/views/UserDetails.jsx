@@ -104,7 +104,7 @@ export default function UserDetails() {
 	useEffect(() => {
 		async function fetchData() {
 			let userDataResponse;
-			if (id != user.id) {
+			if (isCurrentUser) {
 				// Si el ID de los parámetros es diferente al ID del usuario logueado, realiza una petición para obtener los datos del usuario correspondiente al ID de los parámetros
 				userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
 			} else {
@@ -129,7 +129,7 @@ export default function UserDetails() {
 		}
 
 		fetchData();
-	}, [id, user]);
+	}, [isCurrentUser, id, user]);
 
 	const showGroupForm = () => {
 		setShowGroupModal(true); // Mostrar el modal al activar la función
