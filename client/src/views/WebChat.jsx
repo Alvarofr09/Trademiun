@@ -10,8 +10,11 @@ import ChatContainer from "../components/Chat/ChatContainer";
 import { io } from "socket.io-client";
 
 import { useUserContext } from "../context/UserContext";
+import useDeviceType from "../hooks/useDeviceType";
+import MobileContacts from "../components/Chat/MobileContacts";
 
 export default function WebChat() {
+	const isMobile = useDeviceType();
 	const { user } = useUserContext();
 	const socket = useRef();
 	const navigate = useNavigate();
@@ -56,16 +59,23 @@ export default function WebChat() {
 
 	return (
 		<div className="h-full centered  bg-white">
-			<div className="basis-8/12 border-x-2 border-black mx-auto h-screen ">
-				{isLoaded && currentChat === undefined ? (
-					<Welcome />
-				) : (
-					<ChatContainer currentChat={currentChat} socket={socket} />
-				)}
-			</div>
-			<div className="basis-4/12 mx-auto h-full">
-				<Contacts contacts={contacts} changeChat={handleChatChange} />
-			</div>
+			{isMobile ? (
+				<MobileContacts contacts={contacts} socket={socket} />
+			) : (
+				<>
+					<div className="basis-8/12 border-x-2 border-black mx-auto h-screen ">
+						{isLoaded && currentChat === undefined ? (
+							<Welcome />
+						) : (
+							<ChatContainer currentChat={currentChat} socket={socket} />
+						)}
+					</div>
+					<div className="basis-4/12 mx-auto h-full">
+						<Contacts contacts={contacts} changeChat={handleChatChange} />
+					</div>
+				</>
+			)}
+
 			<ToastContainer />
 		</div>
 	);
