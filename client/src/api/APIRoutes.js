@@ -17,6 +17,7 @@ export const getAllGroupMessages = `${host}/api/messages/getGroupMessages`;
 
 export const createGroupRoute = `${host}/api/groups/create-group`;
 export const joinGroupRoute = `${host}/api/groups/join-group`;
+export const leaveGroupRoute = `${host}/api/groups/leave-group`;
 export const getAllGroups = `${host}/api/groups/get-groups`;
 export const isAdmin = `${host}/api/groups/is-admin`;
 
