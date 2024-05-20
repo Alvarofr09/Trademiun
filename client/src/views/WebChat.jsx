@@ -11,7 +11,7 @@ import { io } from "socket.io-client";
 
 import { useUserContext } from "../context/UserContext";
 
-export default function Chat() {
+export default function WebChat() {
 	const { user } = useUserContext();
 	const socket = useRef();
 	const navigate = useNavigate();
