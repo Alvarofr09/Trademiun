@@ -85,6 +85,28 @@ const joinGroup = async (req, res, next) => {
 	}
 };
 
+const leaveGroup = async (req, res, next) => {
+	try {
+		const { group_id, user_id } = req.body;
+
+		const membershipData = {
+			group_id,
+			user_id,
+		};
+
+		const data = await dao.leaveGroup(membershipData);
+
+		if (!data)
+			return res
+				.status(500)
+				.json({ message: "Error al salir del grupo", status: false });
+
+		return res.json({ message: "Te has salido del grupo", status: true });
+	} catch (error) {
+		next(error);
+	}
+};
+
 const getAllGroups = async (req, res, next) => {
 	try {
 		const user_id = req.params.id;
@@ -124,4 +146,4 @@ const isAdmin = async (req, res, next) => {
 	}
 };
 
-module.exports = { createGroup, joinGroup, getAllGroups, isAdmin };
+module.exports = { createGroup, joinGroup, leaveGroup, getAllGroups, isAdmin };
