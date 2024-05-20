@@ -174,6 +174,25 @@ const createImagesTable = async () => {
 	}
 };
 
+const createFollowTable = async () => {
+	let conn = await db.createConection();
+	try {
+		const SqlQuery = `
+      CREATE TABLE IF NOT EXISTS follow (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        follower_id INT,
+        followed_id INT,
+        follow_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (followed_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        UNIQUE KEY (follower_id, followed_id)
+      ); `;
+		await db.query(SqlQuery, null, "create", conn);
+	} finally {
+		await conn.end();
+	}
+};
+
 module.exports = {
 	createUsersTable,
 	createGroupsTable,
@@ -182,4 +201,5 @@ module.exports = {
 	createMembershipTable,
 	createIncrementParticipantsTrigger,
 	createImagesTable,
+	createFollowTable,
 };
