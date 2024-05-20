@@ -1,13 +1,7 @@
-import SideBar from "../components/SideBar";
-
 const WebNoticias = () => {
 	return (
 		<div className="flex">
-			<div className="basis-2/12">
-				<SideBar />
-			</div>
-
-			<div className="basis-6/12 px-24 flex flex-col ">
+			<div className="basis-8/12 px-24 flex flex-col ">
 				<>
 					<h1 className="text-center text-3xl font-bold py-8">Noticias</h1>
 					<iframe
