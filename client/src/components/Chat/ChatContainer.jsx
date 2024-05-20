@@ -10,7 +10,6 @@ import {
 	getAllGroupMessages,
 	getSignalsGroup,
 	isAdmin,
-	// getAllMessages,
 	sendMessageRoute,
 	userApi,
 } from "../../api/APIRoutes";

@@ -55,7 +55,7 @@ export default function WebChat() {
 	};
 
 	return (
-		<div className="h-full centered   bg-white">
+		<div className="h-full centered  bg-white">
 			<div className="basis-8/12 border-x-2 border-black mx-auto h-screen ">
 				{isLoaded && currentChat === undefined ? (
 					<Welcome />
