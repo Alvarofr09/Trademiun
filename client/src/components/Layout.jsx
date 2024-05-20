@@ -12,11 +12,11 @@ export default function Layout() {
 			<nav>
 				{auth ? (
 					isMobile ? (
-						<div className="flex flex-col">
-							<main className="basis-10/12 mx-auto">
+						<div className="flex flex-col h-screen">
+							<main className="basis-11/12 ">
 								<Outlet />
 							</main>
-							<div className="w-full basis-2/12 mx-auto">
+							<div className="w-full basis-1/12 mx-auto">
 								<BottomBar />
 							</div>
 						</div>
