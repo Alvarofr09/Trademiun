@@ -16,7 +16,7 @@ export default function Layout() {
 							<main className="basis-10/12 mx-auto">
 								<Outlet />
 							</main>
-							<div className="basis-2/12 mx-auto">
+							<div className="w-full basis-2/12 mx-auto">
 								<BottomBar />
 							</div>
 						</div>
