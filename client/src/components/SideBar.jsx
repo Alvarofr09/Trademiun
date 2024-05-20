@@ -103,6 +103,35 @@ const SideBar = () => {
 					</div>
 				</Link>
 
+				<Link to={"/blog"} className="flex hover:cursor-pointer mb-8">
+					<div>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							className="icon icon-tabler icons-tabler-outline icon-tabler-brand-blogger ml-12"
+						>
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+							<path d="M8 21h8a5 5 0 0 0 5 -5v-3a3 3 0 0 0 -3 -3h-1v-2a5 5 0 0 0 -5 -5h-4a5 5 0 0 0 -5 5v8a5 5 0 0 0 5 5z" />
+							<path d="M7 7m0 1.5a1.5 1.5 0 0 1 1.5 -1.5h3a1.5 1.5 0 0 1 1.5 1.5v0a1.5 1.5 0 0 1 -1.5 1.5h-3a1.5 1.5 0 0 1 -1.5 -1.5z" />
+							<path d="M7 14m0 1.5a1.5 1.5 0 0 1 1.5 -1.5h7a1.5 1.5 0 0 1 1.5 1.5v0a1.5 1.5 0 0 1 -1.5 1.5h-7a1.5 1.5 0 0 1 -1.5 -1.5z" />
+						</svg>
+					</div>
+					<div>
+						<p
+							className={`ml-4 ${location.pathname === "/blog" && "font-bold"}`}
+						>
+							Blog
+						</p>
+					</div>
+				</Link>
+
 				<Link to={"/cursos"} className="flex hover:cursor-pointer mb-8">
 					<div>
 						<svg
@@ -128,39 +157,6 @@ const SideBar = () => {
 							}`}
 						>
 							Cursos
-						</p>
-					</div>
-				</Link>
-
-				<Link
-					to={`/user/${user.id}`}
-					className="flex hover:cursor-pointer mb-8"
-				>
-					<div>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							className="icon icon-tabler icons-tabler-outline icon-tabler-user-circle ml-12"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-							<path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-							<path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-							<path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
-						</svg>
-					</div>
-					<div>
-						<p
-							className={`ml-4 ${
-								location.pathname === `/user/${user.id}` && "font-bold"
-							}`}
-						>
-							Perfil
 						</p>
 					</div>
 				</Link>

@@ -135,10 +135,6 @@ export default function UserDetails() {
 		setShowGroupModal(true); // Mostrar el modal al activar la función
 	};
 
-	const showUserForm = () => {
-		setShowUserModal(true); // Mostrar el modal al activar la función
-	};
-
 	const showJoinForm = () => {
 		setShowJoinModal(true); // Mostrar el modal al activar la función
 	};
@@ -206,7 +202,7 @@ export default function UserDetails() {
 							<div className="user-options basis-1/4 centered flex-col gap-4">
 								{isCurrentUser ? (
 									<>
-										<button className="btn-dark" onClick={showUserForm}>
+										<button className="btn-dark" onClick={showUserModal}>
 											Editar Perfil
 										</button>
 										{hasNotGroup && (
