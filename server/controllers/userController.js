@@ -236,7 +236,7 @@ const hasGroup = async (req, res, next) => {
 		const has_group = tiene_grupo[0].tiene_grupo;
 
 		if (has_group) {
-			return res.status(400).json({
+			return res.status(200).json({
 				message: "Ya has creado un grupo",
 				status: false,
 				hasGroup: true,
