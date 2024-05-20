@@ -1,8 +1,9 @@
-import { IconMessage } from "@tabler/icons-react";
-import { IconDotsVertical } from "@tabler/icons-react";
+import { IconChevronLeft, IconDotsVertical } from "@tabler/icons-react";
 import Img from "../ui/CloudinaryImg";
+import useDeviceType from "../../hooks/useDeviceType";
 
-export default function ChatHeader({ currentChat }) {
+export default function ChatHeader({ onBack, currentChat }) {
+	const isMobile = useDeviceType();
 	return (
 		<div className="chat-header bg-tipografia flex justify-between items-center px-8 py-0">
 			{/* {console.log(currentChat)} */}
@@ -24,13 +25,19 @@ export default function ChatHeader({ currentChat }) {
 					</span>
 				</div>
 			</div>
-			<div className="options centered flex-row gap-8">
+			<div className="options centered flex-row gap-8 cursor-pointer">
+				{isMobile && (
+					<div className="back">
+						<IconChevronLeft color="#1A1A1A" onClick={onBack} />
+					</div>
+				)}
+
 				<div className="info">
-					<IconDotsVertical color="#1A1A1A" />
+					<IconDotsVertical color="#1A1A1A" onClick={() => alert("info")} />
 				</div>
-				<div className="subChat">
+				{/* <div className="subChat">
 					<IconMessage color="#1A1A1A" />
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);
