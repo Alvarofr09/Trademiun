@@ -8,6 +8,9 @@ const {
 	getUsersBySeguidores,
 	updateUser,
 	hasGroup,
+	followUser,
+	isFollowing,
+	unfollowUser,
 } = require("../controllers/userController");
 
 const userRouter = express.Router();
@@ -15,6 +18,9 @@ const userRouter = express.Router();
 /*----------- Endpoints de POST -----------*/
 userRouter.post("/register", userRegister);
 userRouter.post("/login", userLogin);
+userRouter.post("/follow", followUser);
+userRouter.post("/is-follwing", isFollowing);
+userRouter.post("/unfollow", unfollowUser);
 
 /*----------- Endpoints de GET -----------*/
 userRouter.get("/allUsers/:id", getAllUsers);

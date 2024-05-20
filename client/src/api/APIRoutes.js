@@ -4,6 +4,9 @@ export const host = "http://localhost:3000";
 
 export const registerRoute = `/api/auth/register`;
 export const loginRoute = `/api/auth/login`;
+export const followRoute = `/api/auth/follow`;
+export const isFollowingRoute = `/api/auth/is-following`;
+export const unFollowRoute = `/api/auth/unfollow`;
 export const setAvatarRoute = `${host}/api/auth/setAvatar`;
 export const getAllUsersRoute = `${host}/api/auth/allUsers`;
 export const getUserInfo = `${host}/api/auth/getUserInfo`;

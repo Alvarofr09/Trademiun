@@ -202,4 +202,62 @@ userDao.hasGroup = async (id) => {
 	}
 };
 
+userDao.followUser = async (user_id, to_follow) => {
+	let conn = await db.createConection();
+	try {
+		const SqlQuery = `
+            INSERT INTO follow (follower_id, followed_id)
+            VALUES (?, ?);
+        `;
+		return await db.query(SqlQuery, [user_id, to_follow], "insert", conn);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+userDao.unfollowUser = async (user_id, to_unfollow) => {
+	let conn = await db.createConection();
+	try {
+		const SqlQuery = `
+            DELETE FROM follow
+            WHERE follower_id = ? AND followed_id = ?;
+        `;
+		const result = await db.query(
+			SqlQuery,
+			[user_id, to_unfollow],
+			"delete",
+			conn
+		);
+		return result.affectedRows > 0;
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+userDao.isFollowing = async (user_id, to_check) => {
+	let conn = await db.createConection();
+	try {
+		const SqlQuery = `
+            SELECT COUNT(*) AS count
+            FROM follow
+            WHERE follower_id = ? AND followed_id = ?;
+        `;
+		const [rows] = await db.query(
+			SqlQuery,
+			[user_id, to_check],
+			"select",
+			conn
+		);
+		return rows[0].count > 0;
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 module.exports = userDao;
