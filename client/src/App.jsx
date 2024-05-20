@@ -1,29 +1,25 @@
 import "./App.css";
-import Buscador from "./views/Buscador";
-// import { Routes, Route } from "react-router-dom";
-// import Trades from "./views/Trades";
-// import Layout from "./components/Layout";
-// import Login from "./views/Login";
-// import RequireAuth from "./components/RequireAuth";
-// import Chat from "./views/Chat";
-// import UserDetails from "./views/UserDetails";
-// import CreateGroup from "./views/CreateGroup";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Login from "./views/Login";
+import RequireAuth from "./components/RequireAuth";
+import Chat from "./views/Chat";
+import UserDetails from "./views/UserDetails";
+import CreateGroup from "./views/CreateGroup";
 
-// import WebBuscador from "./views/WebBuscador";
-// import WebPagos from "./views/WebPagos";
+import WebBuscador from "./views/WebBuscador";
+import WebPagos from "./views/WebPagos";
 
-// import WebNoticias from "./views/WebNoticias";
-// import CommingSoon from "./views/CommingSoon";
-// import WebLogin from "./views/WebLogin";
-// import WebRegistro from "./views/WebRegistro";
-// import WebBlog from "./views/WebBlog";
-Buscador;
+import WebNoticias from "./views/WebNoticias";
+import CommingSoon from "./views/CommingSoon";
+import WebLogin from "./views/WebLogin";
+import WebRegistro from "./views/WebRegistro";
+import WebBlog from "./views/WebBlog";
 
 function App() {
   return (
     <>
-      <Buscador />
-      {/* <Routes>
+      <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="login" element={<Login />} />
           <Route path="Weblogin" element={<WebLogin />} />
@@ -40,7 +36,7 @@ function App() {
             <Route path="/pagos" element={<WebPagos />} />
           </Route>
         </Route>
-      </Routes> */}
+      </Routes>
     </>
   );
 }
