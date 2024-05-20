@@ -1,6 +1,6 @@
 import Picker from "emoji-picker-react";
 import { IconSend2 } from "@tabler/icons-react";
-import { IconMoodSmileFilled } from "@tabler/icons-react";
+import { IconMoodHappy } from "@tabler/icons-react";
 import { IconClipboardData } from "@tabler/icons-react";
 import { useState } from "react";
 import Modal from "../Modal";
@@ -51,9 +51,9 @@ export default function ChatInput({
 							{showEmojiPicker && (
 								<Picker className="" onEmojiClick={handleEmojiClick} />
 							)}
-							<IconMoodSmileFilled
+							<IconMoodHappy
 								onClick={handleEmojiPickerHideShow}
-								color="#ffff00c8"
+								color="#1A1A1A"
 								className="cursor-pointer"
 								size={30}
 							/>
