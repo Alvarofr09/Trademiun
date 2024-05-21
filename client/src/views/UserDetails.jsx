@@ -117,12 +117,11 @@ export default function UserDetails() {
 			);
 			setSignals(signalsResponse.data);
 
-			if (isCurrentUser) {
-				const { data } = await userApi.get(
-					`${hasGroupRoute}/${userDataResponse.data.id}`
-				);
-				setHasNotGroup(data.hasGroup);
-			}
+			const { data } = await userApi.get(
+				`${hasGroupRoute}/${userDataResponse.data.id}`
+			);
+			console.log(data);
+			setHasNotGroup(data.hasGroup);
 
 			// Check if the user is following the visited user
 			if (id != user.id) {
@@ -275,15 +274,19 @@ export default function UserDetails() {
 												<button className="btn-dark" onClick={handleUnfollow}>
 													Dejar de Seguir
 												</button>
-												{!isInGroup ? (
-													<button className="btn-dark" onClick={showJoinForm}>
-														Unirse a grupo
-													</button>
-												) : (
-													<button className="btn-dark" onClick={showLeaveForm}>
-														Salir del grupo
-													</button>
-												)}
+												{hasNotGroup &&
+													(!isInGroup ? (
+														<button className="btn-dark" onClick={showJoinForm}>
+															Unirse a grupo
+														</button>
+													) : (
+														<button
+															className="btn-dark"
+															onClick={showLeaveForm}
+														>
+															Salir del grupo
+														</button>
+													))}
 											</>
 										)}
 									</>
