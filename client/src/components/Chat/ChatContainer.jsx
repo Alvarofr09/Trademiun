@@ -79,7 +79,7 @@ export default function ChatContainer({ currentChat, socket }) {
 				if (msg.type === "message") {
 					setArrivalMessage({
 						fromSelf: false,
-						username: user.username,
+						username: msg.username,
 						message: msg.message,
 						date: msg.date,
 						type: msg.type,
@@ -87,7 +87,7 @@ export default function ChatContainer({ currentChat, socket }) {
 				} else {
 					setArrivalMessage({
 						fromSelf: false,
-						username: user.username,
+						username: msg.username,
 						image: msg.image,
 						description: msg.description,
 						moneda: msg.moneda,
