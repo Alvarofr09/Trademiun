@@ -8,7 +8,9 @@ import UserDetails from "./views/UserDetails";
 
 import Busqueda from "./views/Busqueda";
 import CommingSoon from "./views/CommingSoon";
-
+import WebBlog from "./views/WebBlog";
+import WebPagos from "./views/WebPagos";
+import WebNoticias from "./views/WebNoticias";
 function App() {
   return (
     <>
@@ -19,10 +21,11 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path="/" element={<WebChat />} />
             <Route path="/busqueda" element={<Busqueda />} />
-            <Route path="/noticias" element={<CommingSoon />} />
+            <Route path="/noticias" element={<WebNoticias />} />
+            <Route path="/blog" element={<WebBlog />} />
             <Route path="/cursos" element={<CommingSoon />} />
             <Route path="/user/:id" element={<UserDetails />} />
-            {/* <Route path="/pagos" element={<CommingSoon />} /> */}
+            <Route path="/pagos" element={<WebPagos />} />
           </Route>
         </Route>
       </Routes>
