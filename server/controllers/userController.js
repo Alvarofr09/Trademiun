@@ -82,8 +82,6 @@ const followUser = async (req, res, next) => {
 		const { user_id, to_follow } = req.body;
 		const data = await dao.followUser(user_id, to_follow);
 
-		console.log(data);
-
 		if (data) {
 			res.status(201).json({ message: "Seguido", status: true });
 		} else {

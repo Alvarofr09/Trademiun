@@ -3,8 +3,6 @@ const cloudinary = require("../services/cloudinary");
 
 const addSignal = async (req, res, next) => {
 	try {
-		console.log(req.body);
-
 		const {
 			from,
 			to,

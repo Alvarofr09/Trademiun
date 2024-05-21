@@ -71,14 +71,12 @@ const deleteGroup = async (req, res, next) => {
 	try {
 		const group_id = req.params.id;
 
-		console.log(group_id);
 		if (!group_id)
 			return res
 				.status(500)
 				.json({ message: "Error al borrar el grupo", status: false });
 
 		const data = await dao.deleteGroup(group_id);
-		console.log(data);
 
 		if (!data)
 			return res
@@ -124,7 +122,6 @@ const leaveGroup = async (req, res, next) => {
 		};
 
 		const data = await dao.leaveGroup(membershipData);
-		console.log("Respuesta", data);
 
 		if (!data)
 			return res
