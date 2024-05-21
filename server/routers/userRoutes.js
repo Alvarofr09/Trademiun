@@ -19,7 +19,7 @@ const userRouter = express.Router();
 userRouter.post("/register", userRegister);
 userRouter.post("/login", userLogin);
 userRouter.post("/follow", followUser);
-userRouter.post("/is-follwing", isFollowing);
+userRouter.post("/is-following", isFollowing);
 userRouter.post("/unfollow", unfollowUser);
 
 /*----------- Endpoints de GET -----------*/
