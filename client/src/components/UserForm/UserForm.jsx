@@ -43,8 +43,6 @@ export default function UserForm({ closeModal }) {
 			image,
 		});
 
-		console.log(data);
-
 		if (data.status) {
 			const user = {
 				email: data.user.email,
