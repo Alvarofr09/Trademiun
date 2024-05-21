@@ -86,7 +86,7 @@ const toastConfig = {
 
 export default function UserDetails() {
 	const { id } = useParams();
-	const { user, updateUser } = useUserContext();
+	const { user } = useUserContext();
 	const navigate = useNavigate();
 	const [userData, setUserData] = useState(null);
 	const [signals, setSignals] = useState([]);
@@ -107,12 +107,8 @@ export default function UserDetails() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				let userDataResponse;
-				if (id != user.id) {
-					userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
-				} else {
-					userDataResponse = { data: user };
-				}
+				const userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
+
 				setUserData(userDataResponse.data);
 
 				const signalsResponse = await userApi.get(
@@ -162,11 +158,6 @@ export default function UserDetails() {
 	const handleDeleteGroup = async () => {
 		try {
 			await userApi.delete(`${deleteGroupRoute}/${userData.group_id}`);
-			const updatedUser = {
-				...user,
-				group_id: null,
-			};
-			updateUser(updatedUser);
 			setHasNotGroup(false);
 			toast.success(`Se ha eliminado el grupo`, toastConfig);
 			closeModal();
