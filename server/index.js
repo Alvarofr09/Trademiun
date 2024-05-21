@@ -63,8 +63,6 @@ app.use("/api/messages", messageRouter);
 app.use("/api/groups", groupRouter);
 app.use("/api/signals", signalRoute);
 
-// const conn = db.createConection();
-
 const server = app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
