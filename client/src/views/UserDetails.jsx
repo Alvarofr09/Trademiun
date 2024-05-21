@@ -125,19 +125,21 @@ export default function UserDetails() {
 			}
 
 			// Check if the user is following the visited user
-			const isFollowingResponse = await userApi.post(isFollowingRoute, {
-				user_id: user.id,
-				to_check: userDataResponse.data.id,
-			});
-			console.log(isFollowingResponse);
-			setIsFollowing(isFollowingResponse.data.isFollowing);
+			if (id != user.id) {
+				const isFollowingResponse = await userApi.post(isFollowingRoute, {
+					user_id: user.id,
+					to_check: userDataResponse.data.id,
+				});
+				console.log(isFollowingResponse);
+				setIsFollowing(isFollowingResponse.data.isFollowing);
+			}
 
 			if (id != user.id) {
 				const { data } = await userApi.post(isInGroupRoute, {
-					user_id: userDataResponse.data.id,
-					group_id: user.id,
+					user_id: user.id,
+					group_id: userDataResponse.data.group_id,
 				});
-				setIsInGroup(data.isInGroup);
+				setIsInGroup(data.inGroup);
 			}
 		}
 
@@ -192,8 +194,8 @@ export default function UserDetails() {
 	const handleJoinGroup = async () => {
 		try {
 			await userApi.post(joinGroupRoute, {
-				group_id: user.id,
-				user_id: userData.id,
+				group_id: userData.group_id,
+				user_id: user.id,
 			});
 			toast.success(`Te has unido al grupo`, toastConfig);
 			setIsInGroup(true);
@@ -208,8 +210,8 @@ export default function UserDetails() {
 	const handleLeaveGroup = async () => {
 		try {
 			await userApi.post(leaveGroupRoute, {
-				group_id: user.id,
-				user_id: userData.id,
+				group_id: userData.group_id,
+				user_id: user.id,
 			});
 			toast.success(`Te has salido del grupo`, toastConfig);
 			setIsInGroup(false);
@@ -222,7 +224,7 @@ export default function UserDetails() {
 
 	return (
 		<>
-			<main className="h-full centered bg-white">
+			<main className="h-screen centered bg-white">
 				{userData && (
 					<section className="basis-8/12 border-x-2 gap-11 py-8 border-black h-screen user-info centered flex-col ">
 						<div className="bordered basis-1/3 centered gap-16 py-5 px-12 w-[90%] mx-auto">
