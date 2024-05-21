@@ -52,14 +52,12 @@ groupDao.leaveGroup = async (membershipData) => {
 	try {
 		conn = await db.createConection();
 
-		const membershipObj = {
-			group_id: membershipData.group_id,
-			user_id: membershipData.user_id,
-		};
+		const group_id = membershipData.group_id;
+		const user_id = membershipData.user_id;
 
 		return await db.query(
 			"DELETE FROM grupos_membership WHERE group_id = ? AND user_id = ?",
-			membershipObj,
+			[group_id, user_id],
 			"delete",
 			conn
 		);
@@ -115,7 +113,7 @@ groupDao.isInGroup = async (membershipData) => {
 		conn = await db.createConection(); // Asegúrate de que esta línea sea correcta (createConnection en lugar de createConection)
 
 		const sqlQuery = `
-      		SELECT *
+      		SELECT COUNT(*) AS count
       		FROM grupos_membership
       		WHERE group_id = ? AND user_id = ?
     	`;
@@ -125,7 +123,7 @@ groupDao.isInGroup = async (membershipData) => {
 
 		// Ejecuta la consulta con los parámetros
 		const [rows] = await db.query(sqlQuery, params, "select", conn);
-		return rows;
+		return rows.count > 0;
 	} catch (error) {
 		throw new Error(error);
 	} finally {
