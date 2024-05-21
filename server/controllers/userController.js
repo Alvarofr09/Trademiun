@@ -116,7 +116,7 @@ const unfollowUser = async (req, res, next) => {
 const isFollowing = async (req, res, next) => {
 	try {
 		const { user_id, to_check } = req.body;
-		const isFollowing = await dao.isFollowing(user_id, to_check);
+		let isFollowing = await dao.isFollowing(user_id, to_check);
 
 		res.status(200).json({ isFollowing });
 	} catch (error) {
@@ -179,44 +179,44 @@ const getUsersBySeguidores = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		if (Object.entries(req.body).length === 0)
+		if (Object.entries(req.body).length === 0) {
 			return res.status(400).send("Error al recibir el body");
+		}
 
 		const { username, email, password, image } = req.body;
+		let newUserData = { username, email, password };
 
-		const uploadedImage = await cloudinary.uploader.upload(
-			image,
-			{
-				upload_preset: "user_upload",
-				public_id: `${username}_${new Date()}`,
-				allowed_formats: [
-					"jpg",
-					"png",
-					"jpeg",
-					"svg",
-					"ico",
-					"jfif",
-					"webp",
-					"gif",
-				],
-			},
-			function (error, result) {
-				if (error) console.log(error);
-				console.log(result);
-			}
-		);
+		if (image) {
+			const uploadedImage = await cloudinary.uploader.upload(
+				image,
+				{
+					upload_preset: "user_upload",
+					public_id: `${username}_${new Date().toISOString()}`,
+					allowed_formats: [
+						"jpg",
+						"png",
+						"jpeg",
+						"svg",
+						"ico",
+						"jfif",
+						"webp",
+						"gif",
+					],
+				},
+				function (error, result) {
+					if (error) console.log(error);
+					console.log(result);
+				}
+			);
 
-		const newUserData = {
-			username,
-			email,
-			password,
-			image: uploadedImage.public_id,
-		};
+			newUserData.image = uploadedImage.public_id;
+		}
 
 		const isUserUpdate = await dao.updateUser(id, newUserData);
 
-		if (!isUserUpdate)
+		if (!isUserUpdate) {
 			return res.status(500).send("No se ha podido actualizar el usuario");
+		}
 
 		let user = await dao.getUserById(id);
 		[user] = user;
