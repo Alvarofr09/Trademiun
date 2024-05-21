@@ -23,10 +23,10 @@ export default function Layout() {
 					) : (
 						// Contenido para usuarios autenticados en dispositivos de escritorio
 						<div className="flex">
-							<div className="basis-2/12 mx-auto">
+							<div className="basis-1/12 mx-auto">
 								<SideBar />
 							</div>
-							<main className="basis-10/12 mx-auto">
+							<main className="basis-11/12 mx-auto">
 								<Outlet />
 							</main>
 						</div>
