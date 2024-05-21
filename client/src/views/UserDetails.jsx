@@ -13,6 +13,7 @@ import {
 	isFollowingRoute,
 	unFollowRoute,
 	userApi,
+	deleteGroupRoute,
 } from "../api/APIRoutes";
 import { useNavigate, useParams } from "react-router-dom";
 import Signal from "../components/ui/Signal";
@@ -21,6 +22,7 @@ import GroupForm from "../components/GroupForm/GroupForm";
 import UserForm from "../components/UserForm/UserForm";
 import Img from "../components/ui/CloudinaryImg";
 import { ToastContainer, toast } from "react-toastify";
+import { useAuthContext } from "../context/AuthContext";
 
 const chartData = [
 	{ label: "Enero", value: 65 },
@@ -86,12 +88,14 @@ const toastConfig = {
 export default function UserDetails() {
 	const { id } = useParams();
 	const { user } = useUserContext();
+	const { login } = useAuthContext();
 	const navigate = useNavigate();
 	const [userData, setUserData] = useState(null);
 	const [signals, setSignals] = useState([]);
 	const [isCurrentUser, setIsCurrentUser] = useState(false);
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [showGroupModal, setShowGroupModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
 	const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -149,11 +153,30 @@ export default function UserDetails() {
 	const showUserForm = () => setShowUserModal(true);
 	const showJoinForm = () => setShowJoinModal(true);
 	const showLeaveForm = () => setShowLeaveModal(true);
+	const showDeleteForm = () => setShowDeleteModal(true);
 	const closeModal = () => {
 		setShowGroupModal(false);
 		setShowUserModal(false);
 		setShowJoinModal(false);
 		setShowLeaveModal(false);
+		setShowDeleteModal(false);
+	};
+
+	const handleDeleteGroup = async () => {
+		try {
+			await userApi.delete(`${deleteGroupRoute}/${userData.group_id}`);
+			const user = {
+				email: userData.email,
+				password: userData.password,
+				isEncrypted: true,
+			};
+			login(user);
+			setHasNotGroup(false);
+			closeModal();
+		} catch (error) {
+			toast.error(`Error al borrar el usuario: ${error.message}`, toastConfig);
+			closeModal();
+		}
 	};
 
 	const handleFollow = async () => {
@@ -257,9 +280,13 @@ export default function UserDetails() {
 										<button className="btn-dark" onClick={showUserForm}>
 											Editar Perfil
 										</button>
-										{!hasNotGroup && (
+										{!hasNotGroup ? (
 											<button className="btn-dark" onClick={showGroupForm}>
 												Crear Grupo
+											</button>
+										) : (
+											<button className="btn-dark" onClick={showDeleteForm}>
+												Borrar Grupo
 											</button>
 										)}
 									</>
@@ -402,6 +429,31 @@ export default function UserDetails() {
 								type="submit"
 							>
 								Salirme
+							</button>
+							<button
+								onClick={() => closeModal()}
+								className="text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
+								type="submit"
+							>
+								Cancelar
+							</button>
+						</div>
+					</Modal>
+				)}
+
+				{showDeleteModal && (
+					<Modal
+						closeModal={closeModal}
+						isImg={false}
+						title={`Estas seguro que quiere borrar el grupo?`}
+					>
+						<div className="gap-4 centered">
+							<button
+								onClick={() => handleDeleteGroup()}
+								className="text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
+								type="submit"
+							>
+								Confirmar
 							</button>
 							<button
 								onClick={() => closeModal()}
