@@ -7,27 +7,32 @@ const createGroup = async (req, res, next) => {
 	try {
 		const { user_id, group_name, description, price, image } = req.body;
 
-		// Subir imagen a Cloudinary
-		const uploadedImage = await cloudinary.uploader.upload(image, {
-			upload_preset: "group_upload",
-			public_id: `${group_name}_${new Date().toISOString()}`,
-			allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
-		});
-
-		if (!uploadedImage) {
-			return res.status(500).json({
-				message: "Error al subir la imagen",
-				status: false,
-			});
-		}
-
-		const groupData = {
+		let groupData = {
 			group_name,
 			description,
 			price,
-			image: uploadedImage.public_id,
 			creation_date: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
+
+		if (image) {
+			// Subir imagen a Cloudinary
+			const uploadedImage = await cloudinary.uploader.upload(image, {
+				upload_preset: "group_upload",
+				public_id: `${group_name}_${new Date().toISOString()}`,
+				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+			});
+
+			if (!uploadedImage) {
+				return res.status(500).json({
+					message: "Error al subir la imagen",
+					status: false,
+				});
+			}
+
+			groupData.image = uploadedImage.public_id;
+		} else {
+			groupData.image = "Trademiun/Groups_Avatar/gewevwmjrqnlwb55s2c1";
+		}
 
 		const data = await dao.createGroup(groupData);
 
@@ -95,6 +100,7 @@ const leaveGroup = async (req, res, next) => {
 		};
 
 		const data = await dao.leaveGroup(membershipData);
+		console.log("Respuesta", data);
 
 		if (!data)
 			return res
@@ -131,9 +137,9 @@ const isInGroup = async (req, res, next) => {
 			user_id,
 		};
 
-		const group = await dao.isInGroup(membershipData);
+		const inGroup = await dao.isInGroup(membershipData);
 
-		if (group.length === 0)
+		if (!inGroup)
 			return res.json({
 				message: "No estas en el grupo",
 				status: false,
