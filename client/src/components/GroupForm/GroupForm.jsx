@@ -1,22 +1,22 @@
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import { Formik, Form } from "formik";
+import { IconFilePlus } from "@tabler/icons-react";
+
 import { CreateGroupFormInitialValues } from "../../consts/InitialValues";
 import { GroupFormSchema } from "./GroupFormSchema";
-import { ToastContainer, toast } from "react-toastify";
-
 import Input from "../ui/Input";
-import { useNavigate, useParams } from "react-router-dom";
 // import TextArea from "../ui/TextArea";
+
 import { createGroupRoute, userApi } from "../../api/APIRoutes";
-import { IconFilePlus } from "@tabler/icons-react";
 import { previewFiles } from "../../utils/previewFile";
-import { useState } from "react";
-import { useAuthContext } from "../../context/AuthContext";
 import { useUserContext } from "../../context/UserContext";
 
 export default function GroupForm() {
 	const { id: userId } = useParams();
-	const { user } = useUserContext();
-	const { login } = useAuthContext();
+	const { user, updateUser } = useUserContext();
+	// const { login } = useAuthContext();
 	const navigate = useNavigate();
 	const [file, setFile] = useState("");
 	const [image, setImage] = useState("");
@@ -50,12 +50,11 @@ export default function GroupForm() {
 		if (data.status === false) {
 			toast.error(data.msg, toastOptions);
 		} else {
-			const user = {
-				email: user.email,
-				password: user.password,
-				isEncrypted: true,
+			const updatedUser = {
+				...user,
+				group_id: data.group_id,
 			};
-			await login(user);
+			updateUser(updatedUser);
 			toast.success(data.message, toastOptions);
 			navigate("/");
 		}

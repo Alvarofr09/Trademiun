@@ -22,7 +22,6 @@ import GroupForm from "../components/GroupForm/GroupForm";
 import UserForm from "../components/UserForm/UserForm";
 import Img from "../components/ui/CloudinaryImg";
 import { ToastContainer, toast } from "react-toastify";
-import { useAuthContext } from "../context/AuthContext";
 
 const chartData = [
 	{ label: "Enero", value: 65 },
@@ -87,8 +86,7 @@ const toastConfig = {
 
 export default function UserDetails() {
 	const { id } = useParams();
-	const { user } = useUserContext();
-	const { login } = useAuthContext();
+	const { user, updateUser } = useUserContext();
 	const navigate = useNavigate();
 	const [userData, setUserData] = useState(null);
 	const [signals, setSignals] = useState([]);
@@ -108,46 +106,45 @@ export default function UserDetails() {
 
 	useEffect(() => {
 		async function fetchData() {
-			let userDataResponse;
-			if (id != user.id) {
-				userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
-			} else {
-				userDataResponse = { data: user };
-			}
-			setUserData(userDataResponse.data);
+			try {
+				let userDataResponse;
+				if (id != user.id) {
+					userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
+				} else {
+					userDataResponse = { data: user };
+				}
+				setUserData(userDataResponse.data);
 
-			const signalsResponse = await userApi.get(
-				`${getUserSignals}/${userDataResponse.data.id}`
-			);
-			setSignals(signalsResponse.data);
+				const signalsResponse = await userApi.get(
+					`${getUserSignals}/${userDataResponse.data.id}`
+				);
+				setSignals(signalsResponse.data);
 
-			const { data } = await userApi.get(
-				`${hasGroupRoute}/${userDataResponse.data.id}`
-			);
-			console.log(data);
-			setHasNotGroup(data.hasGroup);
+				const groupData = await userApi.get(
+					`${hasGroupRoute}/${userDataResponse.data.id}`
+				);
+				setHasNotGroup(groupData.data.hasGroup);
 
-			// Check if the user is following the visited user
-			if (id != user.id) {
-				const isFollowingResponse = await userApi.post(isFollowingRoute, {
-					user_id: user.id,
-					to_check: userDataResponse.data.id,
-				});
-				console.log(isFollowingResponse);
-				setIsFollowing(isFollowingResponse.data.isFollowing);
-			}
+				if (id != user.id) {
+					const isFollowingResponse = await userApi.post(isFollowingRoute, {
+						user_id: user.id,
+						to_check: userDataResponse.data.id,
+					});
+					setIsFollowing(isFollowingResponse.data.isFollowing);
 
-			if (id != user.id) {
-				const { data } = await userApi.post(isInGroupRoute, {
-					user_id: user.id,
-					group_id: userDataResponse.data.group_id,
-				});
-				setIsInGroup(data.inGroup);
+					const groupStatusResponse = await userApi.post(isInGroupRoute, {
+						user_id: user.id,
+						group_id: userDataResponse.data.group_id,
+					});
+					setIsInGroup(groupStatusResponse.data.inGroup);
+				}
+			} catch (error) {
+				toast.error(`Error fetching data: ${error.message}`, toastConfig);
 			}
 		}
 
 		fetchData();
-	}, [id, user, isCurrentUser]);
+	}, [id, user]);
 
 	const showGroupForm = () => setShowGroupModal(true);
 	const showUserForm = () => setShowUserModal(true);
@@ -165,13 +162,13 @@ export default function UserDetails() {
 	const handleDeleteGroup = async () => {
 		try {
 			await userApi.delete(`${deleteGroupRoute}/${userData.group_id}`);
-			const user = {
-				email: userData.email,
-				password: userData.password,
-				isEncrypted: true,
+			const updatedUser = {
+				...user,
+				group_id: null,
 			};
-			login(user);
+			updateUser(updatedUser);
 			setHasNotGroup(false);
+			toast.success(`Se ha eliminado el grupo`, toastConfig);
 			closeModal();
 		} catch (error) {
 			toast.error(`Error al borrar el usuario: ${error.message}`, toastConfig);
@@ -203,14 +200,17 @@ export default function UserDetails() {
 	};
 
 	const handleUnfollow = async () => {
-		setIsFollowing(false);
-		const response = await userApi.post(unFollowRoute, {
-			user_id: user.id,
-			to_unfollow: userData.id,
-		});
-		console.log(response);
-		toast.success(`Dejaste de seguir a ${userData.username}`, toastConfig);
-		setIsInGroup(false);
+		try {
+			await userApi.post(unFollowRoute, {
+				user_id: user.id,
+				to_unfollow: userData.id,
+			});
+			setIsFollowing(false);
+			// setIsInGroup(false);
+			toast.success(`Dejaste de seguir a ${userData.username}`, toastConfig);
+		} catch (error) {
+			toast.error(`Error al dejar de seguir: ${error.message}`, toastConfig);
+		}
 	};
 
 	const handleJoinGroup = async () => {

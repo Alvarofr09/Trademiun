@@ -25,27 +25,39 @@ export default function AuthContextProvider({ children }) {
 	const [errorMessage, setErrorMessage] = useState("");
 
 	useEffect(() => {
+		console.log("En el use effect: ", auth);
 		localStorage.setItem("token", JSON.stringify(auth));
 	}, [auth]);
 
 	async function login(user) {
+		console.log("Logging in with user:", user); // Debug
 		const { email, password, isEncrypted } = user;
 
-		const { data } = await userApi.post(loginRoute, {
-			email,
-			password,
-			isEncrypted,
-		});
+		try {
+			const { data } = await userApi.post(loginRoute, {
+				email,
+				password,
+				isEncrypted,
+			});
 
-		console.log(data);
+			console.log("Response from API:", data); // Debug
 
-		if (data.status === false) {
-			toast.error(data.msg, toastOptions);
-			setErrorMessage("Error al introducir credenciales");
-		} else {
-			setAuth(data.token);
-			setErrorMessage("");
-			toast.success(data.msg, toastOptions);
+			if (data.status === false) {
+				toast.error(data.msg, toastOptions);
+				setErrorMessage("Error al introducir credenciales");
+			} else {
+				setAuth(data.token);
+				console.log("Token set in auth:", data.token); // Debug
+				setErrorMessage("");
+				toast.success(data.msg, toastOptions);
+				navigate("/");
+			}
+		} catch (error) {
+			console.error("Error during login:", error); // Debug
+			toast.error("Error de red o servidor", toastOptions);
+			setErrorMessage(
+				"Error al iniciar sesión, por favor intenta de nuevo más tarde."
+			);
 		}
 	}
 
