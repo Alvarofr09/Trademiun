@@ -46,9 +46,6 @@ const addSignal = async (req, res, next) => {
 			isCompra,
 		};
 
-		// res.status(200);
-		// Llamar a la función para enviar la señal
-		// // Guardar la señal en la base de datos
 		const data = await dao.addSignal(signalData);
 
 		let signal = await dao.getSignalById(data);
