@@ -7,6 +7,7 @@ const {
 	leaveGroup,
 	isInGroup,
 	getGroupInfo,
+	deleteGroup,
 } = require("../controllers/groupsController");
 
 const groupRouter = express.Router();
@@ -19,5 +20,7 @@ groupRouter.post("/is-admin/:id", isAdmin);
 
 groupRouter.get("/get-groups/:id", getAllGroups);
 groupRouter.get("/get-group-info/:id", getGroupInfo);
+
+groupRouter.delete("/delete-group/:id", deleteGroup);
 
 module.exports = groupRouter;
