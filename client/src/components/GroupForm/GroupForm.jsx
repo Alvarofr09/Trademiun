@@ -10,9 +10,13 @@ import { createGroupRoute, userApi } from "../../api/APIRoutes";
 import { IconFilePlus } from "@tabler/icons-react";
 import { previewFiles } from "../../utils/previewFile";
 import { useState } from "react";
+import { useAuthContext } from "../../context/AuthContext";
+import { useUserContext } from "../../context/UserContext";
 
 export default function GroupForm() {
 	const { id: userId } = useParams();
+	const { user } = useUserContext();
+	const { login } = useAuthContext();
 	const navigate = useNavigate();
 	const [file, setFile] = useState("");
 	const [image, setImage] = useState("");
@@ -46,6 +50,12 @@ export default function GroupForm() {
 		if (data.status === false) {
 			toast.error(data.msg, toastOptions);
 		} else {
+			const user = {
+				email: user.email,
+				password: user.password,
+				isEncrypted: true,
+			};
+			await login(user);
 			toast.success(data.message, toastOptions);
 			navigate("/");
 		}
