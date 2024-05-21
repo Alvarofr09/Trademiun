@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useAuthContext } from "./AuthContext";
 
@@ -10,28 +10,17 @@ export const useUserContext = () => {
 
 export default function UserContextProvider({ children }) {
 	const { auth } = useAuthContext();
-	const [user, setUser] = useState(null);
+	let user = null;
 
-	useEffect(() => {
-		if (auth) {
-			console.log("Auth:", auth);
-			try {
-				const decodedUser = jwtDecode(auth);
-				setUser(decodedUser);
-			} catch (error) {
-				console.error("Error decoding token:", error);
-			}
-		} else {
-			console.log("No auth");
-			setUser(null); // Reset user when auth is null
+	if (auth) {
+		try {
+			user = jwtDecode(auth);
+		} catch (error) {
+			console.error("Error decoding token:", error);
 		}
-	}, [auth]);
+	}
 
-	const updateUser = (updatedUser) => {
-		setUser(updatedUser);
-	};
-
-	const value = { user, updateUser };
+	const value = { user };
 
 	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
