@@ -224,13 +224,7 @@ userDao.unfollowUser = async (user_id, to_unfollow) => {
             DELETE FROM follow
             WHERE follower_id = ? AND followed_id = ?;
         `;
-		const result = await db.query(
-			SqlQuery,
-			[user_id, to_unfollow],
-			"delete",
-			conn
-		);
-		return result.affectedRows > 0;
+		return await db.query(SqlQuery, [user_id, to_unfollow], "delete", conn);
 	} catch (error) {
 		throw new Error(error);
 	} finally {
@@ -252,7 +246,8 @@ userDao.isFollowing = async (user_id, to_check) => {
 			"select",
 			conn
 		);
-		return rows[0].count > 0;
+
+		return rows.count > 0; // Devuelve un booleano
 	} catch (error) {
 		throw new Error(error);
 	} finally {
