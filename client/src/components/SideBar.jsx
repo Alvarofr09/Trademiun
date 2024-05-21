@@ -1,6 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
 import logo_negro from "../assets/img/logo_negro.png";
-import { IconLogout, IconUserCircle } from "@tabler/icons-react";
+import LogoChico from "../assets/img/LogoChico.png";
+
+import { IconMessage, IconMessageFilled } from "@tabler/icons-react";
+import { IconSearch, IconZoomFilled } from "@tabler/icons-react";
+import { IconNews, IconArticleFilled } from "@tabler/icons-react";
+import {
+	IconHexagonLetterB,
+	IconHexagonLetterBFilled,
+} from "@tabler/icons-react";
+import { IconUser, IconUserFilled } from "@tabler/icons-react";
+import { IconPlayerPlay, IconPlayerPlayFilled } from "@tabler/icons-react";
+import { IconCreditCard, IconCreditCardFilled } from "@tabler/icons-react";
+import { IconLogout } from "@tabler/icons-react";
 
 import { useUserContext } from "../context/UserContext";
 import { useAuthContext } from "../context/AuthContext";
@@ -13,31 +25,29 @@ const SideBar = () => {
 		<>
 			<div className="max-w-68 h-lvh sticky md:text-base lg:text-lg text-2xl top-0 bg-white">
 				{/* Sidebar */}
-				<div className="py-8 w-52 lg:w-36 ml-12 ">
-					<img src={logo_negro} alt="logo" />
+				<div className="hidden lg:block py-8 w-36 xl:w-44 ml-12 mr-2">
+					<img className="" src={logo_negro} alt="logo" />
 				</div>
+				<img
+					className="ml-4 md:ml-6 lg:ml-12 py-8 block lg:hidden"
+					src={LogoChico}
+					alt="Logo"
+				/>
 
 				<Link to={"/"} className="flex hover:cursor-pointer mb-8">
 					<div>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							className="icon icon-tabler icons-tabler-outline icon-tabler-message ml-12"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-							<path d="M8 9h8" />
-							<path d="M8 13h6" />
-							<path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
-						</svg>
+						{location.pathname === "/" ? (
+							<IconMessageFilled size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						) : (
+							<IconMessage size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						)}
 					</div>
 					<div>
-						<p className={`ml-4 ${location.pathname === "/" && "font-bold"}`}>
+						<p
+							className={`md:hidden lg:block ml-4 ${
+								location.pathname === "/" && "font-bold"
+							}`}
+						>
 							Chats
 						</p>
 					</div>
@@ -45,25 +55,15 @@ const SideBar = () => {
 
 				<Link to={"/busqueda"} className="flex hover:cursor-pointer mb-8">
 					<div>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							className="icon icon-tabler icons-tabler-outline icon-tabler-search ml-12"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-							<path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-							<path d="M21 21l-6 -6" />
-						</svg>
+						{location.pathname === "/busqueda" ? (
+							<IconZoomFilled size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						) : (
+							<IconSearch size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						)}
 					</div>
 					<div>
 						<p
-							className={`ml-4 ${
+							className={`md:hidden lg:block ml-4 ${
 								location.pathname === "/busqueda" && "font-bold"
 							}`}
 						>
@@ -74,27 +74,15 @@ const SideBar = () => {
 
 				<Link to={"/noticias"} className="flex hover:cursor-pointer mb-8">
 					<div>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							className="icon icon-tabler icons-tabler-outline icon-tabler-news ml-12"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-							<path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
-							<path d="M8 8l4 0" />
-							<path d="M8 12l4 0" />
-							<path d="M8 16l4 0" />
-						</svg>
+						{location.pathname === "/noticias" ? (
+							<IconArticleFilled size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						) : (
+							<IconNews size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						)}
 					</div>
 					<div>
 						<p
-							className={`ml-4 ${
+							className={`md:hidden lg:block ml-4 ${
 								location.pathname === "/noticias" && "font-bold"
 							}`}
 						>
@@ -105,27 +93,20 @@ const SideBar = () => {
 
 				<Link to={"/blog"} className="flex hover:cursor-pointer mb-8">
 					<div>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							className="icon icon-tabler icons-tabler-outline icon-tabler-brand-blogger ml-12"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-							<path d="M8 21h8a5 5 0 0 0 5 -5v-3a3 3 0 0 0 -3 -3h-1v-2a5 5 0 0 0 -5 -5h-4a5 5 0 0 0 -5 5v8a5 5 0 0 0 5 5z" />
-							<path d="M7 7m0 1.5a1.5 1.5 0 0 1 1.5 -1.5h3a1.5 1.5 0 0 1 1.5 1.5v0a1.5 1.5 0 0 1 -1.5 1.5h-3a1.5 1.5 0 0 1 -1.5 -1.5z" />
-							<path d="M7 14m0 1.5a1.5 1.5 0 0 1 1.5 -1.5h7a1.5 1.5 0 0 1 1.5 1.5v0a1.5 1.5 0 0 1 -1.5 1.5h-7a1.5 1.5 0 0 1 -1.5 -1.5z" />
-						</svg>
+						{location.pathname === "/blog" ? (
+							<IconHexagonLetterBFilled
+								size={24}
+								className="ml-4 md:ml-6 lg:ml-12"
+							/>
+						) : (
+							<IconHexagonLetterB size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						)}
 					</div>
 					<div>
 						<p
-							className={`ml-4 ${location.pathname === "/blog" && "font-bold"}`}
+							className={`md:hidden lg:block ml-4 ${
+								location.pathname === "/blog" && "font-bold"
+							}`}
 						>
 							Blog
 						</p>
@@ -137,11 +118,15 @@ const SideBar = () => {
 					className="flex hover:cursor-pointer mb-8"
 				>
 					<div>
-						<IconUserCircle className="ml-12" />
+						{location.pathname === `/user/${user.id}` ? (
+							<IconUserFilled size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						) : (
+							<IconUser size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						)}
 					</div>
 					<div>
 						<p
-							className={`ml-4 ${
+							className={`md:hidden lg:block ml-4 ${
 								location.pathname === `/user/${user.id}` && "font-bold"
 							}`}
 						>
@@ -152,25 +137,18 @@ const SideBar = () => {
 
 				<Link to={"/cursos"} className="flex hover:cursor-pointer mb-8">
 					<div>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							className="icon icon-tabler icons-tabler-outline icon-tabler-video ml-12"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-							<path d="M15 10l4.553 -2.276a1 1 0 0 1 1.447 .894v6.764a1 1 0 0 1 -1.447 .894l-4.553 -2.276v-4z" />
-							<path d="M3 6m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z" />
-						</svg>
+						{location.pathname === "/cursos" ? (
+							<IconPlayerPlayFilled
+								size={24}
+								className="ml-4 md:ml-6 lg:ml-12"
+							/>
+						) : (
+							<IconPlayerPlay size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						)}
 					</div>
 					<div>
 						<p
-							className={`ml-4 ${
+							className={`md:hidden lg:block ml-4 ${
 								location.pathname === "/cursos" && "font-bold"
 							}`}
 						>
@@ -181,27 +159,18 @@ const SideBar = () => {
 
 				<Link to={"/pagos"} className="flex hover:cursor-pointer mb-8">
 					<div>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							className="icon icon-tabler icons-tabler-outline icon-tabler-credit-card ml-12"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-							<path d="M3 5m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" />
-							<path d="M3 10l18 0" />
-							<path d="M7 15l.01 0" />
-							<path d="M11 15l2 0" />
-						</svg>
+						{location.pathname === "/pagos" ? (
+							<IconCreditCardFilled
+								size={24}
+								className="ml-4 md:ml-6 lg:ml-12"
+							/>
+						) : (
+							<IconCreditCard size={24} className="ml-4 md:ml-6 lg:ml-12" />
+						)}
 					</div>
 					<div>
 						<p
-							className={`ml-4 ${
+							className={`md:hidden lg:block ml-4 ${
 								location.pathname === "/pagos" && "font-bold"
 							}`}
 						>
@@ -214,10 +183,10 @@ const SideBar = () => {
 					className="flex hover:cursor-pointer mb-8"
 				>
 					<div>
-						<IconLogout size={24} className="ml-12" />
+						<IconLogout size={24} className="ml-4 md:ml-6 lg:ml-12" />
 					</div>
 					<div>
-						<p className={`ml-4 `}>Logout </p>
+						<p className={`md:hidden lg:block ml-4 `}>Logout </p>
 					</div>
 				</div>
 			</div>
