@@ -11,11 +11,9 @@ import Input from "../ui/Input";
 
 import { createGroupRoute, userApi } from "../../api/APIRoutes";
 import { previewFiles } from "../../utils/previewFile";
-import { useUserContext } from "../../context/UserContext";
 
 export default function GroupForm() {
 	const { id: userId } = useParams();
-	const { user, updateUser } = useUserContext();
 	// const { login } = useAuthContext();
 	const navigate = useNavigate();
 	const [file, setFile] = useState("");
@@ -50,11 +48,6 @@ export default function GroupForm() {
 		if (data.status === false) {
 			toast.error(data.msg, toastOptions);
 		} else {
-			const updatedUser = {
-				...user,
-				group_id: data.group_id,
-			};
-			updateUser(updatedUser);
 			toast.success(data.message, toastOptions);
 			navigate("/");
 		}
