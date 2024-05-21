@@ -4,6 +4,9 @@ export const host = "http://localhost:3000";
 
 export const registerRoute = `/api/auth/register`;
 export const loginRoute = `/api/auth/login`;
+export const followRoute = `/api/auth/follow`;
+export const isFollowingRoute = `/api/auth/is-following`;
+export const unFollowRoute = `/api/auth/unfollow`;
 export const setAvatarRoute = `${host}/api/auth/setAvatar`;
 export const getAllUsersRoute = `${host}/api/auth/allUsers`;
 export const getUserInfo = `${host}/api/auth/getUserInfo`;
@@ -19,6 +22,7 @@ export const createGroupRoute = `${host}/api/groups/create-group`;
 export const joinGroupRoute = `${host}/api/groups/join-group`;
 export const leaveGroupRoute = `${host}/api/groups/leave-group`;
 export const getAllGroups = `${host}/api/groups/get-groups`;
+export const isInGroupRoute = `${host}/api/groups/is-in-group`;
 export const isAdmin = `${host}/api/groups/is-admin`;
 
 export const sendSignalRoute = `${host}/api/signals/add-signal`;

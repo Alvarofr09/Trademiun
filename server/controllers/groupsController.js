@@ -122,6 +122,34 @@ const getAllGroups = async (req, res, next) => {
 	}
 };
 
+const isInGroup = async (req, res, next) => {
+	try {
+		const { group_id, user_id } = req.body;
+
+		const membershipData = {
+			group_id,
+			user_id,
+		};
+
+		const group = await dao.isInGroup(membershipData);
+
+		if (group.length === 0)
+			return res.json({
+				message: "No estas en el grupo",
+				status: false,
+				inGroup: false,
+			});
+
+		return res.json({
+			message: "Estas en el grupo",
+			status: true,
+			inGroup: true,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
 const isAdmin = async (req, res, next) => {
 	try {
 		const user_id = req.params.id;
@@ -146,4 +174,11 @@ const isAdmin = async (req, res, next) => {
 	}
 };
 
-module.exports = { createGroup, joinGroup, leaveGroup, getAllGroups, isAdmin };
+module.exports = {
+	createGroup,
+	joinGroup,
+	leaveGroup,
+	getAllGroups,
+	isInGroup,
+	isAdmin,
+};

@@ -1,17 +1,20 @@
-// import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { defaults } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
-
 import { useUserContext } from "../context/UserContext";
 import {
+	followRoute,
 	getUserInfo,
 	getUserSignals,
 	hasGroupRoute,
+	isInGroupRoute,
 	joinGroupRoute,
+	leaveGroupRoute,
+	isFollowingRoute,
+	unFollowRoute,
 	userApi,
 } from "../api/APIRoutes";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Signal from "../components/ui/Signal";
 import Modal from "../components/Modal";
 import GroupForm from "../components/GroupForm/GroupForm";
@@ -36,18 +39,16 @@ const chartConfig = {
 		labels: chartData.map((data) => data.label),
 		datasets: [
 			{
-				label: "Ganacias",
+				label: "Ganancias",
 				data: chartData.map((data) => data.value),
 				backgroundColor: function (context) {
 					const chart = context.chart;
 					const { ctx, chartArea } = chart;
 
 					if (!chartArea) {
-						// Este caso ocurre en la primera renderización, donde no hay área del gráfico todavía
 						return null;
 					}
 
-					// Crear gradiente
 					const gradient = ctx.createLinearGradient(
 						0,
 						chartArea.top,
@@ -56,13 +57,11 @@ const chartConfig = {
 					);
 
 					if (context.raw >= 0) {
-						// Gradiente de gris a verde para valores positivos
-						gradient.addColorStop(0, "#30BC30"); // Verde
-						gradient.addColorStop(1, "#F0F0F0"); // Gris
+						gradient.addColorStop(0, "#30BC30");
+						gradient.addColorStop(1, "#F0F0F0");
 					} else {
-						// Gradiente de gris a rojo para valores negativos
-						gradient.addColorStop(0, "#F0F0F0"); // Gris
-						gradient.addColorStop(1, "#CF2D2D"); // Rojo
+						gradient.addColorStop(0, "#F0F0F0");
+						gradient.addColorStop(1, "#CF2D2D");
 					}
 
 					return gradient;
@@ -83,9 +82,11 @@ const toastConfig = {
 	draggable: true,
 	theme: "dark",
 };
+
 export default function UserDetails() {
 	const { id } = useParams();
 	const { user } = useUserContext();
+	const navigate = useNavigate();
 	const [userData, setUserData] = useState(null);
 	const [signals, setSignals] = useState([]);
 	const [isCurrentUser, setIsCurrentUser] = useState(false);
@@ -93,9 +94,9 @@ export default function UserDetails() {
 	const [showGroupModal, setShowGroupModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
+	const [showLeaveModal, setShowLeaveModal] = useState(false);
 	const [hasNotGroup, setHasNotGroup] = useState(false);
-
-	console.log(user);
+	const [isInGroup, setIsInGroup] = useState(false);
 
 	useEffect(() => {
 		setIsCurrentUser(id == user.id);
@@ -105,58 +106,87 @@ export default function UserDetails() {
 		async function fetchData() {
 			let userDataResponse;
 			if (id != user.id) {
-				// Si el ID de los parámetros es diferente al ID del usuario logueado, realiza una petición para obtener los datos del usuario correspondiente al ID de los parámetros
 				userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
 			} else {
-				userDataResponse = { data: user }; // Usa los datos del usuario logueado
+				userDataResponse = { data: user };
 			}
 			setUserData(userDataResponse.data);
 
-			// Obtiene las señales del usuario (ya sea el logueado o el usuario obtenido por ID)
 			const signalsResponse = await userApi.get(
 				`${getUserSignals}/${userDataResponse.data.id}`
 			);
 			setSignals(signalsResponse.data);
 
 			if (isCurrentUser) {
-				console.log(userDataResponse.data.id);
 				const { data } = await userApi.get(
 					`${hasGroupRoute}/${userDataResponse.data.id}`
 				);
-				console.log(data);
 				setHasNotGroup(data.hasGroup);
+			}
+
+			// Check if the user is following the visited user
+			const isFollowingResponse = await userApi.post(isFollowingRoute, {
+				user_id: user.id,
+				to_check: userDataResponse.data.id,
+			});
+			console.log(isFollowingResponse);
+			setIsFollowing(isFollowingResponse.data.isFollowing);
+
+			if (id != user.id) {
+				const { data } = await userApi.post(isInGroupRoute, {
+					user_id: userDataResponse.data.id,
+					group_id: user.id,
+				});
+				setIsInGroup(data.isInGroup);
 			}
 		}
 
 		fetchData();
-	}, [id, user]);
+	}, [id, user, isCurrentUser]);
 
-	const showGroupForm = () => {
-		setShowGroupModal(true); // Mostrar el modal al activar la función
-	};
-
-	const showUserForm = () => {
-		setShowUserModal(true); // Mostrar el modal al activar la función
-	};
-
-	const showJoinForm = () => {
-		setShowJoinModal(true); // Mostrar el modal al activar la función
-	};
-
+	const showGroupForm = () => setShowGroupModal(true);
+	const showUserForm = () => setShowUserModal(true);
+	const showJoinForm = () => setShowJoinModal(true);
+	const showLeaveForm = () => setShowLeaveModal(true);
 	const closeModal = () => {
-		setShowGroupModal(false); // Cerrar el modal
+		setShowGroupModal(false);
 		setShowUserModal(false);
 		setShowJoinModal(false);
+		setShowLeaveModal(false);
 	};
 
-	const handleFollow = () => {
-		setIsFollowing(true);
-		toast.success(`Siguiendo a ${userData.username}`, toastConfig);
+	const handleFollow = async () => {
+		try {
+			const response = await userApi.post(followRoute, {
+				user_id: user.id,
+				to_follow: userData.id,
+			});
+
+			if (response.status) {
+				setIsFollowing(true);
+				toast.success(`Siguiendo a ${userData.username}`, toastConfig);
+
+				const { data } = await userApi.post(isInGroupRoute, {
+					user_id: userData.id,
+					group_id: user.id,
+				});
+
+				setIsInGroup(data.isInGroup);
+			}
+		} catch (error) {
+			toast.error(`Error al seguir: ${error.message}`, toastConfig);
+		}
 	};
 
-	const handleUnfollow = () => {
+	const handleUnfollow = async () => {
 		setIsFollowing(false);
+		const response = await userApi.post(unFollowRoute, {
+			user_id: user.id,
+			to_unfollow: userData.id,
+		});
+		console.log(response);
 		toast.success(`Dejaste de seguir a ${userData.username}`, toastConfig);
+		setIsInGroup(false);
 	};
 
 	const handleJoinGroup = async () => {
@@ -166,18 +196,35 @@ export default function UserDetails() {
 				user_id: userData.id,
 			});
 			toast.success(`Te has unido al grupo`, toastConfig);
+			setIsInGroup(true);
 			closeModal();
+			navigate("/");
 		} catch (error) {
 			toast.error(`Error al unirse al grupo: ${error.message}`, toastConfig);
 			closeModal();
 		}
 	};
 
+	const handleLeaveGroup = async () => {
+		try {
+			await userApi.post(leaveGroupRoute, {
+				group_id: user.id,
+				user_id: userData.id,
+			});
+			toast.success(`Te has salido del grupo`, toastConfig);
+			setIsInGroup(false);
+			closeModal();
+		} catch (error) {
+			toast.error(`Error al salirse del grupo: ${error.message}`, toastConfig);
+			closeModal();
+		}
+	};
+
 	return (
 		<>
-			<main className="h-screen centered bg-white">
+			<main className="h-full centered bg-white">
 				{userData && (
-					<section className="basis-8/12 border-x-2 gap-11  border-black h-screen user-info centered flex-col ">
+					<section className="basis-8/12 border-x-2 gap-11 py-8 border-black h-screen user-info centered flex-col ">
 						<div className="bordered basis-1/3 centered gap-16 py-5 px-12 w-[90%] mx-auto">
 							<div className="user-image basis-1/4">
 								<Img
@@ -209,7 +256,7 @@ export default function UserDetails() {
 										<button className="btn-dark" onClick={showUserForm}>
 											Editar Perfil
 										</button>
-										{hasNotGroup && (
+										{!hasNotGroup && (
 											<button className="btn-dark" onClick={showGroupForm}>
 												Crear Grupo
 											</button>
@@ -226,9 +273,15 @@ export default function UserDetails() {
 												<button className="btn-dark" onClick={handleUnfollow}>
 													Dejar de Seguir
 												</button>
-												<button className="btn-dark" onClick={showJoinForm}>
-													Unirse a grupo
-												</button>
+												{!isInGroup ? (
+													<button className="btn-dark" onClick={showJoinForm}>
+														Unirse a grupo
+													</button>
+												) : (
+													<button className="btn-dark" onClick={showLeaveForm}>
+														Salir del grupo
+													</button>
+												)}
 											</>
 										)}
 									</>
@@ -240,7 +293,7 @@ export default function UserDetails() {
 								<Bar data={chartConfig.data} className="h-full w-full" />
 							</div>
 						</div>
-						<div className="bordered basis-1/3 centered gap-6 lg:text-xl text-2xl lg:py-6 lg:px-8 py-16 px-20  w-[90%] mx-auto">
+						<div className="bordered basis-1/3 centered gap-6 lg:text-xl text-2xl lg:py-6 lg:px-8 w-[90%] mx-auto">
 							<ul className="w-1/2">
 								<li>
 									<strong>Señales: </strong>
@@ -272,7 +325,6 @@ export default function UserDetails() {
 								</li>
 								<li>
 									<strong>Total rentabilidad: </strong>
-									{/* {user.rentabilidad} % */}
 									54%
 								</li>
 							</ul>
@@ -280,7 +332,7 @@ export default function UserDetails() {
 					</section>
 				)}
 
-				<article className="trades centered overflow-y-scroll scrollbar-custom flex-col basis-4/12 h-full  ">
+				<article className="trades centered overflow-y-scroll scrollbar-custom flex-col basis-4/12 h-full">
 					<div className="basis-1/12 centered h-full mt-10">
 						<h2 className="titulo">Ultimos Trades</h2>
 					</div>
@@ -316,15 +368,39 @@ export default function UserDetails() {
 						<div className="gap-4 centered">
 							<button
 								onClick={() => handleJoinGroup()}
-								className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
+								className="text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
 								type="submit"
 							>
 								Unirme
 							</button>
-
 							<button
 								onClick={() => closeModal()}
-								className=" text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
+								className="text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
+								type="submit"
+							>
+								Cancelar
+							</button>
+						</div>
+					</Modal>
+				)}
+
+				{showLeaveModal && (
+					<Modal
+						closeModal={closeModal}
+						isImg={false}
+						title={`Salirse del grupo de ${userData.username}?`}
+					>
+						<div className="gap-4 centered">
+							<button
+								onClick={() => handleLeaveGroup()}
+								className="text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
+								type="submit"
+							>
+								Salirme
+							</button>
+							<button
+								onClick={() => closeModal()}
+								className="text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
 								type="submit"
 							>
 								Cancelar

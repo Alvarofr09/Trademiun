@@ -16,6 +16,7 @@ const {
 	createIncrementParticipantsTrigger,
 	createSignalsTable,
 	createImagesTable,
+	createFollowTable,
 } = require("./utils/dbTables");
 const {
 	insertUsers,
@@ -48,6 +49,7 @@ const dbSetup = async () => {
 	await createSignalsTable();
 	await createMembershipTable();
 	await createImagesTable();
+	await createFollowTable();
 	await createIncrementParticipantsTrigger();
 	await insertUsers();
 	await insertGroups();

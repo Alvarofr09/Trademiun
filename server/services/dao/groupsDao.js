@@ -90,6 +90,30 @@ groupDao.getAllGroups = async (user_id) => {
 	}
 };
 
+groupDao.isInGroup = async (membershipData) => {
+	let conn = null;
+	try {
+		conn = await db.createConection(); // Asegúrate de que esta línea sea correcta (createConnection en lugar de createConection)
+
+		const sqlQuery = `
+      		SELECT *
+      		FROM grupos_membership
+      		WHERE group_id = ? AND user_id = ?
+    	`;
+
+		// Pasa los parámetros como una lista
+		const params = [membershipData.group_id, membershipData.user_id];
+
+		// Ejecuta la consulta con los parámetros
+		const [rows] = await db.query(sqlQuery, params, "select", conn);
+		return rows;
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 groupDao.getFirstUser = async (group_id) => {
 	let conn = null;
 	try {

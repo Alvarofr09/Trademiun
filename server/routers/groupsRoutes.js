@@ -5,6 +5,7 @@ const {
 	getAllGroups,
 	isAdmin,
 	leaveGroup,
+	isInGroup,
 } = require("../controllers/groupsController");
 
 const groupRouter = express.Router();
@@ -12,6 +13,7 @@ const groupRouter = express.Router();
 groupRouter.post("/create-group", createGroup);
 groupRouter.post("/join-group", joinGroup);
 groupRouter.post("/leave-group", leaveGroup);
+groupRouter.post("/is-in-group", isInGroup);
 groupRouter.post("/is-admin/:id", isAdmin);
 
 groupRouter.get("/get-groups/:id", getAllGroups);

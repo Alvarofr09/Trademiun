@@ -77,6 +77,53 @@ const userLogin = async (req, res, next) => {
 	}
 };
 
+const followUser = async (req, res, next) => {
+	try {
+		const { user_id, to_follow } = req.body;
+		const data = await dao.followUser(user_id, to_follow);
+
+		console.log(data);
+
+		if (data) {
+			res.status(201).json({ message: "Seguido", status: true });
+		} else {
+			res
+				.status(400)
+				.json({ message: "No se ha podido seguir", status: false });
+		}
+	} catch (error) {
+		next(error);
+	}
+};
+
+const unfollowUser = async (req, res, next) => {
+	try {
+		const { user_id, to_unfollow } = req.body;
+		const success = await dao.unfollowUser(user_id, to_unfollow);
+
+		if (success) {
+			res.status(200).json({ message: "Dejado de seguir", status: true });
+		} else {
+			res
+				.status(400)
+				.json({ message: "No se ha podido dejar de seguir", status: false });
+		}
+	} catch (error) {
+		next(error);
+	}
+};
+
+const isFollowing = async (req, res, next) => {
+	try {
+		const { user_id, to_check } = req.body;
+		const isFollowing = await dao.isFollowing(user_id, to_check);
+
+		res.status(200).json({ isFollowing });
+	} catch (error) {
+		next(error);
+	}
+};
+
 const getAllUsers = async (req, res, next) => {
 	try {
 		const id = req.params.id;
@@ -189,7 +236,7 @@ const hasGroup = async (req, res, next) => {
 		const has_group = tiene_grupo[0].tiene_grupo;
 
 		if (has_group) {
-			return res.status(400).json({
+			return res.status(200).json({
 				message: "Ya has creado un grupo",
 				status: false,
 				hasGroup: true,
@@ -209,6 +256,9 @@ const hasGroup = async (req, res, next) => {
 module.exports = {
 	userRegister,
 	userLogin,
+	followUser,
+	unfollowUser,
+	isFollowing,
 	getAllUsers,
 	getUser,
 	getUsersByRentabilidad,
