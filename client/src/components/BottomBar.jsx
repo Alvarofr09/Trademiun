@@ -6,7 +6,7 @@ const BottomBar = () => {
       <div className="mx-auto max-w-md h-8 flex items-center">
         <Link
           to={"/"}
-          className="basis-1/4 flex justify-center hover:cursor-pointer"
+          className="basis-1/5 flex justify-center hover:cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@ const BottomBar = () => {
         </Link>
         <Link
           to={"/busqueda"}
-          className="basis-1/4 flex justify-center hover:cursor-pointer"
+          className="basis-1/5 flex justify-center hover:cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ const BottomBar = () => {
         </Link>
         <Link
           to={"/noticias"}
-          className="basis-1/4 flex justify-center hover:cursor-pointer"
+          className="basis-1/5 flex justify-center hover:cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -71,9 +71,32 @@ const BottomBar = () => {
             <path d="M15 13v4" />
           </svg>
         </Link>
+
         <Link
           to={"/cursos"}
-          className="basis-1/4 flex justify-center hover:cursor-pointer"
+          className="basis-1/5 flex justify-center hover:cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={`${location.pathname === "/cursos" ? "#39BFF0" : "white"}`}
+            strokeWidth="2"
+            strokeLinecap="round"
+            className="icon icon-tabler icons-tabler-outline icon-tabler-message hover:stroke-secundario"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M8 9h8" />
+            <path d="M8 13h6" />
+            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
+          </svg>
+        </Link>
+
+        <Link
+          to={"/"}
+          className="basis-1/5 flex justify-center hover:cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -85,10 +108,12 @@ const BottomBar = () => {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="icon icon-tabler icons-tabler-outline icon-tabler-player-play hover:stroke-secundario"
+            className="icon icon-tabler icons-tabler-outline icon-tabler-user-circle hover:stroke-secundario"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M7 4v16l13 -8z" />
+            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+            <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+            <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
           </svg>
         </Link>
       </div>
