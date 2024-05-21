@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import logo_negro from "../assets/img/logo_negro.png";
-import { IconLogout } from "@tabler/icons-react";
+import { IconLogout, IconUserCircle } from "@tabler/icons-react";
 
 import { useUserContext } from "../context/UserContext";
 import { useAuthContext } from "../context/AuthContext";
@@ -128,6 +128,24 @@ const SideBar = () => {
 							className={`ml-4 ${location.pathname === "/blog" && "font-bold"}`}
 						>
 							Blog
+						</p>
+					</div>
+				</Link>
+
+				<Link
+					to={`/user/${user.id}`}
+					className="flex hover:cursor-pointer mb-8"
+				>
+					<div>
+						<IconUserCircle className="ml-12" />
+					</div>
+					<div>
+						<p
+							className={`ml-4 ${
+								location.pathname === `/user/${user.id}` && "font-bold"
+							}`}
+						>
+							User
 						</p>
 					</div>
 				</Link>
