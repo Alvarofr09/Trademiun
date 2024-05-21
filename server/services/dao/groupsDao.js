@@ -24,6 +24,25 @@ groupDao.createGroup = async (groupData) => {
 	}
 };
 
+groupDao.deleteGroup = async (group_id) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+		console.log("Id grupo", group_id);
+
+		return await db.query(
+			"DELETE FROM grupos WHERE id = ?",
+			group_id,
+			"delete",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 groupDao.joinGroup = async (membershipData) => {
 	let conn = null;
 	try {

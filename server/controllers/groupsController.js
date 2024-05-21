@@ -67,6 +67,30 @@ const createGroup = async (req, res, next) => {
 	}
 };
 
+const deleteGroup = async (req, res, next) => {
+	try {
+		const group_id = req.params.id;
+
+		console.log(group_id);
+		if (!group_id)
+			return res
+				.status(500)
+				.json({ message: "Error al borrar el grupo", status: false });
+
+		const data = await dao.deleteGroup(group_id);
+		console.log(data);
+
+		if (!data)
+			return res
+				.status(500)
+				.json({ message: "Error al borrar el grupo", status: false });
+
+		return res.json({ message: "Grupo borrado correctamente", status: true });
+	} catch (error) {
+		next(error);
+	}
+};
+
 const joinGroup = async (req, res, next) => {
 	//TODO: Hacer que un usuario no se pueda unir a un grupo dos veces
 	try {
@@ -196,6 +220,7 @@ const getGroupInfo = async (req, res, next) => {
 };
 module.exports = {
 	createGroup,
+	deleteGroup,
 	joinGroup,
 	leaveGroup,
 	getAllGroups,
