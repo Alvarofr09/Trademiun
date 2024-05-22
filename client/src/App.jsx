@@ -8,6 +8,7 @@ import UserDetails from "./views/UserDetails";
 
 import Busqueda from "./views/Busqueda";
 import CommingSoon from "./views/CommingSoon";
+import WebPagos from "./views/WebPagos";
 
 function App() {
 	return (
@@ -22,7 +23,7 @@ function App() {
 						<Route path="/noticias" element={<CommingSoon />} />
 						<Route path="/cursos" element={<CommingSoon />} />
 						<Route path="/user/:id" element={<UserDetails />} />
-						{/* <Route path="/pagos" element={<CommingSoon />} /> */}
+						<Route path="/pagos" element={<WebPagos />} />
 					</Route>
 				</Route>
 			</Routes>
