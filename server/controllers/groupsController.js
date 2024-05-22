@@ -146,9 +146,43 @@ const getAllGroupsOfUser = async (req, res, next) => {
 	}
 };
 
+const getAllGroupsOfUserByName = async (req, res, next) => {
+	try {
+		const user_id = req.params.id;
+		const group_name = req.params.name;
+
+		const groups = await dao.getAllGroupsOfUserByName(user_id, group_name);
+
+		if (groups.length === 0)
+			return res.json({
+				message: "Ningun Grupo empieza por esta letra",
+				status: true,
+				groups,
+			});
+
+		return res.json({ groups });
+	} catch (error) {
+		next(error);
+	}
+};
+
 const getAllGroups = async (req, res, next) => {
 	try {
 		const groups = await dao.getAllGroups();
+
+		if (groups.length === 0)
+			return res.json({ message: "Error al traer los grupos", status: true });
+
+		return res.json({ groups });
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getGroupsByName = async (req, res, next) => {
+	try {
+		const group_name = req.params.name;
+		const groups = await dao.getGroupsByName(group_name);
 
 		if (groups.length === 0)
 			return res.json({ message: "Error al traer los grupos", status: true });
@@ -224,7 +258,9 @@ module.exports = {
 	joinGroup,
 	leaveGroup,
 	getAllGroupsOfUser,
+	getAllGroupsOfUserByName,
 	getAllGroups,
+	getGroupsByName,
 	isInGroup,
 	isAdmin,
 	getGroupInfo,
