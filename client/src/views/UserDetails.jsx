@@ -13,6 +13,7 @@ import {
 	isFollowingRoute,
 	unFollowRoute,
 	userApi,
+	deleteGroupRoute,
 } from "../api/APIRoutes";
 import { useNavigate, useParams } from "react-router-dom";
 import Signal from "../components/ui/Signal";
@@ -92,10 +93,12 @@ export default function UserDetails() {
 	const [isCurrentUser, setIsCurrentUser] = useState(false);
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [showGroupModal, setShowGroupModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
 	const [showLeaveModal, setShowLeaveModal] = useState(false);
-	const [hasNotGroup, setHasNotGroup] = useState(false);
+	const [hasGroup, setHasGroup] = useState(false);
+	const [userGroup, setUserGroup] = useState(null);
 	const [isInGroup, setIsInGroup] = useState(false);
 
 	useEffect(() => {
@@ -104,55 +107,73 @@ export default function UserDetails() {
 
 	useEffect(() => {
 		async function fetchData() {
-			let userDataResponse;
-			if (id != user.id) {
-				userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
-			} else {
-				userDataResponse = { data: user };
-			}
-			setUserData(userDataResponse.data);
+			try {
+				let userDataResponse = "";
+				if (id != user.id) {
+					userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
+				} else {
+					userDataResponse = { data: user };
+				}
 
-			const signalsResponse = await userApi.get(
-				`${getUserSignals}/${userDataResponse.data.id}`
-			);
-			setSignals(signalsResponse.data);
+				setUserData(userDataResponse.data);
 
-			if (isCurrentUser) {
-				const { data } = await userApi.get(
+				const signalsResponse = await userApi.get(
+					`${getUserSignals}/${userDataResponse.data.id}`
+				);
+				setSignals(signalsResponse.data);
+
+				const groupData = await userApi.get(
 					`${hasGroupRoute}/${userDataResponse.data.id}`
 				);
-				setHasNotGroup(data.hasGroup);
-			}
+				if (groupData.data.hasGroup) {
+					setUserGroup(groupData.data.group_id);
+				}
+				setHasGroup(groupData.data.hasGroup);
 
-			// Check if the user is following the visited user
-			const isFollowingResponse = await userApi.post(isFollowingRoute, {
-				user_id: user.id,
-				to_check: userDataResponse.data.id,
-			});
-			console.log(isFollowingResponse);
-			setIsFollowing(isFollowingResponse.data.isFollowing);
+				if (id != user.id) {
+					const isFollowingResponse = await userApi.post(isFollowingRoute, {
+						user_id: user.id,
+						to_check: userDataResponse.data.id,
+					});
+					setIsFollowing(isFollowingResponse.data.isFollowing);
 
-			if (id != user.id) {
-				const { data } = await userApi.post(isInGroupRoute, {
-					user_id: userDataResponse.data.id,
-					group_id: user.id,
-				});
-				setIsInGroup(data.isInGroup);
+					const groupStatusResponse = await userApi.post(isInGroupRoute, {
+						user_id: user.id,
+						group_id: userGroup,
+					});
+					setIsInGroup(groupStatusResponse.data.inGroup);
+				}
+			} catch (error) {
+				toast.error(`Error fetching data: ${error.message}`, toastConfig);
 			}
 		}
 
 		fetchData();
-	}, [id, user, isCurrentUser]);
+	}, [id, user, userGroup]);
 
 	const showGroupForm = () => setShowGroupModal(true);
 	const showUserForm = () => setShowUserModal(true);
 	const showJoinForm = () => setShowJoinModal(true);
 	const showLeaveForm = () => setShowLeaveModal(true);
+	const showDeleteForm = () => setShowDeleteModal(true);
 	const closeModal = () => {
 		setShowGroupModal(false);
 		setShowUserModal(false);
 		setShowJoinModal(false);
 		setShowLeaveModal(false);
+		setShowDeleteModal(false);
+	};
+
+	const handleDeleteGroup = async () => {
+		try {
+			await userApi.delete(`${deleteGroupRoute}/${userGroup}`);
+			setHasGroup(false);
+			toast.success(`Se ha eliminado el grupo`, toastConfig);
+			closeModal();
+		} catch (error) {
+			toast.error(`Error al borrar el usuario: ${error.message}`, toastConfig);
+			closeModal();
+		}
 	};
 
 	const handleFollow = async () => {
@@ -168,8 +189,9 @@ export default function UserDetails() {
 
 				const { data } = await userApi.post(isInGroupRoute, {
 					user_id: userData.id,
-					group_id: user.id,
+					group_id: userGroup,
 				});
+				console.log(data);
 
 				setIsInGroup(data.isInGroup);
 			}
@@ -179,21 +201,24 @@ export default function UserDetails() {
 	};
 
 	const handleUnfollow = async () => {
-		setIsFollowing(false);
-		const response = await userApi.post(unFollowRoute, {
-			user_id: user.id,
-			to_unfollow: userData.id,
-		});
-		console.log(response);
-		toast.success(`Dejaste de seguir a ${userData.username}`, toastConfig);
-		setIsInGroup(false);
+		try {
+			await userApi.post(unFollowRoute, {
+				user_id: user.id,
+				to_unfollow: userData.id,
+			});
+			setIsFollowing(false);
+			// setIsInGroup(false);
+			toast.success(`Dejaste de seguir a ${userData.username}`, toastConfig);
+		} catch (error) {
+			toast.error(`Error al dejar de seguir: ${error.message}`, toastConfig);
+		}
 	};
 
 	const handleJoinGroup = async () => {
 		try {
 			await userApi.post(joinGroupRoute, {
-				group_id: user.id,
-				user_id: userData.id,
+				group_id: userGroup,
+				user_id: user.id,
 			});
 			toast.success(`Te has unido al grupo`, toastConfig);
 			setIsInGroup(true);
@@ -208,8 +233,8 @@ export default function UserDetails() {
 	const handleLeaveGroup = async () => {
 		try {
 			await userApi.post(leaveGroupRoute, {
-				group_id: user.id,
-				user_id: userData.id,
+				group_id: userGroup,
+				user_id: user.id,
 			});
 			toast.success(`Te has salido del grupo`, toastConfig);
 			setIsInGroup(false);
@@ -222,7 +247,7 @@ export default function UserDetails() {
 
 	return (
 		<>
-			<main className="h-full centered bg-white">
+			<main className="h-screen centered bg-white">
 				{userData && (
 					<section className="basis-8/12 border-x-2 gap-11 py-8 border-black h-screen user-info centered flex-col ">
 						<div className="bordered basis-1/3 centered gap-16 py-5 px-12 w-[90%] mx-auto">
@@ -256,9 +281,13 @@ export default function UserDetails() {
 										<button className="btn-dark" onClick={showUserForm}>
 											Editar Perfil
 										</button>
-										{!hasNotGroup && (
+										{!hasGroup ? (
 											<button className="btn-dark" onClick={showGroupForm}>
 												Crear Grupo
+											</button>
+										) : (
+											<button className="btn-dark" onClick={showDeleteForm}>
+												Borrar Grupo
 											</button>
 										)}
 									</>
@@ -273,15 +302,19 @@ export default function UserDetails() {
 												<button className="btn-dark" onClick={handleUnfollow}>
 													Dejar de Seguir
 												</button>
-												{!isInGroup ? (
-													<button className="btn-dark" onClick={showJoinForm}>
-														Unirse a grupo
-													</button>
-												) : (
-													<button className="btn-dark" onClick={showLeaveForm}>
-														Salir del grupo
-													</button>
-												)}
+												{hasGroup &&
+													(!isInGroup ? (
+														<button className="btn-dark" onClick={showJoinForm}>
+															Unirse a grupo
+														</button>
+													) : (
+														<button
+															className="btn-dark"
+															onClick={showLeaveForm}
+														>
+															Salir del grupo
+														</button>
+													))}
 											</>
 										)}
 									</>
@@ -397,6 +430,31 @@ export default function UserDetails() {
 								type="submit"
 							>
 								Salirme
+							</button>
+							<button
+								onClick={() => closeModal()}
+								className="text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-red-500 bg-red-600"
+								type="submit"
+							>
+								Cancelar
+							</button>
+						</div>
+					</Modal>
+				)}
+
+				{showDeleteModal && (
+					<Modal
+						closeModal={closeModal}
+						isImg={false}
+						title={`Estas seguro que quiere borrar el grupo?`}
+					>
+						<div className="gap-4 centered">
+							<button
+								onClick={() => handleDeleteGroup()}
+								className="text-white px-8 py-4 border-none font-bold cursor-pointer rounded-[30px] text-xl uppercase transition duration-500 ease-in-out hover:bg-green-500 bg-green-600"
+								type="submit"
+							>
+								Confirmar
 							</button>
 							<button
 								onClick={() => closeModal()}

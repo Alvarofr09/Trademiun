@@ -10,7 +10,7 @@ export default function Signal({ signal, isMessage }) {
 	return (
 		<div
 			key={signal.id}
-			className={`signal  flex items-center justify-end ${
+			className={`signal text-left  flex items-center justify-end ${
 				isMessage ? "max-w-[60%] my-4" : "max-w-[80%] mx-auto centered my-8"
 			}`}
 		>

@@ -43,8 +43,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ limit: "150mb", extendexd: true }));
 
 const dbSetup = async () => {
-	await createGroupsTable();
 	await createUsersTable();
+	await createGroupsTable();
 	await createMessagesTable();
 	await createSignalsTable();
 	await createMembershipTable();
@@ -62,8 +62,6 @@ app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter);
 app.use("/api/groups", groupRouter);
 app.use("/api/signals", signalRoute);
-
-// const conn = db.createConection();
 
 const server = app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);

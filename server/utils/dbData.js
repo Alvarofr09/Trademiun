@@ -99,60 +99,70 @@ const groupsData = [
 		description: "Descripción del Grupo A",
 		price: 150,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 1,
 	},
 	{
 		group_name: "Grupo B",
 		description: "Descripción del Grupo B",
 		price: 250,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 2,
 	},
 	{
 		group_name: "Grupo C",
 		description: "Descripción del Grupo C",
 		price: 100,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 3,
 	},
 	{
 		group_name: "Grupo D",
 		description: "Descripción del Grupo D",
 		price: 300,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 4,
 	},
 	{
 		group_name: "Grupo E",
 		description: "Descripción del Grupo E",
 		price: 200,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 5,
 	},
 	{
 		group_name: "Grupo F",
 		description: "Descripción del Grupo F",
 		price: 150,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 6,
 	},
 	{
 		group_name: "Grupo G",
 		description: "Descripción del Grupo G",
 		price: 50,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 7,
 	},
 	{
 		group_name: "Grupo H",
 		description: "Descripción del Grupo H",
 		price: 75,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 8,
 	},
 	{
 		group_name: "Grupo I",
 		description: "Descripción del Grupo I",
 		price: 200,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 9,
 	},
 	{
 		group_name: "Grupo J",
 		description: "Descripción del Grupo J",
 		price: 175,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 10,
 	},
 ];
 
@@ -236,12 +246,12 @@ const insertGroups = async () => {
 	let conn = await db.createConection();
 	try {
 		for (const group of groupsData) {
-			const { group_name, description, price, image } = group;
+			const { group_name, description, price, image, admin_id } = group;
 			const sqlQuery = `
-                INSERT INTO grupos (group_name, description, price, image)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO grupos (group_name, description, price, image, admin_id)
+                VALUES (?, ?, ?, ?, ?)
             `;
-			const params = [group_name, description, price, image];
+			const params = [group_name, description, price, image, admin_id];
 			await db.query(sqlQuery, params, "insert", conn);
 		}
 	} finally {

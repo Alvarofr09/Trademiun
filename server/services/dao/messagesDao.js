@@ -69,12 +69,14 @@ messageDao.getMessages = async (to) => {
 	try {
 		conn = await db.createConection();
 
-		return await db.query(
-			"SELECT * FROM messages WHERE group_id = ?",
-			to,
-			"select",
-			conn
-		);
+		const sqlQuery = `
+			SELECT m.*, u.username 
+			FROM messages m
+			JOIN users u ON m.sender_id = u.id
+			WHERE m.group_id = ?
+		`;
+
+		return await db.query(sqlQuery, to, "select", conn);
 	} catch (error) {
 		throw new Error(error);
 	} finally {
