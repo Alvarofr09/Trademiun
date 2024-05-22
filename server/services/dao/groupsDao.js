@@ -86,7 +86,26 @@ groupDao.leaveGroup = async (membershipData) => {
 	}
 };
 
-groupDao.getAllGroups = async (user_id) => {
+groupDao.getAllGroups = async () => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		const sqlQuery = `
+      		SELECT *
+    		FROM grupos
+    		
+    	`;
+
+		return await db.query(`SELECT * FROM grupos`, null, "select", conn);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+groupDao.getAllGroupsOfUser = async (user_id) => {
 	let conn = null;
 	try {
 		conn = await db.createConection();

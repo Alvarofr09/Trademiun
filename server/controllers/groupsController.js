@@ -134,14 +134,27 @@ const leaveGroup = async (req, res, next) => {
 	}
 };
 
-const getAllGroups = async (req, res, next) => {
+const getAllGroupsOfUser = async (req, res, next) => {
 	try {
 		const user_id = req.params.id;
 
-		const groups = await dao.getAllGroups(user_id);
+		const groups = await dao.getAllGroupsOfUser(user_id);
 
 		if (groups.length === 0)
 			return res.json({ message: "No estas en ningun grupo", status: true });
+
+		return res.json({ groups });
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getAllGroups = async (req, res, next) => {
+	try {
+		const groups = await dao.getAllGroups();
+
+		if (groups.length === 0)
+			return res.json({ message: "Error al traer los grupos", status: true });
 
 		return res.json({ groups });
 	} catch (error) {
@@ -220,6 +233,7 @@ module.exports = {
 	deleteGroup,
 	joinGroup,
 	leaveGroup,
+	getAllGroupsOfUser,
 	getAllGroups,
 	isInGroup,
 	isAdmin,
