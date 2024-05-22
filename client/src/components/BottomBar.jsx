@@ -25,7 +25,7 @@ export default function BottomBar() {
 	];
 
 	return (
-		<footer className="py-4 bg-black sticky bottom-0">
+		<footer className="py-4 bg-black fixed bottom-0 left-0 w-full">
 			<div className="mx-auto max-w-md h-8 flex items-center justify-between">
 				{routes.map(({ path, icon: Icon, iconFilled: IconFilled }) => (
 					<Link
