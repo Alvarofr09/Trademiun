@@ -3,7 +3,7 @@ import ProgressBar from "../components/ProgressBar";
 
 export default function MobilePerfil() {
 	return (
-		<div className="mx-auto w-full  h-3/5 bg-primario py-8">
+		<div className="mx-auto w-full h-full bg-primario py-8">
 			<div className="flex justify-center">
 				<img src={foto_perfil} alt="foto perfil" />
 			</div>
