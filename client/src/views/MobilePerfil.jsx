@@ -1,11 +1,19 @@
-import foto_perfil from "../assets/img/foto_perfil.png";
+// import foto_perfil from "../assets/img/foto_perfil.png";
 import ProgressBar from "../components/ProgressBar";
+import Img from "../components/ui/CloudinaryImg";
+import { useUserContext } from "../context/UserContext";
 
 export default function MobilePerfil() {
+	const { user } = useUserContext();
+	console.log(user);
 	return (
 		<div className="mx-auto w-full h-full bg-primario pt-8 pb-20">
 			<div className="flex justify-center">
-				<img src={foto_perfil} alt="foto perfil" />
+				<Img
+					uploadedImg={user.image}
+					alt="foto perfil"
+					className={"w-40 h-40 rounded-full"}
+				/>
 			</div>
 
 			<div className="flex justify-center py-4 gap-3 items-center">
@@ -26,11 +34,11 @@ export default function MobilePerfil() {
 					<path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
 					<path d="M16 5l3 3" />
 				</svg>
-				<h2 className="text-white text-3xl font-bold">Usuario</h2>
+				<h2 className="text-white text-3xl font-bold">{user.username}</h2>
 			</div>
 			<div className="">
 				<h4 className="text-center text-tipografia text-sm mb-4">
-					31.000 seguidores
+					{user.seguidores} seguidores
 				</h4>
 			</div>
 
@@ -61,13 +69,7 @@ export default function MobilePerfil() {
 				</div>
 
 				<div className="mb-4">
-					<p className="text-white">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis saepe
-						unde, quos error ea consequatur sed repudiandae veritatis. Sed
-						deserunt officiis neque minus adipisci fugit quasi, blanditiis quod
-						debitis iusto, laborum fugiat dolorem commodi excepturi facere
-						soluta quibusdam tempore obcaecati.
-					</p>
+					<p className="text-white">{user.description}</p>
 				</div>
 			</div>
 			<div>
