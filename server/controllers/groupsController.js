@@ -1,7 +1,6 @@
 const dao = require("../services/dao/groupsDao");
 const moment = require("moment");
 const cloudinary = require("../services/cloudinary");
-const { insertGroupToUser } = require("../services/dao/userDao");
 
 const createGroup = async (req, res, next) => {
 	try {
@@ -11,6 +10,7 @@ const createGroup = async (req, res, next) => {
 			group_name,
 			description,
 			price,
+			admin_id: user_id,
 			creation_date: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 
@@ -45,9 +45,6 @@ const createGroup = async (req, res, next) => {
 			group_id: data,
 			user_id,
 		};
-
-		// Añadir grupo a user
-		await insertGroupToUser(user_id, data);
 
 		// Unir usuario al grupo
 		const result = await dao.joinGroup(membershipData);
@@ -195,16 +192,9 @@ const isAdmin = async (req, res, next) => {
 		const user_id = req.params.id;
 		const { group_id } = req.body;
 
-		const firstUser = await dao.getFirstUser(group_id);
+		let [response] = await dao.isAdmin(group_id);
 
-		if (firstUser.length === 0)
-			return res.json({
-				message: "No se ha encontrado el usuario",
-				status: true,
-			});
-
-		const isFirstUser = firstUser[0].user_id == user_id;
-		const isAdmin = isFirstUser ? true : false;
+		const isAdmin = response.admin_id == user_id;
 
 		return res.json({
 			isAdmin: isAdmin,

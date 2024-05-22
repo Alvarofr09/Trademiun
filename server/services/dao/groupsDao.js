@@ -13,6 +13,7 @@ groupDao.createGroup = async (groupData) => {
 			description: groupData.description,
 			price: groupData.price,
 			Image: groupData.image,
+			admin_id: groupData.admin_id,
 			creation_date: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 
@@ -168,16 +169,15 @@ groupDao.isInGroup = async (membershipData) => {
 	}
 };
 
-groupDao.getFirstUser = async (group_id) => {
+groupDao.isAdmin = async (group_id) => {
 	let conn = null;
 	try {
 		conn = await db.createConection();
 
 		const sqlQuery = `
-      		SELECT user_id
-    		FROM grupos_membership
-    		WHERE group_id = ?
-			limit 1
+      		SELECT admin_id
+    		FROM grupos
+    		WHERE id = ?
     	`;
 
 		return await db.query(sqlQuery, group_id, "select", conn);
