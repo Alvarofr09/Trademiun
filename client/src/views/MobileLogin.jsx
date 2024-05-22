@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import LoginForm from "../LoginForm/LoginForm";
-import RegisterForm from "../RegisterForm/RegisterForm";
+import LoginForm from "../components/LoginForm/LoginForm";
+import RegisterForm from "../components/RegisterForm/RegisterForm";
 
 export default function ButtonGroup() {
 	const [view, setView] = useState("login");

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import WebRegistro from "./WebRegistro";
-import WebLogin from "./WebLogin";
+import WebRegistro from "../components/WebForms/WebRegistro";
+import WebLogin from "../components/WebForms/WebLogin";
 
-export default function WebToggle() {
+export default function LoginWeb() {
 	const [view, setView] = useState("login");
 
 	return (
