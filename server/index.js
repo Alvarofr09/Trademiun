@@ -43,8 +43,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ limit: "150mb", extendexd: true }));
 
 const dbSetup = async () => {
-	await createGroupsTable();
 	await createUsersTable();
+	await createGroupsTable();
 	await createMessagesTable();
 	await createSignalsTable();
 	await createMembershipTable();
