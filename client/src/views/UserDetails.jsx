@@ -97,7 +97,8 @@ export default function UserDetails() {
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
 	const [showLeaveModal, setShowLeaveModal] = useState(false);
-	const [hasNotGroup, setHasNotGroup] = useState(false);
+	const [hasGroup, setHasGroup] = useState(false);
+	const [userGroup, setUserGroup] = useState(null);
 	const [isInGroup, setIsInGroup] = useState(false);
 
 	useEffect(() => {
@@ -107,7 +108,12 @@ export default function UserDetails() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
+				let userDataResponse = "";
+				if (id != user.id) {
+					userDataResponse = await userApi.get(`${getUserInfo}/${id}`);
+				} else {
+					userDataResponse = { data: user };
+				}
 
 				setUserData(userDataResponse.data);
 
@@ -119,7 +125,10 @@ export default function UserDetails() {
 				const groupData = await userApi.get(
 					`${hasGroupRoute}/${userDataResponse.data.id}`
 				);
-				setHasNotGroup(groupData.data.hasGroup);
+				if (groupData.data.hasGroup) {
+					setUserGroup(groupData.data.group_id);
+				}
+				setHasGroup(groupData.data.hasGroup);
 
 				if (id != user.id) {
 					const isFollowingResponse = await userApi.post(isFollowingRoute, {
@@ -130,7 +139,7 @@ export default function UserDetails() {
 
 					const groupStatusResponse = await userApi.post(isInGroupRoute, {
 						user_id: user.id,
-						group_id: userDataResponse.data.group_id,
+						group_id: userGroup,
 					});
 					setIsInGroup(groupStatusResponse.data.inGroup);
 				}
@@ -140,7 +149,7 @@ export default function UserDetails() {
 		}
 
 		fetchData();
-	}, [id, user]);
+	}, [id, user, userGroup]);
 
 	const showGroupForm = () => setShowGroupModal(true);
 	const showUserForm = () => setShowUserModal(true);
@@ -157,8 +166,8 @@ export default function UserDetails() {
 
 	const handleDeleteGroup = async () => {
 		try {
-			await userApi.delete(`${deleteGroupRoute}/${userData.group_id}`);
-			setHasNotGroup(false);
+			await userApi.delete(`${deleteGroupRoute}/${userGroup}`);
+			setHasGroup(false);
 			toast.success(`Se ha eliminado el grupo`, toastConfig);
 			closeModal();
 		} catch (error) {
@@ -180,8 +189,9 @@ export default function UserDetails() {
 
 				const { data } = await userApi.post(isInGroupRoute, {
 					user_id: userData.id,
-					group_id: user.id,
+					group_id: userGroup,
 				});
+				console.log(data);
 
 				setIsInGroup(data.isInGroup);
 			}
@@ -207,7 +217,7 @@ export default function UserDetails() {
 	const handleJoinGroup = async () => {
 		try {
 			await userApi.post(joinGroupRoute, {
-				group_id: userData.group_id,
+				group_id: userGroup,
 				user_id: user.id,
 			});
 			toast.success(`Te has unido al grupo`, toastConfig);
@@ -223,7 +233,7 @@ export default function UserDetails() {
 	const handleLeaveGroup = async () => {
 		try {
 			await userApi.post(leaveGroupRoute, {
-				group_id: userData.group_id,
+				group_id: userGroup,
 				user_id: user.id,
 			});
 			toast.success(`Te has salido del grupo`, toastConfig);
@@ -271,7 +281,7 @@ export default function UserDetails() {
 										<button className="btn-dark" onClick={showUserForm}>
 											Editar Perfil
 										</button>
-										{!hasNotGroup ? (
+										{!hasGroup ? (
 											<button className="btn-dark" onClick={showGroupForm}>
 												Crear Grupo
 											</button>
@@ -292,7 +302,7 @@ export default function UserDetails() {
 												<button className="btn-dark" onClick={handleUnfollow}>
 													Dejar de Seguir
 												</button>
-												{hasNotGroup &&
+												{hasGroup &&
 													(!isInGroup ? (
 														<button className="btn-dark" onClick={showJoinForm}>
 															Unirse a grupo
