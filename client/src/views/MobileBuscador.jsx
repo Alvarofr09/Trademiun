@@ -6,7 +6,7 @@ import InputSearch from "../components/ui/InputSearch";
 
 export default function MobileBuscador() {
 	return (
-		<div className="mx-auto max-w-md h-3/5 bg-primario">
+		<div className="mx-auto max-w-md h-full bg-primario">
 			<InputSearch />
 			<h2 className="text-center text-2xl font-bold text-white p-4">
 				Top Seguidores
