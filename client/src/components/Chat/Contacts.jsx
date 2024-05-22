@@ -41,9 +41,7 @@ export default function Contacts({ contacts, changeChat }) {
 									</div>
 								)}
 								<div className="  username">
-									<h3 className=" text-xl  bold">
-										{contact.username ? contact.username : contact.group_name}
-									</h3>
+									<h3 className=" text-xl  bold">{contact.group_name}</h3>
 								</div>
 							</div>
 						);
