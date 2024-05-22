@@ -186,11 +186,9 @@ userDao.hasGroup = async (id) => {
 		conn = await db.createConection();
 
 		return await db.query(
-			`SELECT EXISTS (
-                SELECT 1
-                FROM users
-                WHERE group_id IS NOT NULL AND id = ?
-            ) AS tiene_grupo`,
+			`SELECT *
+			FROM grupos
+			WHERE admin_id = ?`,
 			[id],
 			"select",
 			conn
