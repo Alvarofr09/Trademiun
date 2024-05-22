@@ -56,6 +56,7 @@ const userLogin = async (req, res, next) => {
 			image: user.image,
 			group_id: user.group_id,
 			seguidores: user.seguidores,
+			descripcion: user.descripcion,
 			rentabilidad: user.rentabilidad,
 		});
 
