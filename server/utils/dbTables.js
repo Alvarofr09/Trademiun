@@ -10,13 +10,11 @@ const createUsersTable = async () => {
         email VARCHAR(255) UNIQUE, 
         password VARCHAR(255),
         userRole BOOLEAN DEFAULT FALSE,
-        group_id INT DEFAULT NULL,
         image TEXT,
         seguidores INT DEFAULT 0,
         rentabilidad INT DEFAULT 0,
         registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (group_id) REFERENCES grupos(id) ON DELETE SET NULL
+        updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       ) `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
@@ -35,7 +33,9 @@ const createGroupsTable = async () => {
             price DECIMAL(10, 2),
             image TEXT,
             participantes INT DEFAULT 0,
-            creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            admin_id INT DEFAULT NULL,
+            FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE
         ); `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
