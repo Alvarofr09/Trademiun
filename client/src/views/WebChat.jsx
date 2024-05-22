@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { getAllGroups, host } from "../api/APIRoutes";
+import { getAllGroupsOfUser, host } from "../api/APIRoutes";
 import Contacts from "../components/Chat/Contacts";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +27,7 @@ export default function WebChat() {
 			setIsLoaded(true);
 
 			try {
-				const response = await axios.get(`${getAllGroups}/${user.id}`);
+				const response = await axios.get(`${getAllGroupsOfUser}/${user.id}`);
 				if (response.data.groups.length > 0) {
 					setContacts(response.data.groups);
 				}
