@@ -1,6 +1,6 @@
 // MobileContacts.jsx
 import { useState } from "react";
-import InputSearch from "../InputSearch";
+import InputSearch from "../ui/InputSearch";
 import Img from "../ui/CloudinaryImg";
 import MobileChatContainer from "./MobileChatContainer";
 import { Link } from "react-router-dom";
