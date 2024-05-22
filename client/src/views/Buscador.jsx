@@ -2,7 +2,7 @@ import ButtonVerMas from "../components/ButtonVerMas";
 import CardMasRentables from "../components/CardMasRentables";
 import CardSeguidores from "../components/CardSeguidores";
 
-import InputSearch from "../components/InputSearch";
+import InputSearch from "../components/ui/InputSearch";
 // import VerMasBoton from "../components/VerMasBoton";
 
 const Buscador = () => {
