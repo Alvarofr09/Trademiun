@@ -92,13 +92,33 @@ groupDao.getAllGroups = async () => {
 	try {
 		conn = await db.createConection();
 
+		return await db.query(
+			`SELECT * FROM grupos ORDER BY participantes DESC`,
+			null,
+			"select",
+			conn
+		);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+groupDao.getGroupsByName = async (name) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+		const nameLike = `%${name}%`;
+
 		const sqlQuery = `
-      		SELECT *
-    		FROM grupos
-    		
+      		SELECT * 
+			FROM grupos 
+			WHERE group_name LIKE ?
+			ORDER BY participantes DESC
     	`;
 
-		return await db.query(`SELECT * FROM grupos`, null, "select", conn);
+		return await db.query(sqlQuery, nameLike, "select", conn);
 	} catch (error) {
 		throw new Error(error);
 	} finally {
@@ -112,13 +132,34 @@ groupDao.getAllGroupsOfUser = async (user_id) => {
 		conn = await db.createConection();
 
 		const sqlQuery = `
-      		SELECT grupos.id, grupos.group_name, grupos.description, grupos.image,grupos.participantes
-    		FROM grupos
-    		JOIN grupos_membership ON grupos.id = grupos_membership.group_id
-    		WHERE grupos_membership.user_id = ?
+      		SELECT g.id AS group_id, g.group_name, g.description, g.image, g.participantes
+			FROM grupos AS g
+			JOIN grupos_membership AS gm ON g.id = gm.group_id
+			WHERE gm.user_id = ?
     	`;
 
 		return await db.query(sqlQuery, user_id, "select", conn);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+groupDao.getAllGroupsOfUserByName = async (user_id, group_name) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+		const nameLike = `%${group_name}%`;
+
+		const sqlQuery = `
+      		SELECT g.id AS group_id, g.group_name, g.description, g.image, g.participantes
+			FROM grupos AS g
+			JOIN grupos_membership AS gm ON g.id = gm.group_id
+			WHERE gm.user_id = ? AND g.group_name LIKE ?
+    	`;
+
+		return await db.query(sqlQuery, [user_id, nameLike], "select", conn);
 	} catch (error) {
 		throw new Error(error);
 	} finally {
