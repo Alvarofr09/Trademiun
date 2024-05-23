@@ -10,11 +10,11 @@ import WebNoticias from "./views/WebNoticias";
 import ViewLogin from "./views/ViewLogin";
 import ViewPerfil from "./views/ViewPerfil";
 import ViewBuscador from "./views/ViewBuscador";
+import WebBlog from "./views/WebBlog";
 
 function App() {
   return (
     <>
-      {/* <MovilPerfil /> */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="login" element={<ViewLogin />} />
@@ -23,6 +23,7 @@ function App() {
             <Route path="/" element={<WebChat />} />
             <Route path="/busqueda" element={<ViewBuscador />} />
             <Route path="/noticias" element={<WebNoticias />} />
+            <Route path="/blog" element={<WebBlog />} />
             <Route path="/cursos" element={<CommingSoon />} />
             <Route path="/user/:id" element={<ViewPerfil />} />
             <Route path="/pagos" element={<WebPagos />} />
