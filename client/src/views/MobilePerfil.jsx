@@ -1,14 +1,42 @@
-// import foto_perfil from "../assets/img/foto_perfil.png";
-import ProgressBar from "../components/ProgressBar";
+import { useState, useRef, useEffect } from "react";
 import Img from "../components/ui/CloudinaryImg";
+import RangeInput from "../components/ui/RangeInput";
 import { useUserContext } from "../context/UserContext";
+import { IconEdit } from "@tabler/icons-react";
 
 export default function MobilePerfil() {
+	const [editing, setEditing] = useState(false);
+	const [userName, setUserName] = useState("");
+	const [descripcion, setDescripcion] = useState("");
+	const inputRef = useRef(null);
+	const textareaRef = useRef(null);
 	const { user } = useUserContext();
+
+	useEffect(() => {
+		if (editing && inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, [editing]);
+
+	useEffect(() => {
+		if (user) {
+			setDescripcion(user.descripcion);
+			setUserName(user.username);
+		}
+	}, [user]);
+
+	function handleClick() {
+		setEditing(true);
+	}
+
 	console.log(user);
+
 	return (
-		<div className="mx-auto w-full h-full bg-primario pt-8 pb-20">
-			<div className="flex justify-center">
+		<div className="relative mx-auto w-full h-full bg-primario pb-20">
+			<div className="absolute top-0 right-0 p-4">
+				<IconEdit color="#ffffff" onClick={handleClick} />
+			</div>
+			<div className="flex justify-center pt-8">
 				<Img
 					uploadedImg={user.image}
 					alt="foto perfil"
@@ -16,25 +44,17 @@ export default function MobilePerfil() {
 				/>
 			</div>
 
-			<div className="flex justify-center py-4 gap-3 items-center">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="white"
-					strokeWidth="2"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					className="icon icon-tabler icons-tabler-outline icon-tabler-edit"
-				>
-					<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-					<path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-					<path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-					<path d="M16 5l3 3" />
-				</svg>
-				<h2 className="text-white text-3xl font-bold">{user.username}</h2>
+			<div className="centered flex-col py-4 gap-3 ">
+				<input
+					ref={inputRef}
+					type="text"
+					className={`text-center bg-primario w-fit  text-white text-3xl font-bold focus:border-white ${
+						editing ? "border-2 border-white " : "border-none"
+					}`}
+					value={userName}
+					onChange={(e) => setUserName(e.target.value)}
+					disabled={!editing}
+				/>
 			</div>
 			<div className="">
 				<h4 className="text-center text-tipografia text-sm mb-4">
@@ -42,36 +62,31 @@ export default function MobilePerfil() {
 				</h4>
 			</div>
 
-			<ProgressBar titulo="Máximo Drawdown" porcentaje="66.6%" />
+			<div className="p-4">
+				<RangeInput title={"Maximo Drawdown"} value={66.6} max={100} />
+				<RangeInput title={"Riesgo/Beneficio medio"} value={3.5} max={4} />
+				<RangeInput title={"% Mensual medio"} value={66.6} max={100} />
+				<RangeInput title={"% Riesgo medio/trade"} value={311} max={311} />
+			</div>
+
+			{/* <ProgressBar titulo="Máximo Drawdown" porcentaje="66.6%" />
 			<ProgressBar titulo="Riesgo/Beneficio medio" porcentaje="90.7%" />
 			<ProgressBar titulo="% Mensual medio" porcentaje="77%" />
-			<ProgressBar titulo="% Riesgo medio/trade" porcentaje="83.3%" />
+			<ProgressBar titulo="% Riesgo medio/trade" porcentaje="83.3%" /> */}
 
-			<div className="flex p-4">
-				<div>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="white"
-						strokeWidth="2"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						className="icon icon-tabler icons-tabler-outline icon-tabler-edit"
-					>
-						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-						<path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-						<path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-						<path d="M16 5l3 3" />
-					</svg>
-				</div>
-
-				<div className="mb-4">
-					<p className="text-white">{user.description}</p>
-				</div>
+			<div className="mb-4">
+				<textarea
+					ref={textareaRef}
+					className={`w-full bg-primario text-white p-2 rounded-lg focus:border-white ${
+						editing ? "border-2 border-white " : "border-none"
+					}`}
+					rows="4"
+					value={descripcion}
+					onChange={(e) => setDescripcion(e.target.value)}
+					disabled={!editing}
+				/>
 			</div>
+
 			<div>
 				<button className="text-white bg-secundario px-4 py-2 rounded-xl ml-2">
 					Añadir trade

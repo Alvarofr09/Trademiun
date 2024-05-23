@@ -218,3 +218,11 @@
 .ecoTimeAndDate {
 	@apply !bg-sky-300;
 }
+
+.range-input::-webkit-slider-thumb {
+	@apply appearance-none w-0 h-0;
+}
+
+.thumb {
+	@apply appearance-none;
+}
