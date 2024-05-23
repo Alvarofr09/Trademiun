@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import InputSearch from "../InputSearch";
+import InputSearch from "../ui/InputSearch";
 import Img from "../ui/CloudinaryImg";
 
-export default function Contacts({ contacts, changeChat }) {
+export default function Contacts({ handleSearch, contacts, changeChat }) {
 	const [currentSelected, setCurrentSelected] = useState(undefined);
 
 	const changeCurrentChat = (index, contact) => {
@@ -18,7 +18,7 @@ export default function Contacts({ contacts, changeChat }) {
 				// style={{ gridTemplateRows: "10% 65% auto" }}
 			>
 				<div className="basis-1/12 w-full">
-					<InputSearch />
+					<InputSearch handleSearch={handleSearch} />
 				</div>
 				<div className="contacts basis-11/12">
 					{contacts.map((contact, index) => {
@@ -41,9 +41,7 @@ export default function Contacts({ contacts, changeChat }) {
 									</div>
 								)}
 								<div className="  username">
-									<h3 className=" text-xl  bold">
-										{contact.username ? contact.username : contact.group_name}
-									</h3>
+									<h3 className=" text-xl  bold">{contact.group_name}</h3>
 								</div>
 							</div>
 						);

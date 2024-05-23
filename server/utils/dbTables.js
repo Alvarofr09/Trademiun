@@ -6,17 +6,16 @@ const createUsersTable = async () => {
 		const SqlQuery = `
       CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY, 
-        username VARCHAR(255), 
-        email VARCHAR(255), 
+        username VARCHAR(255) UNIQUE, 
+        email VARCHAR(255) UNIQUE, 
         password VARCHAR(255),
         userRole BOOLEAN DEFAULT FALSE,
-        group_id INT DEFAULT NULL,
         image TEXT,
+        descripcion TEXT,
         seguidores INT DEFAULT 0,
         rentabilidad INT DEFAULT 0,
         registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (group_id) REFERENCES grupos(id)
+        updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       ) `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
@@ -30,12 +29,14 @@ const createGroupsTable = async () => {
 		const SqlQuery = `
         CREATE TABLE IF NOT EXISTS grupos (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            group_name VARCHAR(255) ,
+            group_name VARCHAR(255),
             description TEXT,
-            price INT,
+            price DECIMAL(10, 2),
             image TEXT,
             participantes INT DEFAULT 0,
-            creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            admin_id INT DEFAULT NULL,
+            FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE
         ); `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
@@ -54,8 +55,10 @@ const createMessagesTable = async () => {
         text TEXT,
         date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id),
+        INDEX (sender_id),
+        INDEX (group_id),
         FOREIGN KEY (sender_id) REFERENCES users(id),
-        FOREIGN KEY (group_id) REFERENCES grupos(id)
+        FOREIGN KEY (group_id) REFERENCES grupos(id) ON DELETE CASCADE
       ) `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
@@ -74,15 +77,17 @@ const createSignalsTable = async () => {
         image TEXT,
         description TEXT,
         moneda VARCHAR(255),
-        entrada INT,
-        stopLoss INT,
-        takeProfit INT,
+        entrada DECIMAL(10, 2),
+        stopLoss DECIMAL(10, 2),
+        takeProfit DECIMAL(10, 2),
         riesgo INT,
         isCompra BOOLEAN,
         date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id),
+        INDEX (sender_id),
+        INDEX (group_id),
         FOREIGN KEY (sender_id) REFERENCES users(id),
-        FOREIGN KEY (group_id) REFERENCES grupos(id)
+        FOREIGN KEY (group_id) REFERENCES grupos(id) ON DELETE CASCADE
       ) `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
@@ -99,8 +104,10 @@ const createMembershipTable = async () => {
         group_id INT,
         user_id INT,
         user_role BOOLEAN DEFAULT FALSE,
-        FOREIGN KEY (group_id) REFERENCES grupos(id),
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        INDEX (group_id),
+        INDEX (user_id),
+        FOREIGN KEY (group_id) REFERENCES grupos(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       ); `;
 		await db.query(SqlQuery, null, "create", conn);
 	} finally {
@@ -130,28 +137,6 @@ const createIncrementParticipantsTrigger = async () => {
 		await conn.end();
 	}
 };
-
-// const createImagesTable = async () => {
-// 	let conn = await db.createConection();
-// 	try {
-// 		const SqlQuery = `
-//             CREATE TABLE IF NOT EXISTS images (
-//                 id INT AUTO_INCREMENT PRIMARY KEY,
-//                 image_type ENUM('user', 'group', 'signal') NOT NULL,
-//                 image_id INT NOT NULL,
-//                 image TEXT,
-//                 FOREIGN KEY (image_id) REFERENCES
-//                     CASE
-//                         WHEN image_type = 'user' THEN users(id)
-//                         WHEN image_type = 'group' THEN grupos(id)
-//                         WHEN image_type = 'signal' THEN signals(id)
-//                     END
-//             ); `;
-// 		await db.query(SqlQuery, null, "create", conn);
-// 	} finally {
-// 		await conn.end();
-// 	}
-// };
 
 const createImagesTable = async () => {
 	let conn = await db.createConection();

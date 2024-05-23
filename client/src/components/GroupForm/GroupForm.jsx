@@ -1,18 +1,20 @@
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import { Formik, Form } from "formik";
+import { IconFilePlus } from "@tabler/icons-react";
+
 import { CreateGroupFormInitialValues } from "../../consts/InitialValues";
 import { GroupFormSchema } from "./GroupFormSchema";
-import { ToastContainer, toast } from "react-toastify";
-
 import Input from "../ui/Input";
-import { useNavigate, useParams } from "react-router-dom";
 // import TextArea from "../ui/TextArea";
+
 import { createGroupRoute, userApi } from "../../api/APIRoutes";
-import { IconFilePlus } from "@tabler/icons-react";
 import { previewFiles } from "../../utils/previewFile";
-import { useState } from "react";
 
 export default function GroupForm() {
 	const { id: userId } = useParams();
+	// const { login } = useAuthContext();
 	const navigate = useNavigate();
 	const [file, setFile] = useState("");
 	const [image, setImage] = useState("");

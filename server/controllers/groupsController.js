@@ -1,33 +1,38 @@
 const dao = require("../services/dao/groupsDao");
 const moment = require("moment");
 const cloudinary = require("../services/cloudinary");
-const { insertGroupToUser } = require("../services/dao/userDao");
 
 const createGroup = async (req, res, next) => {
 	try {
 		const { user_id, group_name, description, price, image } = req.body;
 
-		// Subir imagen a Cloudinary
-		const uploadedImage = await cloudinary.uploader.upload(image, {
-			upload_preset: "group_upload",
-			public_id: `${group_name}_${new Date().toISOString()}`,
-			allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
-		});
-
-		if (!uploadedImage) {
-			return res.status(500).json({
-				message: "Error al subir la imagen",
-				status: false,
-			});
-		}
-
-		const groupData = {
+		let groupData = {
 			group_name,
 			description,
 			price,
-			image: uploadedImage.public_id,
+			admin_id: user_id,
 			creation_date: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
+
+		if (image) {
+			// Subir imagen a Cloudinary
+			const uploadedImage = await cloudinary.uploader.upload(image, {
+				upload_preset: "group_upload",
+				public_id: `${group_name}_${new Date().toISOString()}`,
+				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+			});
+
+			if (!uploadedImage) {
+				return res.status(500).json({
+					message: "Error al subir la imagen",
+					status: false,
+				});
+			}
+
+			groupData.image = uploadedImage.public_id;
+		} else {
+			groupData.image = "Trademiun/Groups_Avatar/gewevwmjrqnlwb55s2c1";
+		}
 
 		const data = await dao.createGroup(groupData);
 
@@ -40,9 +45,6 @@ const createGroup = async (req, res, next) => {
 			group_id: data,
 			user_id,
 		};
-
-		// Añadir grupo a user
-		await insertGroupToUser(user_id, data);
 
 		// Unir usuario al grupo
 		const result = await dao.joinGroup(membershipData);
@@ -57,6 +59,28 @@ const createGroup = async (req, res, next) => {
 			status: true,
 			group_id: data,
 		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+const deleteGroup = async (req, res, next) => {
+	try {
+		const group_id = req.params.id;
+
+		if (!group_id)
+			return res
+				.status(500)
+				.json({ message: "Error al borrar el grupo", status: false });
+
+		const data = await dao.deleteGroup(group_id);
+
+		if (!data)
+			return res
+				.status(500)
+				.json({ message: "Error al borrar el grupo", status: false });
+
+		return res.json({ message: "Grupo borrado correctamente", status: true });
 	} catch (error) {
 		next(error);
 	}
@@ -107,14 +131,61 @@ const leaveGroup = async (req, res, next) => {
 	}
 };
 
-const getAllGroups = async (req, res, next) => {
+const getAllGroupsOfUser = async (req, res, next) => {
 	try {
 		const user_id = req.params.id;
 
-		const groups = await dao.getAllGroups(user_id);
+		const groups = await dao.getAllGroupsOfUser(user_id);
 
 		if (groups.length === 0)
 			return res.json({ message: "No estas en ningun grupo", status: true });
+
+		return res.json({ groups });
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getAllGroupsOfUserByName = async (req, res, next) => {
+	try {
+		const user_id = req.params.id;
+		const group_name = req.params.name;
+
+		const groups = await dao.getAllGroupsOfUserByName(user_id, group_name);
+
+		if (groups.length === 0)
+			return res.json({
+				message: "Ningun Grupo empieza por esta letra",
+				status: true,
+				groups,
+			});
+
+		return res.json({ groups });
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getAllGroups = async (req, res, next) => {
+	try {
+		const groups = await dao.getAllGroups();
+
+		if (groups.length === 0)
+			return res.json({ message: "Error al traer los grupos", status: true });
+
+		return res.json({ groups });
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getGroupsByName = async (req, res, next) => {
+	try {
+		const group_name = req.params.name;
+		const groups = await dao.getGroupsByName(group_name);
+
+		if (groups.length === 0)
+			return res.json({ message: "Error al traer los grupos", status: true });
 
 		return res.json({ groups });
 	} catch (error) {
@@ -131,9 +202,9 @@ const isInGroup = async (req, res, next) => {
 			user_id,
 		};
 
-		const group = await dao.isInGroup(membershipData);
+		const inGroup = await dao.isInGroup(membershipData);
 
-		if (group.length === 0)
+		if (!inGroup)
 			return res.json({
 				message: "No estas en el grupo",
 				status: false,
@@ -155,16 +226,9 @@ const isAdmin = async (req, res, next) => {
 		const user_id = req.params.id;
 		const { group_id } = req.body;
 
-		const firstUser = await dao.getFirstUser(group_id);
+		let [response] = await dao.isAdmin(group_id);
 
-		if (firstUser.length === 0)
-			return res.json({
-				message: "No se ha encontrado el usuario",
-				status: true,
-			});
-
-		const isFirstUser = firstUser[0].user_id == user_id;
-		const isAdmin = isFirstUser ? true : false;
+		const isAdmin = response.admin_id == user_id;
 
 		return res.json({
 			isAdmin: isAdmin,
@@ -174,11 +238,30 @@ const isAdmin = async (req, res, next) => {
 	}
 };
 
+const getGroupInfo = async (req, res, next) => {
+	try {
+		const chat_id = req.params.id;
+
+		const group = await dao.getGroupInfo(chat_id);
+
+		if (group.length === 0)
+			return res.json({ message: "Este grupo no existe", status: true });
+
+		return res.json({ group });
+	} catch (error) {
+		next(error);
+	}
+};
 module.exports = {
 	createGroup,
+	deleteGroup,
 	joinGroup,
 	leaveGroup,
+	getAllGroupsOfUser,
+	getAllGroupsOfUserByName,
 	getAllGroups,
+	getGroupsByName,
 	isInGroup,
 	isAdmin,
+	getGroupInfo,
 };

@@ -209,3 +209,12 @@
 }
 
 /* ESTILOS DE LOS EMOTICONOS */
+
+/* ESTILOS DE LAS NOTICIAS */
+#headerRow {
+	@apply !bg-sky-300;
+}
+
+.ecoTimeAndDate {
+	@apply !bg-sky-300;
+}

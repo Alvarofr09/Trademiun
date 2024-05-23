@@ -2,12 +2,11 @@ import ButtonVerMas from "../components/ButtonVerMas";
 import CardMasRentables from "../components/CardMasRentables";
 import CardSeguidores from "../components/CardSeguidores";
 
-import InputSearch from "../components/InputSearch";
-// import VerMasBoton from "../components/VerMasBoton";
+import InputSearch from "../components/ui/InputSearch";
 
-const Buscador = () => {
+export default function MobileBuscador() {
 	return (
-		<div className="mx-auto max-w-md h-3/5 bg-primario">
+		<div className="mx-auto max-w-md h-full bg-primario pb-20">
 			<InputSearch />
 			<h2 className="text-center text-2xl font-bold text-white p-4">
 				Top Seguidores
@@ -23,6 +22,4 @@ const Buscador = () => {
 			<ButtonVerMas />
 		</div>
 	);
-};
-
-export default Buscador;
+}

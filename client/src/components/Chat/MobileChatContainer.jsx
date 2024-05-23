@@ -1,22 +1,21 @@
-import ChatInput from "./ChatInput";
-import ChatHeader from "./ChatHeader";
-import Messages from "./Messages";
-import { format } from "date-fns";
-import axios from "axios";
-
-import { jwtDecode } from "jwt-decode";
-
+// MobileChatContainer.jsx
+import { useState, useEffect, useRef } from "react";
 import {
 	getAllGroupMessages,
 	getSignalsGroup,
 	isAdmin,
 	sendMessageRoute,
-	userApi,
 } from "../../api/APIRoutes";
-import { useEffect, useRef, useState } from "react";
+import { userApi } from "../../api/APIRoutes";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { useUserContext } from "../../context/UserContext";
+import ChatHeader from "./ChatHeader";
+import Messages from "./Messages";
+import ChatInput from "./ChatInput";
+import { format } from "date-fns";
 
-export default function ChatContainer({ currentChat, socket }) {
+export default function MobileChatContainer({ currentChat, socket, onBack }) {
 	const { user } = useUserContext();
 	const [messages, setMessages] = useState([]);
 	const [isAdministrador, setIsAdministrador] = useState(false);
@@ -74,12 +73,13 @@ export default function ChatContainer({ currentChat, socket }) {
 	}, [currentChat]);
 
 	useEffect(() => {
+		console.log(socket);
 		if (socket.current) {
 			socket.current.on("msg-recieve", (msg) => {
 				if (msg.type === "message") {
 					setArrivalMessage({
 						fromSelf: false,
-						username: msg.username,
+						username: user.username,
 						message: msg.message,
 						date: msg.date,
 						type: msg.type,
@@ -87,7 +87,7 @@ export default function ChatContainer({ currentChat, socket }) {
 				} else {
 					setArrivalMessage({
 						fromSelf: false,
-						username: msg.username,
+						username: user.username,
 						image: msg.image,
 						description: msg.description,
 						moneda: msg.moneda,
@@ -192,14 +192,15 @@ export default function ChatContainer({ currentChat, socket }) {
 		});
 		setMessages(msgs);
 	};
+
 	return (
-		<>
+		<div className="h-full centered bg-white">
 			{currentChat && (
 				<div
 					className="container h-full grid grid-rows-3 overflow-hidden"
 					style={{ gridTemplateRows: "11% 75% auto" }}
 				>
-					<ChatHeader currentChat={currentChat} />
+					<ChatHeader onBack={onBack} currentChat={currentChat} />
 					<Messages messages={messages} scrollRef={scrollRef} />
 					<ChatInput
 						handleSendMsg={handleSendMsg}
@@ -209,6 +210,6 @@ export default function ChatContainer({ currentChat, socket }) {
 					/>
 				</div>
 			)}
-		</>
+		</div>
 	);
 }

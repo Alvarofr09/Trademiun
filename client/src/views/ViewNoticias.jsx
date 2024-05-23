@@ -1,17 +1,17 @@
-import WebToggle from "../components/WebForms/WebToggle";
-import ButtonGroup from "../components/ui/ButtonGroup";
 import useDeviceType from "../hooks/useDeviceType";
+import MobileNoticias from "./MobileNoticias";
+import WebNoticias from "./WebNoticias";
 
-export default function Login() {
+export default function ViewNoticias() {
 	const isMobile = useDeviceType();
 	return (
 		<>
 			{isMobile ? (
 				<div className="background h-screen w-screen">
-					<ButtonGroup />
+					<MobileNoticias />
 				</div>
 			) : (
-				<WebToggle />
+				<WebNoticias />
 			)}
 		</>
 	);

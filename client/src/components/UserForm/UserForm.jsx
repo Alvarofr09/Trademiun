@@ -11,7 +11,7 @@ import { useUserContext } from "../../context/UserContext";
 import { useAuthContext } from "../../context/AuthContext";
 
 export default function UserForm({ closeModal }) {
-	const { login, logout } = useAuthContext();
+	const { login } = useAuthContext();
 	const { user } = useUserContext();
 	const [file, setFile] = useState("");
 	const [image, setImage] = useState("");
@@ -42,8 +42,6 @@ export default function UserForm({ closeModal }) {
 			password,
 			image,
 		});
-
-		console.log(data);
 
 		if (data.status) {
 			const user = {

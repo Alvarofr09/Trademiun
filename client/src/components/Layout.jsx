@@ -12,21 +12,21 @@ export default function Layout() {
 			<nav>
 				{auth ? (
 					isMobile ? (
-						<div className="flex flex-col">
-							<main className="basis-10/12 mx-auto">
+						<div className="flex flex-col h-screen">
+							<main className="basis-11/12 ">
 								<Outlet />
 							</main>
-							<div className="w-full basis-2/12 mx-auto">
+							<div className="w-full basis-1/12 mx-auto">
 								<BottomBar />
 							</div>
 						</div>
 					) : (
 						// Contenido para usuarios autenticados en dispositivos de escritorio
 						<div className="flex">
-							<div className="basis-2/12 mx-auto">
+							<div className="basis-1/12 mx-auto">
 								<SideBar />
 							</div>
-							<main className="basis-10/12 mx-auto">
+							<main className="basis-11/12 mx-auto w-full">
 								<Outlet />
 							</main>
 						</div>
