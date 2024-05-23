@@ -103,10 +103,7 @@ userDao.updateUser = async (id, userData) => {
 		conn = await db.createConection();
 
 		let userObj = {
-			username: userData.username,
-			email: userData.email,
-			password: userData.password ? md5(userData.password) : undefined,
-			image: userData.image,
+			...userData,
 			updateDate: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 

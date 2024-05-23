@@ -56,7 +56,7 @@ const userLogin = async (req, res, next) => {
 			image: user.image,
 			group_id: user.group_id,
 			seguidores: user.seguidores,
-			descripcion: user.descripcion,
+			description: user.description,
 			rentabilidad: user.rentabilidad,
 		});
 
@@ -178,19 +178,30 @@ const getUsersBySeguidores = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		if (Object.entries(req.body).length === 0) {
-			return res.status(400).send("Error al recibir el body");
+		if (!id) {
+			return res.status(400).send("ID de usuario no proporcionado");
 		}
 
-		const { username, email, password, image } = req.body;
-		let newUserData = { username, email, password };
+		if (Object.entries(req.body).length === 0) {
+			return res.status(400).send("El body de la solicitud está vacío");
+		}
 
-		if (image) {
-			const uploadedImage = await cloudinary.uploader.upload(
-				image,
-				{
+		// Inicializa el objeto de datos del usuario
+		let newUserData = {};
+
+		// Recorre los campos en el body de la solicitud y añádelos a newUserData
+		for (let key in req.body) {
+			if (req.body.hasOwnProperty(key) && key !== "image") {
+				newUserData[key] = req.body[key];
+			}
+		}
+
+		// Manejo especial para la imagen
+		if (req.body.image) {
+			try {
+				const uploadedImage = await cloudinary.uploader.upload(req.body.image, {
 					upload_preset: "user_upload",
-					public_id: `${username}_${new Date().toISOString()}`,
+					public_id: `${req.body.username}_${new Date().toISOString()}`,
 					allowed_formats: [
 						"jpg",
 						"png",
@@ -201,26 +212,30 @@ const updateUser = async (req, res, next) => {
 						"webp",
 						"gif",
 					],
-				},
-				function (error, result) {
-					if (error) console.log(error);
-					console.log(result);
-				}
-			);
+				});
 
-			newUserData.image = uploadedImage.public_id;
+				newUserData.image = uploadedImage.public_id;
+			} catch (uploadError) {
+				console.error(uploadError);
+				return res.status(500).send("Error al subir la imagen");
+			}
 		}
 
-		const isUserUpdate = await dao.updateUser(id, newUserData);
+		// Actualiza el usuario en la base de datos
+		const isUserUpdated = await dao.updateUser(id, newUserData);
 
-		if (!isUserUpdate) {
+		if (!isUserUpdated) {
 			return res.status(500).send("No se ha podido actualizar el usuario");
 		}
 
+		// Recupera el usuario actualizado
 		let user = await dao.getUserById(id);
-		[user] = user;
+		if (!user || user.length === 0) {
+			return res.status(404).send("Usuario no encontrado");
+		}
 
-		res.status(201).json({ user, status: true });
+		// Devuelve la respuesta con el usuario actualizado
+		res.status(201).json({ user: user[0], status: true });
 	} catch (error) {
 		next(error);
 	}
