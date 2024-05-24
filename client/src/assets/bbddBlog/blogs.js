@@ -23,27 +23,27 @@ const blogs = [
       "Bitcoin ha mostrado una fuerte recuperación esta semana, alcanzando la marca de los 60,000$ debido a un aumento en la demanda institucional...",
     fecha: "18-05-2024",
     enlace:
-      "https://www.coindesk.com/news/bitcoin-alcanza-los-60000-nuevamente-demanda-institucional",
+      "https://es.ambcrypto.com/bitcoin-este-grupo-huye-a-pesar-del-aumento-de-60-000-dolares-de-btc-que-saben",
   },
   {
     id: 3,
     img: petroleo,
     titulo: "El precio del petróleo sube por tensiones en Medio Oriente",
     descripcion:
-      "El precio del petróleo crudo subió un 5% hoy debido a las crecientes tensiones geopolíticas en Medio Oriente, que han afectado la oferta mundial...",
+      "El precio del petróleo crudo subió un 5% hoy debido a las crecientes tensiones geopolíticas en Medio Oriente, que han afectado la oferta mundial, y los analistas prevén que esta tendencia al alza podría continuar...",
     fecha: "19-05-2024",
     enlace:
-      "https://www.reuters.com/business/el-precio-del-petroleo-sube-tensiones-medio-oriente-202405192004",
+      "https://www.realinstitutoelcano.org/analisis/los-efectos-economicos-y-geopoliticos-de-la-guerra-de-gaza/",
   },
   {
     id: 4,
     img: ethereum,
     titulo: "Ethereum se consolida por encima de los 4,000$",
     descripcion:
-      "Ethereum ha logrado consolidarse por encima de los 4,000$ impulsado por el crecimiento de las aplicaciones DeFi y el aumento del uso de contratos inteligentes...",
+      "Ethereum ha logrado consolidarse por encima de los 4,000$ impulsado por el crecimiento de las aplicaciones DeFi y el aumento del uso de contratos inteligentes, atrayendo así a más inversores...",
     fecha: "20-05-2024",
     enlace:
-      "https://www.crypto-news.com/ethereum-se-consolida-por-encima-de-los-4000-aplicaciones-defi",
+      "https://es.cointelegraph.com/news/ether-reaches-4k-short-lived-hype-or-long-term-support",
   },
   {
     id: 5,
@@ -54,17 +54,17 @@ const blogs = [
       "Las acciones de Amazon subieron un 10% hoy después de que la compañía anunciara una serie de nuevas inversiones en tecnología y logística...",
     fecha: "23-05-2024",
     enlace:
-      "https://www.noticiasfinancieras.com/acciones-amazon-suben-nuevas-inversiones-202405232007",
+      "https://www.estrategiasdeinversion.com/actualidad/noticias/bolsa-eeuu/amazon-revive-su-expansion-logistica-en-eeuu-n-n-717097",
   },
   {
     id: 6,
     img: apple,
     titulo: "Apple nombrada la mejor empresa estadounidense en 2024",
     descripcion:
-      "Apple ha sido nombrada la mejor empresa estadounidense en 2024 por su innovación continua, fuerte desempeño financiero y liderazgo en sostenibilidad...",
+      "Apple ha sido nombrada la mejor empresa estadounidense en 2024 por su innovación continua, fuerte desempeño financiero y liderazgo en sostenibilidad, consolidándose otro año más...",
     fecha: "24-05-2024",
     enlace:
-      "https://www.financialnews.com/apple-nombrada-mejor-empresa-estadounidense-2024-202405242008",
+      "https://www.revistaeyn.com/empresasymanagement/apple-es-la-firma-mas-respetada-en-estados-unidos-KKEN459157",
   },
 ];
 

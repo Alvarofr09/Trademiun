@@ -19,7 +19,7 @@ const CardBlog = () => {
             <p className="text-lg">{blog.descripcion}</p>
           </div>
           <div className="flex justify-end mr-4 py-2">
-            <a href={blog.enlace}>
+            <a href={blog.enlace} target="_blank">
               <div className="flex items-end">
                 <button className="bg-secundario px-6 py-2 text-white mt-4 rounded-3xl">
                   Leer más
