@@ -123,6 +123,27 @@ userDao.updateUser = async (id, userData) => {
 	}
 };
 
+userDao.getUsersByName = async (name) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+		const nameLike = `${name}%`;
+
+		const sqlQuery = `
+      		SELECT * 
+			FROM users 
+			WHERE username LIKE ?
+			ORDER BY username DESC
+    	`;
+
+		return await db.query(sqlQuery, nameLike, "select", conn);
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 userDao.getAllUsersByRentabilidad = async () => {
 	let conn = null;
 	try {

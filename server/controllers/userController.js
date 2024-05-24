@@ -160,6 +160,20 @@ const getUsersByRentabilidad = async (req, res, next) => {
 	}
 };
 
+const getUsersByName = async (req, res, next) => {
+	try {
+		const user_name = req.params.name;
+		const users = await dao.getUsersByName(user_name);
+
+		if (users.length === 0)
+			return res.json({ message: "Error al traer los grupos", status: true });
+
+		return res.json({ users });
+	} catch (error) {
+		next(error);
+	}
+};
+
 const getUsersBySeguidores = async (req, res, next) => {
 	try {
 		let users = await dao.getAllUsersBySeguidores();
@@ -275,6 +289,7 @@ module.exports = {
 	isFollowing,
 	getAllUsers,
 	getUser,
+	getUsersByName,
 	getUsersByRentabilidad,
 	getUsersBySeguidores,
 	updateUser,

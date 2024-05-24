@@ -12,6 +12,7 @@ export const getAllUsersRoute = `${host}/api/auth/allUsers`;
 export const getUserInfo = `${host}/api/auth/getUserInfo`;
 export const getTopRentabilidad = `${host}/api/auth/get-users-by-rentabilidad`;
 export const getTopSeguidores = `${host}/api/auth/get-users-by-seguidores`;
+export const getUsersByNameRoute = `/api/auth/get-users-by-name`;
 export const updateUserRoute = `${host}/api/auth/update-user`;
 export const hasGroupRoute = `${host}/api/auth/has-group`;
 
@@ -23,7 +24,7 @@ export const deleteGroupRoute = `/api/groups/delete-group`;
 export const joinGroupRoute = `${host}/api/groups/join-group`;
 export const leaveGroupRoute = `${host}/api/groups/leave-group`;
 export const getAllGroupsOfUser = `${host}/api/groups/get-groups-user`;
-export const getAllGroupsOfUserByName = `${host}/api/groups/get-groups-user-BY-NAME`;
+export const getAllGroupsOfUserByName = `${host}/api/groups/get-groups-user-by-name`;
 export const getAllGroups = `${host}/api/groups/get-all-groups`;
 export const getGroupsByName = `${host}/api/groups/get-all-groups-by-name`;
 export const getGroupsInfo = `${host}/api/groups/get-group-info`;
