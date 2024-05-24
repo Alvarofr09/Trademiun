@@ -1,9 +1,9 @@
 import CardUltimosTrades from "../components/CardUltimosTrades";
-import InputSearch from "../components/InputSearch";
+import InputSearch from "../components/ui/InputSearch";
 
 export default function MobileNoticias() {
 	return (
-		<div className="mx-auto max-w-full h-3/5 bg-primario">
+		<div className="mx-auto max-w-full h-full bg-primario pb-20">
 			<InputSearch />
 			<h2 className="text-center text-2xl font-bold text-white p-4">
 				Últimos trades
