@@ -56,7 +56,7 @@ const dbSetup = async () => {
 	await insertMembership();
 };
 
-// dbSetup().catch((error) => console.error(error));
+dbSetup().catch((error) => console.error(error));
 
 app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter);
