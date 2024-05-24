@@ -6,10 +6,10 @@ import WebChat from "./views/WebChat";
 
 import CommingSoon from "./views/CommingSoon";
 import WebPagos from "./views/WebPagos";
-import WebNoticias from "./views/WebNoticias";
 import ViewLogin from "./views/ViewLogin";
 import ViewPerfil from "./views/ViewPerfil";
 import ViewBuscador from "./views/ViewBuscador";
+import ViewNoticias from "./views/ViewNoticias";
 
 function App() {
 	return (
@@ -22,7 +22,7 @@ function App() {
 					<Route element={<RequireAuth />}>
 						<Route path="/" element={<WebChat />} />
 						<Route path="/busqueda" element={<ViewBuscador />} />
-						<Route path="/noticias" element={<WebNoticias />} />
+						<Route path="/noticias" element={<ViewNoticias />} />
 						<Route path="/cursos" element={<CommingSoon />} />
 						<Route path="/user/:id" element={<ViewPerfil />} />
 						<Route path="/pagos" element={<WebPagos />} />
