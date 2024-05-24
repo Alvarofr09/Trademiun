@@ -14,7 +14,7 @@ import Img from "../components/ui/CloudinaryImg";
 import { Link } from "react-router-dom";
 import { IconArrowDown, IconArrowUp } from "@tabler/icons-react";
 
-const WebBuscador = () => {
+export default function WebBuscador() {
 	const [mostrarSeguidores, setMostrarSeguidores] = useState(true);
 	const [usuarios, setUsuarios] = useState([]);
 	const [topThree, setTopThree] = useState([]);
@@ -183,6 +183,4 @@ const WebBuscador = () => {
 			</div>
 		</div>
 	);
-};
-
-export default WebBuscador;
+}
