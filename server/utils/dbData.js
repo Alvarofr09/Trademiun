@@ -7,6 +7,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 360,
 		rentabilidad: 500,
 	},
@@ -16,6 +18,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 367,
 		rentabilidad: 513,
 	},
@@ -25,6 +29,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 143,
 		rentabilidad: 99,
 	},
@@ -34,6 +40,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 584,
 		rentabilidad: 256,
 	},
@@ -43,6 +51,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 924,
 		rentabilidad: 712,
 	},
@@ -52,6 +62,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 748,
 		rentabilidad: 330,
 	},
@@ -61,6 +73,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 561,
 		rentabilidad: 19,
 	},
@@ -70,6 +84,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 290,
 		rentabilidad: 797,
 	},
@@ -79,6 +95,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 643,
 		rentabilidad: 854,
 	},
@@ -88,6 +106,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 498,
 		rentabilidad: 162,
 	},
@@ -99,60 +119,70 @@ const groupsData = [
 		description: "Descripción del Grupo A",
 		price: 150,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 1,
 	},
 	{
 		group_name: "Grupo B",
 		description: "Descripción del Grupo B",
 		price: 250,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 2,
 	},
 	{
 		group_name: "Grupo C",
 		description: "Descripción del Grupo C",
 		price: 100,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 3,
 	},
 	{
 		group_name: "Grupo D",
 		description: "Descripción del Grupo D",
 		price: 300,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 4,
 	},
 	{
 		group_name: "Grupo E",
 		description: "Descripción del Grupo E",
 		price: 200,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 5,
 	},
 	{
 		group_name: "Grupo F",
 		description: "Descripción del Grupo F",
 		price: 150,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 6,
 	},
 	{
 		group_name: "Grupo G",
 		description: "Descripción del Grupo G",
 		price: 50,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 7,
 	},
 	{
 		group_name: "Grupo H",
 		description: "Descripción del Grupo H",
 		price: 75,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 8,
 	},
 	{
 		group_name: "Grupo I",
 		description: "Descripción del Grupo I",
 		price: 200,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 9,
 	},
 	{
 		group_name: "Grupo J",
 		description: "Descripción del Grupo J",
 		price: 175,
 		image: "Trademiun/Groups_Avatar/caoelvgumyzsvs5x0bh5",
+		admin_id: 10,
 	},
 ];
 
@@ -209,12 +239,13 @@ const insertUsers = async () => {
 				password,
 				userRole,
 				image,
+				description,
 				seguidores,
 				rentabilidad,
 			} = user;
 			const sqlQuery = `
-        INSERT INTO users (username, email, password, userRole, image, seguidores, rentabilidad)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO users (username, email, password, userRole, image, description, seguidores, rentabilidad)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `;
 			const params = [
 				username,
@@ -222,6 +253,7 @@ const insertUsers = async () => {
 				password,
 				userRole,
 				image,
+				description,
 				seguidores,
 				rentabilidad,
 			];
@@ -236,12 +268,12 @@ const insertGroups = async () => {
 	let conn = await db.createConection();
 	try {
 		for (const group of groupsData) {
-			const { group_name, description, price, image } = group;
+			const { group_name, description, price, image, admin_id } = group;
 			const sqlQuery = `
-                INSERT INTO grupos (group_name, description, price, image)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO grupos (group_name, description, price, image, admin_id)
+                VALUES (?, ?, ?, ?, ?)
             `;
-			const params = [group_name, description, price, image];
+			const params = [group_name, description, price, image, admin_id];
 			await db.query(sqlQuery, params, "insert", conn);
 		}
 	} finally {

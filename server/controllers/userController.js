@@ -56,6 +56,7 @@ const userLogin = async (req, res, next) => {
 			image: user.image,
 			group_id: user.group_id,
 			seguidores: user.seguidores,
+			description: user.description,
 			rentabilidad: user.rentabilidad,
 		});
 
@@ -81,8 +82,6 @@ const followUser = async (req, res, next) => {
 	try {
 		const { user_id, to_follow } = req.body;
 		const data = await dao.followUser(user_id, to_follow);
-
-		console.log(data);
 
 		if (data) {
 			res.status(201).json({ message: "Seguido", status: true });
@@ -116,7 +115,7 @@ const unfollowUser = async (req, res, next) => {
 const isFollowing = async (req, res, next) => {
 	try {
 		const { user_id, to_check } = req.body;
-		const isFollowing = await dao.isFollowing(user_id, to_check);
+		let isFollowing = await dao.isFollowing(user_id, to_check);
 
 		res.status(200).json({ isFollowing });
 	} catch (error) {
@@ -179,49 +178,64 @@ const getUsersBySeguidores = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		if (Object.entries(req.body).length === 0)
-			return res.status(400).send("Error al recibir el body");
+		if (!id) {
+			return res.status(400).send("ID de usuario no proporcionado");
+		}
 
-		const { username, email, password, image } = req.body;
+		if (Object.entries(req.body).length === 0) {
+			return res.status(400).send("El body de la solicitud está vacío");
+		}
 
-		const uploadedImage = await cloudinary.uploader.upload(
-			image,
-			{
-				upload_preset: "user_upload",
-				public_id: `${username}_${new Date()}`,
-				allowed_formats: [
-					"jpg",
-					"png",
-					"jpeg",
-					"svg",
-					"ico",
-					"jfif",
-					"webp",
-					"gif",
-				],
-			},
-			function (error, result) {
-				if (error) console.log(error);
-				console.log(result);
+		// Inicializa el objeto de datos del usuario
+		let newUserData = {};
+
+		// Recorre los campos en el body de la solicitud y añádelos a newUserData
+		for (let key in req.body) {
+			if (req.body.hasOwnProperty(key) && key !== "image") {
+				newUserData[key] = req.body[key];
 			}
-		);
+		}
 
-		const newUserData = {
-			username,
-			email,
-			password,
-			image: uploadedImage.public_id,
-		};
+		// Manejo especial para la imagen
+		if (req.body.image) {
+			try {
+				const uploadedImage = await cloudinary.uploader.upload(req.body.image, {
+					upload_preset: "user_upload",
+					public_id: `${req.body.username}_${new Date().toISOString()}`,
+					allowed_formats: [
+						"jpg",
+						"png",
+						"jpeg",
+						"svg",
+						"ico",
+						"jfif",
+						"webp",
+						"gif",
+					],
+				});
 
-		const isUserUpdate = await dao.updateUser(id, newUserData);
+				newUserData.image = uploadedImage.public_id;
+			} catch (uploadError) {
+				console.error(uploadError);
+				return res.status(500).send("Error al subir la imagen");
+			}
+		}
 
-		if (!isUserUpdate)
+		// Actualiza el usuario en la base de datos
+		const isUserUpdated = await dao.updateUser(id, newUserData);
+
+		if (!isUserUpdated) {
 			return res.status(500).send("No se ha podido actualizar el usuario");
+		}
 
+		// Recupera el usuario actualizado
 		let user = await dao.getUserById(id);
-		[user] = user;
+		if (!user || user.length === 0) {
+			return res.status(404).send("Usuario no encontrado");
+		}
 
-		res.status(201).json({ user, status: true });
+		// Devuelve la respuesta con el usuario actualizado
+		res.status(201).json({ user: user[0], status: true });
 	} catch (error) {
 		next(error);
 	}
@@ -231,15 +245,15 @@ const hasGroup = async (req, res, next) => {
 	try {
 		const user_id = req.params.id;
 
-		const tiene_grupo = await dao.hasGroup(user_id);
-		console.log("hasGroup", tiene_grupo[0].tiene_grupo);
-		const has_group = tiene_grupo[0].tiene_grupo;
+		const [response] = await dao.hasGroup(user_id);
+		const has_group = response.admin_id == user_id;
 
 		if (has_group) {
-			return res.status(400).json({
+			return res.status(200).json({
 				message: "Ya has creado un grupo",
 				status: false,
 				hasGroup: true,
+				group_id: response.id,
 			});
 		} else {
 			return res.status(200).json({

@@ -19,9 +19,14 @@ export const sendMessageRoute = `${host}/api/messages/add-message`;
 export const getAllGroupMessages = `${host}/api/messages/getGroupMessages`;
 
 export const createGroupRoute = `${host}/api/groups/create-group`;
+export const deleteGroupRoute = `/api/groups/delete-group`;
 export const joinGroupRoute = `${host}/api/groups/join-group`;
 export const leaveGroupRoute = `${host}/api/groups/leave-group`;
-export const getAllGroups = `${host}/api/groups/get-groups`;
+export const getAllGroupsOfUser = `${host}/api/groups/get-groups-user`;
+export const getAllGroupsOfUserByName = `${host}/api/groups/get-groups-user-BY-NAME`;
+export const getAllGroups = `${host}/api/groups/get-all-groups`;
+export const getGroupsByName = `${host}/api/groups/get-all-groups-by-name`;
+export const getGroupsInfo = `${host}/api/groups/get-group-info`;
 export const isInGroupRoute = `${host}/api/groups/is-in-group`;
 export const isAdmin = `${host}/api/groups/is-admin`;
 

@@ -103,10 +103,7 @@ userDao.updateUser = async (id, userData) => {
 		conn = await db.createConection();
 
 		let userObj = {
-			username: userData.username,
-			email: userData.email,
-			password: userData.password ? md5(userData.password) : undefined,
-			image: userData.image,
+			...userData,
 			updateDate: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 
@@ -186,11 +183,9 @@ userDao.hasGroup = async (id) => {
 		conn = await db.createConection();
 
 		return await db.query(
-			`SELECT EXISTS (
-                SELECT 1
-                FROM users
-                WHERE group_id IS NOT NULL AND id = ?
-            ) AS tiene_grupo`,
+			`SELECT *
+			FROM grupos
+			WHERE admin_id = ?`,
 			[id],
 			"select",
 			conn
@@ -224,13 +219,7 @@ userDao.unfollowUser = async (user_id, to_unfollow) => {
             DELETE FROM follow
             WHERE follower_id = ? AND followed_id = ?;
         `;
-		const result = await db.query(
-			SqlQuery,
-			[user_id, to_unfollow],
-			"delete",
-			conn
-		);
-		return result.affectedRows > 0;
+		return await db.query(SqlQuery, [user_id, to_unfollow], "delete", conn);
 	} catch (error) {
 		throw new Error(error);
 	} finally {
@@ -252,7 +241,8 @@ userDao.isFollowing = async (user_id, to_check) => {
 			"select",
 			conn
 		);
-		return rows[0].count > 0;
+
+		return rows.count > 0; // Devuelve un booleano
 	} catch (error) {
 		throw new Error(error);
 	} finally {

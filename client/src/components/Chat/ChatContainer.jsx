@@ -1,7 +1,7 @@
 import ChatInput from "./ChatInput";
 import ChatHeader from "./ChatHeader";
 import Messages from "./Messages";
-
+import { format } from "date-fns";
 import axios from "axios";
 
 import { jwtDecode } from "jwt-decode";
@@ -10,7 +10,6 @@ import {
 	getAllGroupMessages,
 	getSignalsGroup,
 	isAdmin,
-	// getAllMessages,
 	sendMessageRoute,
 	userApi,
 } from "../../api/APIRoutes";
@@ -80,14 +79,15 @@ export default function ChatContainer({ currentChat, socket }) {
 				if (msg.type === "message") {
 					setArrivalMessage({
 						fromSelf: false,
-						username: user.username,
+						username: msg.username,
 						message: msg.message,
+						date: msg.date,
 						type: msg.type,
 					});
 				} else {
 					setArrivalMessage({
 						fromSelf: false,
-						username: user.username,
+						username: msg.username,
 						image: msg.image,
 						description: msg.description,
 						moneda: msg.moneda,
@@ -96,6 +96,7 @@ export default function ChatContainer({ currentChat, socket }) {
 						takeProfit: msg.takeProfit,
 						riesgo: msg.riesgo,
 						isCompra: msg.isCompra,
+						date: msg.date,
 						type: msg.type,
 					});
 				}
@@ -112,6 +113,8 @@ export default function ChatContainer({ currentChat, socket }) {
 	}, [messages]);
 
 	const handleSendMsg = async (msg) => {
+		const now = new Date();
+		const formattedDate = format(now, "yyyy-MM-dd HH:mm:ss");
 		try {
 			await axios.post(sendMessageRoute, {
 				from: user.id,
@@ -122,6 +125,7 @@ export default function ChatContainer({ currentChat, socket }) {
 			socket.current.emit("send-msg", {
 				to: currentChat.id,
 				from: user.id,
+				date: formattedDate,
 				username: user.username,
 				message: msg,
 				type: "message",
@@ -131,6 +135,7 @@ export default function ChatContainer({ currentChat, socket }) {
 			msgs.push({
 				fromSelf: true,
 				message: msg,
+				date: formattedDate,
 				type: "message",
 				username: user.username,
 			});
@@ -159,6 +164,7 @@ export default function ChatContainer({ currentChat, socket }) {
 			to: group_id,
 			from: sender_id,
 			username: user.username,
+			date: Date.now(),
 			image,
 			description,
 			moneda,
@@ -173,6 +179,7 @@ export default function ChatContainer({ currentChat, socket }) {
 		msgs.push({
 			fromSelf: true,
 			username: user.username,
+			date: Date.now(),
 			image,
 			description,
 			moneda,

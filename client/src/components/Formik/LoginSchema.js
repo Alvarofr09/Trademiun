@@ -5,5 +5,5 @@ const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 
 export const LoginSchema = yup.object().shape({
 	email: yup.string().email("Email incorrecto").required("Email Requerido"),
-	password: yup.string().min(5).required("Password requerido"),
+	password: yup.string().required("Password requerido"),
 });
