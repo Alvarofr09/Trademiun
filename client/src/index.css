@@ -219,10 +219,10 @@
 	@apply !bg-sky-300;
 }
 
-.range-input::-webkit-slider-thumb {
-	@apply appearance-none w-0 h-0;
-}
-
-.thumb {
-	@apply appearance-none;
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	/* appearance: none; */
+	border: none;
+	width: 0;
+	height: 0;
 }
