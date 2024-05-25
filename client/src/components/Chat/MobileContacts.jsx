@@ -17,7 +17,7 @@ export default function MobileContacts({ contacts, socket }) {
 	};
 
 	return (
-		<div className="container h-full flex flex-col overflow-hidden bg-white">
+		<div className="container h-full flex flex-col overflow-hidden dark:bg-primario bg-white">
 			{currentSelected ? (
 				<MobileChatContainer
 					currentChat={currentSelected}

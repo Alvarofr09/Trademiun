@@ -13,7 +13,7 @@ export default function Layout() {
 				{auth ? (
 					isMobile ? (
 						<div className="flex flex-col h-screen">
-							<main className="basis-11/12 ">
+							<main className="basis-11/12 dark:bg-primario dark:text-white">
 								<Outlet />
 							</main>
 							<div className="w-full basis-1/12 mx-auto">

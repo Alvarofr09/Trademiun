@@ -72,7 +72,7 @@ export default function MobileBuscador() {
 	}, []);
 
 	return (
-		<div className="mx-autow-full h-full bg-primario pb-20">
+		<div className="mx-autow-full h-full dark:bg-primario pb-20">
 			<InputSearch handleSearch={handleSearch} />
 			{users.length > 0 && (
 				<div className="centered flex-col">
