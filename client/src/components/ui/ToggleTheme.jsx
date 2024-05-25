@@ -12,12 +12,10 @@ const ThemeToggleButton = () => {
 			{theme === "light" ? (
 				<>
 					<IconMoonFilled className="mr-2" />
-					<p className="md:hidden lg:block">Dark Theme</p>
 				</>
 			) : (
 				<>
 					<IconSunFilled className="mr-2" />
-					<p className="md:hidden lg:block">Light Theme</p>
 				</>
 			)}
 		</button>
