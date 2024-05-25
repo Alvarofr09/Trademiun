@@ -63,9 +63,10 @@ export default function WebChat() {
 	}, [navigate]);
 
 	useEffect(() => {
+		console.log(currentChat);
 		if (currentChat) {
 			socket.current = io(host);
-			socket.current.emit("add-user", currentChat.id);
+			socket.current.emit("add-user", currentChat.group_id);
 		}
 	}, [currentChat]);
 
@@ -79,7 +80,7 @@ export default function WebChat() {
 				<MobileContacts contacts={contacts} socket={socket} />
 			) : (
 				<>
-					<div className="basis-8/12 border-x-2 border-black mx-auto h-screen ">
+					<div className="basis-8/12 border-x-2 border-black dark:border-white mx-auto h-screen ">
 						{isLoaded && currentChat === undefined ? (
 							<Welcome />
 						) : (

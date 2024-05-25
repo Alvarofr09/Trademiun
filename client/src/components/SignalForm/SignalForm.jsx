@@ -33,7 +33,7 @@ export default function SignalForm({
 
 		const signalData = {
 			from: user.id,
-			to: currentChat.id,
+			to: currentChat.group_id,
 			image: image,
 			description,
 			moneda: coin,
@@ -91,7 +91,9 @@ export default function SignalForm({
 								type="textarea"
 							/>
 
-							<h3 className="titulo tracking-widest text-black">TRADE</h3>
+							<h3 className="titulo tracking-widest text-black dark:text-white">
+								TRADE
+							</h3>
 							<div className="flex gap-4">
 								<Select name="coin" placeholder="Coin">
 									<option value="">Coin</option>

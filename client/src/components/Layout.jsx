@@ -26,7 +26,7 @@ export default function Layout() {
 							<div className="basis-1/12 mx-auto">
 								<SideBar />
 							</div>
-							<main className="basis-11/12 mx-auto w-full">
+							<main className="basis-11/12 mx-auto w-full dark:bg-primario">
 								<Outlet />
 							</main>
 						</div>

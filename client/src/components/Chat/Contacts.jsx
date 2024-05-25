@@ -14,18 +14,18 @@ export default function Contacts({ handleSearch, contacts, changeChat }) {
 	return (
 		<>
 			<div
-				className="container h-full flex flex-col overflow-hidden bg-white"
+				className="container h-full flex flex-col overflow-hidden bg-white dark:bg-primario "
 				// style={{ gridTemplateRows: "10% 65% auto" }}
 			>
 				<div className="basis-1/12 w-full">
 					<InputSearch handleSearch={handleSearch} />
 				</div>
 				<div className="contacts basis-11/12">
-					{contacts.map((contact, index) => {
-						return (
+					{contacts &&
+						contacts.map((contact, index) => (
 							<div
-								className={`contact  ${
-									index === currentSelected && "selected-contact"
+								className={`contact ${
+									index === currentSelected ? "selected-contact" : ""
 								}`}
 								key={index}
 								onClick={() => changeCurrentChat(index, contact)}
@@ -40,14 +40,13 @@ export default function Contacts({ handleSearch, contacts, changeChat }) {
 										/>
 									</div>
 								)}
-								<div className="  username">
-									<h3 className=" text-xl  bold">{contact.group_name}</h3>
+								<div className="username">
+									<h3 className="text-xl font-bold">{contact.group_name}</h3>
 								</div>
 							</div>
-						);
-					})}
+						))}
 
-					<p className=" mt-8 text-center text-xs text-primario">
+					<p className=" mt-8 text-center text-xs text-primario dark:text-white">
 						¿No tienes más chats? Buscalos{" "}
 						<Link to="/busqueda" className="text-secundario underline">
 							AQUI

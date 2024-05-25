@@ -1,4 +1,5 @@
-import useThemeToggle from "./useThemeToggle";
+import useThemeToggle from "../../hooks/useThemeToggle";
+import { IconSunFilled, IconMoonFilled } from "@tabler/icons-react";
 
 const ThemeToggleButton = () => {
 	const [theme, toggleTheme] = useThemeToggle();
@@ -6,9 +7,19 @@ const ThemeToggleButton = () => {
 	return (
 		<button
 			onClick={toggleTheme}
-			className="px-4 py-2 bg-gray-300 dark:bg-gray-700 text-black dark:text-white rounded"
+			className="text-black dark:text-white flex items-center"
 		>
-			{theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
+			{theme === "light" ? (
+				<>
+					<IconMoonFilled className="mr-2" />
+					<p className="md:hidden lg:block">Dark Theme</p>
+				</>
+			) : (
+				<>
+					<IconSunFilled className="mr-2" />
+					<p className="md:hidden lg:block">Light Theme</p>
+				</>
+			)}
 		</button>
 	);
 };

@@ -101,19 +101,23 @@ export default function WebBuscador() {
 
 	return (
 		<div className="flex h-full ">
-			<div className="basis-8/12 mx-auto border-x-2 border-x-primario">
-				<div className="flex justify-center  py-12 gap-36 2xl:gap-48">
+			<div className="basis-8/12 mx-auto border-x-2 dark:bg-primario border-x-primario dark:border-x-white">
+				<div className="flex justify-center dark:bg-primario  py-12 gap-36 2xl:gap-48">
 					<button
-						className={`text-primario text-3xl px-4 py-2 font-bold ${
-							mostrarSeguidores ? "bg-fondoWebApp rounded-2xl" : ""
+						className={`text-primario dark:text-white text-3xl px-4 py-2 font-bold ${
+							mostrarSeguidores
+								? "bg-fondoWebApp rounded-2xl !text-primario"
+								: ""
 						}`}
 						onClick={mostrarSeguidoresHandler}
 					>
 						Top Seguidores
 					</button>
 					<button
-						className={`text-primario text-3xl px-4 py-2 font-bold ${
-							mostrarSeguidores ? "" : "bg-fondoWebApp rounded-2xl"
+						className={`text-primario dark:text-white text-3xl px-4 py-2 font-bold ${
+							mostrarSeguidores
+								? ""
+								: "bg-fondoWebApp rounded-2xl !text-primario"
 						}`}
 						onClick={mostrarRentabilidadHandler}
 					>
@@ -121,7 +125,7 @@ export default function WebBuscador() {
 					</button>
 				</div>
 
-				<section className="podium max-w-[90%] mx-auto">
+				<section className="podium dark:bg-primario max-w-[90%] mx-auto">
 					<div className="flex justify-center">
 						<Podium podium={topThree} seguidores={mostrarSeguidores} />
 					</div>
@@ -132,7 +136,7 @@ export default function WebBuscador() {
 				</div>
 			</div>
 
-			<div className="basis-4/12 mx-auto bg-white relative">
+			<div className="basis-4/12 mx-auto dark:bg-primario bg-white relative">
 				<InputSearch handleSearch={handleSearch} />
 				<div className="contacts ">
 					{grupos.slice(0, visibleGroups).map((grupo, index) => (
