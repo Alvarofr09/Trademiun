@@ -32,7 +32,7 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 			const user = jwtDecode(token);
 
 			const { data } = await axios.post(`${isAdmin}/${user.id}`, {
-				group_id: currentChat.id,
+				group_id: currentChat.group_id,
 			});
 
 			if (data.isAdmin) {
@@ -50,12 +50,12 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 			if (!currentChat) return;
 			const mensajes = await userApi.post(getAllGroupMessages, {
 				from: user.id,
-				to: currentChat.id,
+				to: currentChat.group_id,
 			});
 
 			const signals = await userApi.post(getSignalsGroup, {
 				from: user.id,
-				to: currentChat.id,
+				to: currentChat.group_id,
 			});
 
 			console.log(signals.data);
@@ -118,12 +118,12 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 		try {
 			await axios.post(sendMessageRoute, {
 				from: user.id,
-				to: currentChat.id,
+				to: currentChat.group_id,
 				text: msg,
 			});
 
 			socket.current.emit("send-msg", {
-				to: currentChat.id,
+				to: currentChat.group_id,
 				from: user.id,
 				date: formattedDate,
 				username: user.username,
