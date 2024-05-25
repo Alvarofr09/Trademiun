@@ -30,7 +30,7 @@ const blogs = [
     img: petroleo,
     titulo: "El precio del petróleo sube por tensiones en Medio Oriente",
     descripcion:
-      "El precio del petróleo crudo subió un 5% hoy debido a las crecientes tensiones geopolíticas en Medio Oriente, que han afectado la oferta mundial, y los analistas prevén que esta tendencia al alza podría continuar...",
+      "El precio del petróleo crudo subió un 5% hoy debido a las crecientes tensiones geopolíticas en Medio Oriente, que han afectado la oferta mundial...",
     fecha: "19-05-2024",
     enlace:
       "https://www.realinstitutoelcano.org/analisis/los-efectos-economicos-y-geopoliticos-de-la-guerra-de-gaza/",
@@ -40,7 +40,7 @@ const blogs = [
     img: ethereum,
     titulo: "Ethereum se consolida por encima de los 4,000$",
     descripcion:
-      "Ethereum ha logrado consolidarse por encima de los 4,000$ impulsado por el crecimiento de las aplicaciones DeFi y el aumento del uso de contratos inteligentes, atrayendo así a más inversores...",
+      "Ethereum ha logrado consolidarse por encima de los 4,000$ impulsado por el crecimiento de las aplicaciones DeFi y el aumento del uso de contratos inteligentes...",
     fecha: "20-05-2024",
     enlace:
       "https://es.cointelegraph.com/news/ether-reaches-4k-short-lived-hype-or-long-term-support",
