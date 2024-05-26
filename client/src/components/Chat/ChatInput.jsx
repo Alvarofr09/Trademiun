@@ -55,12 +55,13 @@ export default function ChatInput({
 							{showEmojiPicker && (
 								<Picker className="" onEmojiClick={handleEmojiClick} />
 							)}
-							<IconMoodHappy
-								onClick={handleEmojiPickerHideShow}
-								color={theme === "dark" ? "#FFFFFF" : "#1A1A1A"}
-								className="cursor-pointer"
-								size={30}
-							/>
+							<div className=" text-primario dark:text-white">
+								<IconMoodHappy
+									onClick={handleEmojiPickerHideShow}
+									className="cursor-pointer "
+									size={30}
+								/>
+							</div>
 						</div>
 					</div>
 
@@ -87,10 +88,11 @@ export default function ChatInput({
 						</>
 					</form>
 
-					<div className="signal" onClick={showSignalForm}>
-						<IconClipboardData
-							color={theme === "dark" ? "#FFFFFF" : "#1A1A1A"}
-						/>
+					<div
+						className="signal text-primario dark:text-white"
+						onClick={showSignalForm}
+					>
+						<IconClipboardData />
 					</div>
 
 					{showModal && (
