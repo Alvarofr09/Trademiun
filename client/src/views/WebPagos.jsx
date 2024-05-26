@@ -48,7 +48,7 @@ const WebPagos = () => {
 							Introducir retiro
 						</p>
 						<input
-							className="border-solid border-2 border-primario dark:border-white p-2 px-3 rounded-md"
+							className="border-solid border-2 border-primario dark:border-white dark:text-primario p-2 px-3 rounded-md"
 							type="number"
 						/>
 					</div>

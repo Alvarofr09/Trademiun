@@ -70,7 +70,7 @@ export default function CardUser({ seguidores, usuario }) {
 	return (
 		<>
 			<section className="py-2 mx-2">
-				<div className="flex flex-row max-w-xl mx-auto p-2 bg-terciario rounded-full">
+				<div className="flex flex-row max-w-xl mx-auto p-2 bg-fondoWebApp dark:bg-terciario rounded-full">
 					<div className="ml-1 self-center">
 						<Img
 							className="inline-block h-20 w-20 rounded-full ring-2 ring-transparent basis-4/12"
@@ -80,10 +80,10 @@ export default function CardUser({ seguidores, usuario }) {
 					</div>
 
 					<div className="mb-2 ml-4 basis-4/12">
-						<h6 className="inline-block ml-3 text-white font-bold text-start">
+						<h6 className="inline-block ml-3 text-primario dark:text-white font-bold text-start">
 							{usuario.username}
 						</h6>
-						<p className="text-tipografia text-start ml-3 mb-2 ">
+						<p className="dark:text-tipografia text-terciario text-start ml-3 mb-2 ">
 							{usuario.seguidores} seguidores
 						</p>
 						{isFollowing ? (
@@ -95,7 +95,7 @@ export default function CardUser({ seguidores, usuario }) {
 							</button>
 						) : (
 							<button
-								className="bg-white ml-2 text-tipografia text-center font-bold rounded-3xl w-32"
+								className="bg-white ml-2 dark:text-tipografia text-terciario text-center font-bold rounded-3xl w-32"
 								onClick={(e) => handleFollow(e)}
 							>
 								Seguir
@@ -108,14 +108,18 @@ export default function CardUser({ seguidores, usuario }) {
 								<h3 className="text-secundario text-xl font-bold mt-4 ml-8">
 									{usuario.seguidores}{" "}
 								</h3>
-								<p className="text-tipografia ml-4">seguidores</p>
+								<p className="dark:text-tipografia text-terciario ml-4">
+									seguidores
+								</p>
 							</>
 						) : (
 							<>
 								<h3 className="text-secundario text-xl font-bold mt-4 ml-8">
 									{usuario.rentabilidad}%
 								</h3>
-								<p className="text-tipografia ml-4">rentabilidad</p>
+								<p className="dark:text-tipografia text-terciario ml-4">
+									rentabilidad
+								</p>
 							</>
 						)}
 					</div>

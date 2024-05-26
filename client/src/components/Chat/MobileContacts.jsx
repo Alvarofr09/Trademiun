@@ -55,7 +55,7 @@ export default function MobileContacts({ contacts, socket }) {
 								</div>
 							</div>
 						))}
-						<p className="mt-8 text-center text-xs text-primario">
+						<p className="mt-8 text-center text-xs text-primario dark:text-white">
 							¿No tienes más chats? Búscalos{" "}
 							<Link to="/busqueda" className="text-secundario underline">
 								AQUÍ

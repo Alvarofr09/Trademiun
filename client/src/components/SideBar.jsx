@@ -23,12 +23,10 @@ import {
 import { useUserContext } from "../context/UserContext";
 import { useAuthContext } from "../context/AuthContext";
 import ThemeToggleButton from "./ui/ToggleTheme"; // Importa el botón de cambio de tema
-import useThemeToggle from "../hooks/useThemeToggle";
 
 export default function SideBar() {
 	const { user } = useUserContext();
 	const { logout } = useAuthContext();
-	const [theme] = useThemeToggle();
 	const location = useLocation();
 
 	const routes = [
@@ -136,11 +134,8 @@ export default function SideBar() {
 			{/* Botón de cambio de tema */}
 			<div className="mb-8 ml-4 md:ml-6 lg:ml-12 flex flex-row">
 				<ThemeToggleButton />
-				{theme === "light" ? (
-					<p className="md:hidden lg:block">Light Theme</p>
-				) : (
-					<p className="md:hidden lg:block dark:text-white">Dark Theme</p>
-				)}
+				<p className="md:hidden lg:block dark:lg:hidden">Dark Theme</p>
+				<p className="md:hidden dark:lg:block text-white">Light Theme</p>
 			</div>
 		</div>
 	);

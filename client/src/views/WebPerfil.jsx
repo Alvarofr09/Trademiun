@@ -371,7 +371,9 @@ export default function WebPerfil() {
 					</div>
 					<div className="basis-11/12 w-full h-full">
 						{signals.length === 0 ? (
-							<h3 className="mt-10 text-xl centered">No hay trades</h3>
+							<h3 className="mt-10 text-xl centered dark:text-white">
+								No hay trades
+							</h3>
 						) : (
 							signals.map((signal) => {
 								return <Signal key={signal.id} signal={signal} />;

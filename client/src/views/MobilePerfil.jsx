@@ -249,21 +249,24 @@ export default function MobilePerfil() {
 
 	return (
 		<>
-			<main className="relative mx-auto w-full h-full bg-primario pb-20">
+			<main className="relative mx-auto w-full h-full bg-white dark:bg-primario pb-24">
 				{userData && (
 					<>
-						<div className="absolute top-0 right-0 p-4">
+						<div className="fixed top-0 right-0 p-4">
 							{isCurrentUser && (
 								<>
-									<IconLogout
-										color="#ffffff"
-										onClick={logout}
-										className="mb-4"
-									/>
+									<div className="text-primario dark:text-white">
+										<IconLogout onClick={logout} className="mb-4" />
+									</div>
+
 									{editing ? (
-										<IconCheck color="#ffffff" onClick={handleSubmit} />
+										<div className="text-primario dark:text-white">
+											<IconCheck onClick={handleSubmit} />
+										</div>
 									) : (
-										<IconEdit color="#ffffff" onClick={handleStartEditing} />
+										<div className="text-primario dark:text-white">
+											<IconEdit onClick={handleStartEditing} />
+										</div>
 									)}
 								</>
 							)}
@@ -313,8 +316,10 @@ export default function MobilePerfil() {
 							<input
 								ref={inputRef}
 								type="text"
-								className={`text-center bg-primario w-fit text-white text-3xl font-bold focus:border-white ${
-									editing ? "border-2 border-white " : "border-none"
+								className={`text-center w-fit bg-white dark:bg-primario text-primario dark:text-white text-3xl font-bold focus:border-primario dark:focus:border-white ${
+									editing
+										? "border-2 border-primario dark:border-white "
+										: "border-none"
 								}`}
 								value={userName}
 								onChange={(e) => setUserName(e.target.value)}
@@ -322,7 +327,7 @@ export default function MobilePerfil() {
 							/>
 						</div>
 						<div className="">
-							<h4 className="text-center text-tipografia text-sm mb-4">
+							<h4 className="text-center text-terciario dark:text-tipografia text-sm mb-4">
 								{userData.seguidores} seguidores
 							</h4>
 						</div>
@@ -384,8 +389,10 @@ export default function MobilePerfil() {
 
 						<div className="mb-4">
 							<textarea
-								className={`w-full bg-primario text-white p-2 rounded-lg focus:border-white ${
-									editing ? "border-2 border-white " : "border-none"
+								className={`w-full bg-white dark:bg-primario text-primario dark:text-white p-2 rounded-lg focus:border-primario dark:focus:border-white ${
+									editing
+										? "border-2 border-primario dark:border-white "
+										: "border-none"
 								}`}
 								rows="4"
 								value={description}
@@ -399,7 +406,7 @@ export default function MobilePerfil() {
 								Añadir trade
 							</button>
 							{signals.length === 0 ? (
-								<h3 className="mt-10 text-xl text-white centered">
+								<h3 className="mt-10 text-xl dark:text-white centered">
 									No hay trades
 								</h3>
 							) : (

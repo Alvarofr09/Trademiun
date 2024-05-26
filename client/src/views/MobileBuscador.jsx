@@ -101,7 +101,7 @@ export default function MobileBuscador() {
 					})}
 				</div>
 			)}
-			<h2 className="text-center text-2xl font-bold text-white p-4">
+			<h2 className="text-center text-2xl font-bold text-primario dark:text-white p-4">
 				Top Seguidores
 			</h2>
 			{usersBySeguidores
@@ -136,7 +136,7 @@ export default function MobileBuscador() {
 				)}
 			</div>
 
-			<h2 className="text-center text-2xl font-bold text-white p-4">
+			<h2 className="text-center text-2xl font-bold text-primario dark:text-white p-4">
 				Más Rentables
 			</h2>
 			{usersByRentabilidad
@@ -146,27 +146,30 @@ export default function MobileBuscador() {
 						<CardUser usuario={usuario} seguidores={false} />
 					</Link>
 				))}
-			{visibleUsersByRentabilidad < usersByRentabilidad.length && (
-				<div className="flex justify-center my-4">
-					<button
-						className="text-secundario flex flex-row text-xl px-4 py-2 font-bold "
-						onClick={handleShowMoreRentabilidad}
-					>
-						Ver más <IconArrowDown color="#39BFF0" />
-					</button>
-				</div>
-			)}
 
-			{visibleUsersByRentabilidad > 2 && (
-				<div className="flex justify-center my-4">
-					<button
-						className="text-secundario flex flex-row text-xl px-4 py-2 font-bold "
-						onClick={handleShowLessRentabilidad}
-					>
-						Ver menos <IconArrowUp color="#39BFF0" />
-					</button>
-				</div>
-			)}
+			<div className="centered">
+				{visibleUsersByRentabilidad < usersByRentabilidad.length && (
+					<div className="flex justify-center my-4">
+						<button
+							className="text-secundario flex flex-row text-xl px-4 py-2 font-bold "
+							onClick={handleShowMoreRentabilidad}
+						>
+							Ver más <IconArrowDown color="#39BFF0" />
+						</button>
+					</div>
+				)}
+
+				{visibleUsersByRentabilidad > 2 && (
+					<div className="flex justify-center my-4">
+						<button
+							className="text-secundario flex flex-row text-xl px-4 py-2 font-bold "
+							onClick={handleShowLessRentabilidad}
+						>
+							Ver menos <IconArrowUp color="#39BFF0" />
+						</button>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }
