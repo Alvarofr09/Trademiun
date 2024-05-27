@@ -145,7 +145,6 @@ export default function ChatContainer({ currentChat, socket }) {
 	};
 
 	const handleSendSignal = async (signal) => {
-		console.log(signal);
 		const {
 			sender_id,
 			group_id,
