@@ -10,6 +10,7 @@ import ViewLogin from "./views/ViewLogin";
 import ViewPerfil from "./views/ViewPerfil";
 import ViewBuscador from "./views/ViewBuscador";
 import ViewNoticias from "./views/ViewNoticias";
+import WebBlog from "./views/WebBlog";
 
 function App() {
 	return (
@@ -21,7 +22,7 @@ function App() {
 					<Route element={<RequireAuth />}>
 						<Route path="/" element={<WebChat />} />
 						<Route path="/busqueda" element={<ViewBuscador />} />
-						<Route path="/noticias" element={<WebNoticias />} />
+						<Route path="/noticias" element={<ViewNoticias />} />
 						<Route path="/blog" element={<WebBlog />} />
 						<Route path="/cursos" element={<CommingSoon />} />
 						<Route path="/user/:id" element={<ViewPerfil />} />
