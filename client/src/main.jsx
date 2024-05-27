@@ -6,15 +6,18 @@ import "./index.css";
 
 import AuthContextProvider from "./context/AuthContext";
 import UserContextProvider from "./context/UserContext";
+import { SocketProvider } from "./context/SocketContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<AuthContextProvider>
 				<UserContextProvider>
-					<Routes>
-						<Route path="/*" element={<App />} />
-					</Routes>
+					<SocketProvider>
+						<Routes>
+							<Route path="/*" element={<App />} />
+						</Routes>
+					</SocketProvider>
 				</UserContextProvider>
 			</AuthContextProvider>
 		</BrowserRouter>
