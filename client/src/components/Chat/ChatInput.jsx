@@ -79,7 +79,7 @@ export default function ChatInput({
 							/>
 							<button
 								type="submit"
-								className={`submit-btn md:py-0 px-8 lg:py-1 rounded-[2rem] centered ${
+								className={`submit-btn md:py-0 pr-8 lg:py-1 rounded-[2rem] centered ${
 									theme === "dark" ? "dark:text-white" : ""
 								} border-none`}
 							>
