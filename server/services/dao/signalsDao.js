@@ -75,6 +75,27 @@ signalDao.getUserSignals = async (user_id) => {
 	}
 };
 
+signalDao.getAllSignalsWithUsers = async () => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+
+		const query = `
+      		SELECT s.*, u.id AS user_id, u.username, u.image AS user_image, u.seguidores
+      		FROM signals s
+      		JOIN users u ON s.sender_id = u.id
+      		ORDER BY s.date ASC;
+    	`;
+
+		const results = await db.query(query, null, "select", conn);
+		return results;
+	} catch (error) {
+		throw new Error(error);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
 signalDao.getSignalById = async (id) => {
 	let conn = null;
 	try {
