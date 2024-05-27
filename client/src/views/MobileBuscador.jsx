@@ -79,7 +79,7 @@ export default function MobileBuscador() {
 					{users.slice(0, 3).map((user, index) => {
 						return (
 							<Link
-								className={`contact !flex-row centered !border-white`}
+								className={`contact !flex-row centered dark:!border-white`}
 								key={index}
 								to={`/user/${user.id}`}
 							>
@@ -94,7 +94,9 @@ export default function MobileBuscador() {
 									</div>
 								)}
 								<div className="  username">
-									<h3 className=" text-xl text-white bold">{user.username}</h3>
+									<h3 className=" text-xl text-primario dark:text-white bold">
+										{user.username}
+									</h3>
 								</div>
 							</Link>
 						);
