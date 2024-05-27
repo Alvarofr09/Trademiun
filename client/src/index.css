@@ -145,16 +145,8 @@
 	@apply justify-end text-end;
 }
 
-.sended .content {
-	@apply bg-secundario;
-}
-
 .selected-contact {
 	@apply bg-tipografia;
-}
-
-.signal .content {
-	@apply bg-primario;
 }
 
 .titulo {
