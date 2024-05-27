@@ -34,6 +34,7 @@ export const isAdmin = `${host}/api/groups/is-admin`;
 export const sendSignalRoute = `${host}/api/signals/add-signal`;
 export const getSignalsGroup = `${host}/api/signals/get-signals`;
 export const getUserSignals = `${host}/api/signals/get-user-signals`;
+export const getSignalsWithUser = `/api/signals/get-signals-with-user`;
 
 export const userApi = axios.create({
 	baseURL: `${host}`,
