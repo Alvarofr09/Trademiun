@@ -11,10 +11,12 @@ export default function Signal({ signal, isMessage }) {
 		<div
 			key={signal.id}
 			className={`signal text-left  flex items-center justify-end ${
-				isMessage ? "max-w-[60%] my-4" : "max-w-[80%] mx-auto centered my-8"
+				isMessage
+					? "max-w-[80%] md:max-w-[60%] my-4"
+					: "max-w-[80%] mx-auto centered my-8"
 			}`}
 		>
-			<div className="content dark:bg-white break-normal text-white dark:text-primario py-5 px-10 text-2xl rounded-2xl">
+			<div className="content bg-fondoWebApp dark:bg-terciario break-normal dark:text-white text-terciario py-5 px-10 text-2xl rounded-2xl">
 				{signal.image && (
 					<Img
 						isContact={false}
