@@ -20,7 +20,6 @@ export default function Messages({ messages, scrollRef }) {
 	return (
 		<div className="chat-messages bg-white dark:bg-primario scrollbar-custom py-4 px-8 flex flex-col gap-4 overflow-auto">
 			{messages.map((message) => {
-				console.log(message);
 				return (
 					<div
 						ref={scrollRef}
@@ -35,9 +34,9 @@ export default function Messages({ messages, scrollRef }) {
 									message.fromSelf ? "sended" : "recieved"
 								}`}
 							>
-								<div className="content max-w-[60%] break-normal text-lg flex flex-col rounded-2xl text-[#000000] dark:text-primario p-4">
+								<div className="content bg-secundario max-w-[60%] break-normal text-lg flex flex-col rounded-2xl text-[#000000] dark:text-primario p-4">
 									<span className="text-xs">
-										{message.fromSelf ? "Tu" : message.username}
+										{message.fromSelf ? "Tú" : message.username}
 									</span>
 									{message.message}
 									<span className="text-xs">
