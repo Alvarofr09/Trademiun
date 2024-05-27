@@ -8,6 +8,8 @@ import {
 	userApi,
 } from "../api/APIRoutes";
 import { ToastContainer, toast } from "react-toastify";
+import UnFollowButton from "./ui/UnFollowButton";
+import FollowButton from "./ui/FollowButton";
 
 const toastConfig = {
 	position: "bottom-right",
@@ -87,19 +89,9 @@ export default function CardUser({ seguidores, usuario }) {
 							{usuario.seguidores} seguidores
 						</p>
 						{isFollowing ? (
-							<button
-								className="bg-tipografia text-white ml-2 text-center font-bold rounded-3xl w-32"
-								onClick={(e) => handleUnfollow(e)}
-							>
-								Siguiendo
-							</button>
+							<UnFollowButton handleUnfollow={handleUnfollow} />
 						) : (
-							<button
-								className="bg-white ml-2 dark:text-tipografia text-terciario text-center font-bold rounded-3xl w-32"
-								onClick={(e) => handleFollow(e)}
-							>
-								Seguir
-							</button>
+							<FollowButton handleFollow={handleFollow} />
 						)}
 					</div>
 					<div className="mb-2 ml-4 basis-4/12">
