@@ -7,6 +7,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 360,
 		rentabilidad: 500,
 	},
@@ -16,6 +18,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 367,
 		rentabilidad: 513,
 	},
@@ -25,6 +29,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 143,
 		rentabilidad: 99,
 	},
@@ -34,6 +40,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 584,
 		rentabilidad: 256,
 	},
@@ -43,6 +51,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 924,
 		rentabilidad: 712,
 	},
@@ -52,6 +62,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 748,
 		rentabilidad: 330,
 	},
@@ -61,6 +73,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 561,
 		rentabilidad: 19,
 	},
@@ -70,6 +84,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 290,
 		rentabilidad: 797,
 	},
@@ -79,6 +95,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 643,
 		rentabilidad: 854,
 	},
@@ -88,6 +106,8 @@ const usersData = [
 		password: "e10adc3949ba59abbe56e057f20f883e",
 		userRole: false,
 		image: "Trademiun/Users_Avatar/dgzngr3oigc7nvefnzli",
+		description:
+			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, quam blanditiis numquam quo quasi debitis modi omnis nulla voluptatum, eos voluptatibus soluta facere et consequuntur. Magni quasi iure enim sequi!",
 		seguidores: 498,
 		rentabilidad: 162,
 	},
@@ -219,12 +239,13 @@ const insertUsers = async () => {
 				password,
 				userRole,
 				image,
+				description,
 				seguidores,
 				rentabilidad,
 			} = user;
 			const sqlQuery = `
-        INSERT INTO users (username, email, password, userRole, image, seguidores, rentabilidad)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO users (username, email, password, userRole, image, description, seguidores, rentabilidad)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `;
 			const params = [
 				username,
@@ -232,6 +253,7 @@ const insertUsers = async () => {
 				password,
 				userRole,
 				image,
+				description,
 				seguidores,
 				rentabilidad,
 			];

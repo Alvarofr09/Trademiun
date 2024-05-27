@@ -12,8 +12,9 @@ import RestRankingTable from "../components/Ranking/RestRankingTable";
 import Podium from "../components/Ranking/Podium";
 import Img from "../components/ui/CloudinaryImg";
 import { Link } from "react-router-dom";
+import { IconArrowDown, IconArrowUp } from "@tabler/icons-react";
 
-const WebBuscador = () => {
+export default function WebBuscador() {
 	const [mostrarSeguidores, setMostrarSeguidores] = useState(true);
 	const [usuarios, setUsuarios] = useState([]);
 	const [topThree, setTopThree] = useState([]);
@@ -41,6 +42,10 @@ const WebBuscador = () => {
 
 	const handleShowMore = () => {
 		setVisibleGroups((prevVisibleGroups) => prevVisibleGroups + 5);
+	};
+
+	const handleShowLess = () => {
+		setVisibleGroups((prevVisibleGroups) => prevVisibleGroups - 5);
 	};
 
 	useEffect(() => {
@@ -96,19 +101,23 @@ const WebBuscador = () => {
 
 	return (
 		<div className="flex h-full ">
-			<div className="basis-8/12 mx-auto border-x-2 border-x-primario">
-				<div className="flex justify-center  py-12 gap-36 2xl:gap-48">
+			<div className="basis-8/12 mx-auto border-x-2 dark:bg-primario border-x-primario dark:border-x-white">
+				<div className="flex justify-center dark:bg-primario  py-12 gap-36 2xl:gap-48">
 					<button
-						className={`text-primario text-3xl px-4 py-2 font-bold ${
-							mostrarSeguidores ? "bg-fondoWebApp rounded-2xl" : ""
+						className={`text-primario dark:text-white text-3xl px-4 py-2 font-bold ${
+							mostrarSeguidores
+								? "bg-fondoWebApp rounded-2xl !text-primario"
+								: ""
 						}`}
 						onClick={mostrarSeguidoresHandler}
 					>
 						Top Seguidores
 					</button>
 					<button
-						className={`text-primario text-3xl px-4 py-2 font-bold ${
-							mostrarSeguidores ? "" : "bg-fondoWebApp rounded-2xl"
+						className={`text-primario dark:text-white text-3xl px-4 py-2 font-bold ${
+							mostrarSeguidores
+								? ""
+								: "bg-fondoWebApp rounded-2xl !text-primario"
 						}`}
 						onClick={mostrarRentabilidadHandler}
 					>
@@ -116,7 +125,7 @@ const WebBuscador = () => {
 					</button>
 				</div>
 
-				<section className="podium max-w-[90%] mx-auto">
+				<section className="podium dark:bg-primario max-w-[90%] mx-auto">
 					<div className="flex justify-center">
 						<Podium podium={topThree} seguidores={mostrarSeguidores} />
 					</div>
@@ -127,19 +136,8 @@ const WebBuscador = () => {
 				</div>
 			</div>
 
-			<div className="basis-4/12 mx-auto bg-white relative">
+			<div className="basis-4/12 mx-auto dark:bg-primario bg-white relative">
 				<InputSearch handleSearch={handleSearch} />
-				{/* <InputSearch />
-				<WebNotificaciones
-					nombre="JuanJo Trader"
-					notificacion="LLEVA UNA RACHA DE 5 TAKE PROFITS SEGUIDOS"
-					foto="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-				/>
-				<WebNotificaciones
-					nombre="JuanJo Trader"
-					notificacion="HA GANADO HOY 3 TRADES"
-					foto="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-				/> */}
 				<div className="contacts ">
 					{grupos.slice(0, visibleGroups).map((grupo, index) => (
 						<Link
@@ -163,20 +161,30 @@ const WebBuscador = () => {
 							</div>
 						</Link>
 					))}
-					{visibleGroups < grupos.length && (
-						<div className="flex justify-center my-4">
-							<button
-								className="text-secundario text-xl px-4 py-2 font-bold "
-								onClick={handleShowMore}
-							>
-								Ver más
-							</button>
-						</div>
-					)}
+					<div className="centered">
+						{visibleGroups < grupos.length && (
+							<div className="flex justify-center my-4">
+								<button
+									className="text-secundario flex flex-row text-xl px-4 py-2 font-bold"
+									onClick={handleShowMore}
+								>
+									Ver más <IconArrowDown color="#39BFF0" />
+								</button>
+							</div>
+						)}
+						{visibleGroups > 3 && (
+							<div className="flex justify-center my-4">
+								<button
+									className="text-secundario flex flex-row text-xl px-4 py-2 font-bold"
+									onClick={handleShowLess}
+								>
+									Ver menos <IconArrowUp color="#39BFF0" />
+								</button>
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
 	);
-};
-
-export default WebBuscador;
+}

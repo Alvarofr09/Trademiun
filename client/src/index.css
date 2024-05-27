@@ -87,7 +87,7 @@
 }
 
 .contact {
-	@apply text-terciario min-h-[5rem] w-[90%] cursor-pointer p-[0.4rem] items-center flex sm:flex-col md:flex-row transition duration-200 ease-in-out border-y-2 border-tipografia;
+	@apply text-terciario dark:text-white min-h-[5rem] w-[90%] cursor-pointer p-[0.4rem] items-center flex sm:flex-col md:flex-row transition duration-200 ease-in-out border-y-2 border-tipografia;
 }
 
 .centered {
@@ -126,7 +126,7 @@
 }
 
 .modal-content {
-	@apply bg-white rounded-lg p-8  w-full relative;
+	@apply dark:bg-primario dark:text-white bg-white rounded-lg p-8  w-full relative;
 }
 
 .close-btn {
@@ -145,16 +145,8 @@
 	@apply justify-end text-end;
 }
 
-.sended .content {
-	@apply bg-secundario;
-}
-
 .selected-contact {
 	@apply bg-tipografia;
-}
-
-.signal .content {
-	@apply bg-primario;
 }
 
 .titulo {
@@ -217,4 +209,12 @@
 
 .ecoTimeAndDate {
 	@apply !bg-sky-300;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	/* appearance: none; */
+	border: none;
+	width: 0;
+	height: 0;
 }

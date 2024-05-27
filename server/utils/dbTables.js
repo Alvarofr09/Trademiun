@@ -11,7 +11,7 @@ const createUsersTable = async () => {
         password VARCHAR(255),
         userRole BOOLEAN DEFAULT FALSE,
         image TEXT,
-        descripcion TEXT,
+        description TEXT,
         seguidores INT DEFAULT 0,
         rentabilidad INT DEFAULT 0,
         registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -5,7 +5,7 @@ import useDeviceType from "../../hooks/useDeviceType";
 export default function ChatHeader({ onBack, currentChat }) {
 	const isMobile = useDeviceType();
 	return (
-		<div className="chat-header bg-tipografia flex justify-between items-center px-8 py-0">
+		<div className="chat-header w-full bg-tipografia flex justify-between items-center px-8 py-0">
 			{/* {console.log(currentChat)} */}
 			<div className="user-details flex items-center gap-4">
 				<div className="user-image avatar-image">
@@ -32,9 +32,9 @@ export default function ChatHeader({ onBack, currentChat }) {
 					</div>
 				)}
 
-				<div className="info">
+				{/* <div className="info">
 					<IconDotsVertical color="#1A1A1A" onClick={() => alert("info")} />
-				</div>
+				</div> */}
 				{/* <div className="subChat">
 					<IconMessage color="#1A1A1A" />
 				</div> */}

@@ -8,7 +8,7 @@ export default function TopOne({ user, seguidores }) {
 				image={user.image}
 				ranking={user.ranking}
 			/>
-			<div className=" bg-primario h-52 pb-4 rounded-t-xl text-2xl flex justify-center text-center items-end text-white font-bold">
+			<div className=" dark:bg-white bg-primario h-52 pb-4 rounded-t-xl text-2xl flex justify-center text-center items-end dark:text-primario text-white font-bold">
 				<div>
 					<p>{user.username}</p>
 					{seguidores ? (
