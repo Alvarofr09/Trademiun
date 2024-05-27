@@ -75,8 +75,6 @@ export default function MobilePerfil() {
 					userDataResponse = { data: user };
 				}
 
-				console.log(userDataResponse);
-
 				setUserData(userDataResponse.data);
 
 				const signalsResponse = await userApi.get(
@@ -402,9 +400,12 @@ export default function MobilePerfil() {
 						</div>
 
 						<div>
-							<button className="text-white bg-secundario px-4 py-2 rounded-xl ml-2">
-								Añadir trade
-							</button>
+							{isCurrentUser && (
+								<button className="text-white bg-secundario px-4 py-2 rounded-xl ml-2">
+									Añadir trade
+								</button>
+							)}
+
 							{signals.length === 0 ? (
 								<h3 className="mt-10 text-xl dark:text-white centered">
 									No hay trades
