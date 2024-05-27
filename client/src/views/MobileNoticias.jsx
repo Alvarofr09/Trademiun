@@ -1,5 +1,9 @@
-import { useState } from "react";
-import { getUsersByNameRoute, userApi } from "../api/APIRoutes";
+import { useEffect, useState } from "react";
+import {
+	getSignalsWithUser,
+	getUsersByNameRoute,
+	userApi,
+} from "../api/APIRoutes";
 import CardUltimosTrades from "../components/CardUltimosTrades";
 import InputSearch from "../components/ui/InputSearch";
 import { Link } from "react-router-dom";
@@ -7,6 +11,20 @@ import Img from "../components/ui/CloudinaryImg";
 
 export default function MobileNoticias() {
 	const [users, setUsers] = useState([]);
+	const [signals, setSignals] = useState([]);
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				const { data } = await userApi.get(getSignalsWithUser);
+				console.log(data);
+				setSignals(data);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		fetchData();
+	}, []);
 
 	const handleSearch = async (userName) => {
 		try {
@@ -28,7 +46,7 @@ export default function MobileNoticias() {
 	};
 
 	return (
-		<div className="mx-auto max-w-full h-full bg-white dark:bg-primario pb-20">
+		<div className="mx-auto max-w-full h-full bg-white dark:bg-primario pb-30">
 			<InputSearch handleSearch={handleSearch} />
 			{users.length > 0 && (
 				<div className="centered flex-col">
@@ -60,10 +78,11 @@ export default function MobileNoticias() {
 			<h2 className="text-center text-2xl font-bold text-primario dark:text-white p-4">
 				Últimos trades
 			</h2>
-			<div className="flex flex-col justify-center items-center">
-				<CardUltimosTrades />
-				<CardUltimosTrades />
-				<CardUltimosTrades />
+			<div className="flex flex-col justify-center items-center pb-28">
+				{signals &&
+					signals.map((signal, index) => (
+						<CardUltimosTrades key={index} data={signal} />
+					))}
 			</div>
 		</div>
 	);
