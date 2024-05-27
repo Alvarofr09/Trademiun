@@ -57,7 +57,7 @@ export default function MobileNoticias() {
 					})}
 				</div>
 			)}
-			<h2 className="text-center text-2xl font-bold text-white p-4">
+			<h2 className="text-center text-2xl font-bold text-primario dark:text-white p-4">
 				Últimos trades
 			</h2>
 			<div className="flex flex-col justify-center items-center">
