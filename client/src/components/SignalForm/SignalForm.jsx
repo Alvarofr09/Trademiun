@@ -90,10 +90,9 @@ export default function SignalForm({
 								</label>
 								<input
 									type="file"
-									name="fileInsignalImageput"
+									name="signalImage"
 									id="signalImage"
 									onChange={(e) => handleChange(e)}
-									required
 									accept="image/png, image/jpeg, image/jpg, image/svg, image/ico, image/jfif, image/webp"
 									className="appearance-none hidden opacity-0"
 								/>
