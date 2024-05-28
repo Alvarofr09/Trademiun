@@ -17,11 +17,13 @@ const {
 	createSignalsTable,
 	createImagesTable,
 	createFollowTable,
+	createCoinsTable,
 } = require("./utils/dbTables");
 const {
 	insertUsers,
 	insertGroups,
 	insertMembership,
+	insertCoins,
 } = require("./utils/dbData");
 
 const app = express();
@@ -51,9 +53,11 @@ const dbSetup = async () => {
 	await createImagesTable();
 	await createFollowTable();
 	await createIncrementParticipantsTrigger();
+	await createCoinsTable();
 	await insertUsers();
 	await insertGroups();
 	await insertMembership();
+	await insertCoins();
 };
 
 // dbSetup().catch((error) => console.error(error));
