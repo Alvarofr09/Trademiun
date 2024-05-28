@@ -118,9 +118,20 @@ const getUserSignals = async (req, res, next) => {
 	}
 };
 
+const getCoins = async (req, res, next) => {
+	try {
+		const coins = await dao.getCoins();
+
+		return res.json(coins);
+	} catch (error) {
+		next(error);
+	}
+};
+
 module.exports = {
 	addSignal,
 	getSignals,
 	getAllSignalsWithUsers,
 	getUserSignals,
+	getCoins,
 };
