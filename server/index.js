@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(express.text());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.urlencoded({ limit: "150mb", extendexd: true }));
+app.use(express.urlencoded({ limit: "200mb", extendexd: true }));
 
 const dbSetup = async () => {
 	await createUsersTable();
