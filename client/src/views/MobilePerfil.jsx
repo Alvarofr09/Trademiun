@@ -272,7 +272,7 @@ export default function MobilePerfil() {
 						<div className="flex justify-center pt-8">
 							{!editing ? (
 								<Img
-									uploadedImg={user.image}
+									uploadedImg={userData.image}
 									alt="foto perfil"
 									className={"w-40 h-40 rounded-full"}
 								/>
@@ -371,17 +371,25 @@ export default function MobilePerfil() {
 						</div>
 
 						<div className="p-4">
-							<RangeInput title={"Maximo Drawdown"} value={66.6} max={100} />
+							<RangeInput
+								title={"Maximo Drawdown"}
+								value={(Math.random() * 100).toFixed(1)}
+								max={100}
+							/>
 							<RangeInput
 								title={"Riesgo/Beneficio medio"}
-								value={3.5}
-								max={4}
+								value={(Math.random() * 10).toFixed(1)}
+								max={10}
 							/>
-							<RangeInput title={"% Mensual medio"} value={66.6} max={100} />
+							<RangeInput
+								title={"% Mensual medio"}
+								value={(Math.random() * 100).toFixed(1)}
+								max={100}
+							/>
 							<RangeInput
 								title={"% Riesgo medio/trade"}
-								value={311}
-								max={311}
+								value={(Math.random() * 320).toFixed(1)}
+								max={320}
 							/>
 						</div>
 
@@ -400,11 +408,11 @@ export default function MobilePerfil() {
 						</div>
 
 						<div>
-							{isCurrentUser && (
+							{/* {isCurrentUser && (
 								<button className="text-white bg-secundario px-4 py-2 rounded-xl ml-2">
 									Añadir trade
 								</button>
-							)}
+							)} */}
 
 							{signals.length === 0 ? (
 								<h3 className="mt-10 text-xl dark:text-white centered">
