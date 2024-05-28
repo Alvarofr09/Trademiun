@@ -16,25 +16,9 @@ const addSignal = async (req, res, next) => {
 			isCompra,
 		} = req.body;
 
-		const uploadedImage = await cloudinary.uploader.upload(
-			image,
-			{
-				upload_preset: "signal_upload",
-				public_id: `signal_${new Date()}`,
-				allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
-			},
-			function (error, result) {
-				if (error) console.log(error);
-				console.log(result);
-			}
-		);
-
-		// res.status(200).json(uploadedImage);
-
 		const signalData = {
 			from,
 			to,
-			image: uploadedImage.public_id,
 			description,
 			moneda,
 			entrada,
@@ -43,6 +27,25 @@ const addSignal = async (req, res, next) => {
 			riesgo,
 			isCompra,
 		};
+
+		if (image) {
+			const uploadedImage = await cloudinary.uploader.upload(
+				image,
+				{
+					upload_preset: "signal_upload",
+					public_id: `signal_${new Date()}`,
+					allowed_formats: ["jpg", "png", "jpeg", "svg", "ico", "jfif", "webp"],
+				},
+				function (error, result) {
+					if (error) console.log(error);
+					console.log(result);
+				}
+			);
+
+			signalData.image = uploadedImage.public_id;
+		}
+
+		// res.status(200).json(uploadedImage);
 
 		const data = await dao.addSignal(signalData);
 
