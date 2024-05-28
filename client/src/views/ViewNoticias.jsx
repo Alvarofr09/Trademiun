@@ -1,6 +1,6 @@
 import useDeviceType from "../hooks/useDeviceType";
 import MobileNoticias from "./MobileNoticias";
-import WebNoticias from "./WebNoticias";
+import WebBlog from "./WebBlog";
 
 export default function ViewNoticias() {
 	const isMobile = useDeviceType();
@@ -11,7 +11,7 @@ export default function ViewNoticias() {
 					<MobileNoticias />
 				</div>
 			) : (
-				<WebNoticias />
+				<WebBlog />
 			)}
 		</>
 	);
