@@ -103,10 +103,7 @@ userDao.updateUser = async (id, userData) => {
 		conn = await db.createConection();
 
 		let userObj = {
-			username: userData.username,
-			email: userData.email,
-			password: userData.password ? md5(userData.password) : undefined,
-			image: userData.image,
+			...userData,
 			updateDate: moment().format("YYYY-MM-DD HH:mm:ss"),
 		};
 
@@ -121,6 +118,27 @@ userDao.updateUser = async (id, userData) => {
 		);
 	} catch (e) {
 		throw new Error(e);
+	} finally {
+		conn && (await conn.end());
+	}
+};
+
+userDao.getUsersByName = async (name) => {
+	let conn = null;
+	try {
+		conn = await db.createConection();
+		const nameLike = `${name}%`;
+
+		const sqlQuery = `
+      		SELECT * 
+			FROM users 
+			WHERE username LIKE ?
+			ORDER BY username DESC
+    	`;
+
+		return await db.query(sqlQuery, nameLike, "select", conn);
+	} catch (error) {
+		throw new Error(error);
 	} finally {
 		conn && (await conn.end());
 	}

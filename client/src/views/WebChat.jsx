@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+/* eslint-disable no-mixed-spaces-and-tabs */
+import { useState, useEffect, useCallback } from "react";
 import {
 	getAllGroupsOfUser,
 	getAllGroupsOfUserByName,
-	host,
 	userApi,
 } from "../api/APIRoutes";
 import Contacts from "../components/Chat/Contacts";
@@ -11,63 +10,56 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Welcome from "./Welcome";
 import ChatContainer from "../components/Chat/ChatContainer";
-import { io } from "socket.io-client";
 
 import { useUserContext } from "../context/UserContext";
 import useDeviceType from "../hooks/useDeviceType";
 import MobileContacts from "../components/Chat/MobileContacts";
+import { useSocket } from "../context/SocketContext";
 
 export default function WebChat() {
 	const isMobile = useDeviceType();
 	const { user } = useUserContext();
-	const socket = useRef();
-	const navigate = useNavigate();
+	const socket = useSocket();
+	console.log("Socket en chat", socket);
 	const [contacts, setContacts] = useState([]);
 	const [currentChat, setCurrentChat] = useState(undefined);
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	const handleSearch = async (groupName) => {
-		try {
-			let data;
-
-			if (groupName === "") {
-				const response = await userApi.get(`${getAllGroupsOfUser}/${user.id}`);
-				data = response.data;
-			} else {
-				const response = await userApi.get(
-					`${getAllGroupsOfUserByName}/${user.id}/${groupName}`
-				);
-				data = response.data;
-			}
-
-			setContacts(data.groups);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	useEffect(() => {
-		const fetchData = async () => {
-			setIsLoaded(true);
-
+	const handleSearch = useCallback(
+		async (groupName) => {
 			try {
-				const response = await userApi.get(`${getAllGroupsOfUser}/${user.id}`);
-
+				const response =
+					groupName === ""
+						? await userApi.get(`${getAllGroupsOfUser}/${user.id}`)
+						: await userApi.get(
+								`${getAllGroupsOfUserByName}/${user.id}/${groupName}`
+						  );
 				setContacts(response.data.groups);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
+			}
+		},
+		[user.id]
+	);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await userApi.get(`${getAllGroupsOfUser}/${user.id}`);
+				setContacts(response.data.groups);
+				setIsLoaded(true);
+			} catch (error) {
+				console.error(error);
 			}
 		};
 
 		fetchData();
-	}, [navigate]);
+	}, [user.id]);
 
 	useEffect(() => {
 		if (currentChat) {
-			socket.current = io(host);
-			socket.current.emit("add-user", currentChat.id);
+			socket.current.emit("add-user", currentChat.group_id);
 		}
-	}, [currentChat]);
+	}, [currentChat, socket]);
 
 	const handleChatChange = (chat) => {
 		setCurrentChat(chat);
@@ -76,10 +68,14 @@ export default function WebChat() {
 	return (
 		<div className="h-full centered  bg-white">
 			{isMobile ? (
-				<MobileContacts contacts={contacts} socket={socket} />
+				<MobileContacts
+					handleSearch={handleSearch}
+					contacts={contacts}
+					socket={socket}
+				/>
 			) : (
 				<>
-					<div className="basis-8/12 border-x-2 border-black mx-auto h-screen ">
+					<div className="basis-8/12 border-x-2 border-black dark:border-white mx-auto h-screen ">
 						{isLoaded && currentChat === undefined ? (
 							<Welcome />
 						) : (

@@ -85,6 +85,19 @@ const getSignals = async (req, res, next) => {
 	}
 };
 
+const getAllSignalsWithUsers = async (req, res, next) => {
+	try {
+		const signalsWithUsers = await dao.getAllSignalsWithUsers();
+
+		if (!signalsWithUsers.length) {
+			return res.status(404).send("No signals found");
+		}
+
+		return res.json(signalsWithUsers);
+	} catch (error) {
+		next(error);
+	}
+};
 const getUserSignals = async (req, res, next) => {
 	try {
 		const { id } = req.params;
@@ -105,4 +118,20 @@ const getUserSignals = async (req, res, next) => {
 	}
 };
 
-module.exports = { addSignal, getSignals, getUserSignals };
+const getCoins = async (req, res, next) => {
+	try {
+		const coins = await dao.getCoins();
+
+		return res.json(coins);
+	} catch (error) {
+		next(error);
+	}
+};
+
+module.exports = {
+	addSignal,
+	getSignals,
+	getAllSignalsWithUsers,
+	getUserSignals,
+	getCoins,
+};

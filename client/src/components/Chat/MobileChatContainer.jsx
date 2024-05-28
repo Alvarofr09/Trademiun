@@ -1,4 +1,3 @@
-// MobileChatContainer.jsx
 import { useState, useEffect, useRef } from "react";
 import {
 	getAllGroupMessages,
@@ -10,10 +9,10 @@ import { userApi } from "../../api/APIRoutes";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useUserContext } from "../../context/UserContext";
-import ChatHeader from "./ChatHeader";
 import Messages from "./Messages";
-import ChatInput from "./ChatInput";
 import { format } from "date-fns";
+import MobileChatHeader from "./MobileChatHeader";
+import MobileChatInput from "./MobileChatInput";
 
 export default function MobileChatContainer({ currentChat, socket, onBack }) {
 	const { user } = useUserContext();
@@ -22,7 +21,6 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 	const [arrivalMessage, setArrivalMessage] = useState(null);
 	const scrollRef = useRef();
 
-	console.log(user);
 	useEffect(() => {
 		async function fetchData() {
 			if (!currentChat) return;
@@ -32,7 +30,7 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 			const user = jwtDecode(token);
 
 			const { data } = await axios.post(`${isAdmin}/${user.id}`, {
-				group_id: currentChat.id,
+				group_id: currentChat.group_id,
 			});
 
 			if (data.isAdmin) {
@@ -50,12 +48,12 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 			if (!currentChat) return;
 			const mensajes = await userApi.post(getAllGroupMessages, {
 				from: user.id,
-				to: currentChat.id,
+				to: currentChat.group_id,
 			});
 
 			const signals = await userApi.post(getSignalsGroup, {
 				from: user.id,
-				to: currentChat.id,
+				to: currentChat.group_id,
 			});
 
 			console.log(signals.data);
@@ -73,13 +71,12 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 	}, [currentChat]);
 
 	useEffect(() => {
-		console.log(socket);
 		if (socket.current) {
 			socket.current.on("msg-recieve", (msg) => {
 				if (msg.type === "message") {
 					setArrivalMessage({
 						fromSelf: false,
-						username: user.username,
+						username: msg.username,
 						message: msg.message,
 						date: msg.date,
 						type: msg.type,
@@ -87,7 +84,7 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 				} else {
 					setArrivalMessage({
 						fromSelf: false,
-						username: user.username,
+						username: msg.username,
 						image: msg.image,
 						description: msg.description,
 						moneda: msg.moneda,
@@ -118,12 +115,12 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 		try {
 			await axios.post(sendMessageRoute, {
 				from: user.id,
-				to: currentChat.id,
+				to: currentChat.group_id,
 				text: msg,
 			});
 
 			socket.current.emit("send-msg", {
-				to: currentChat.id,
+				to: currentChat.group_id,
 				from: user.id,
 				date: formattedDate,
 				username: user.username,
@@ -146,7 +143,6 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 	};
 
 	const handleSendSignal = async (signal) => {
-		console.log(signal);
 		const {
 			sender_id,
 			group_id,
@@ -197,12 +193,12 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 		<div className="h-full centered bg-white">
 			{currentChat && (
 				<div
-					className="container h-full grid grid-rows-3 overflow-hidden"
-					style={{ gridTemplateRows: "11% 75% auto" }}
+					className="container h-full overflow-hidden pb-16"
+					// style={{ gridTemplateRows: "5% auto 5%" }}
 				>
-					<ChatHeader onBack={onBack} currentChat={currentChat} />
+					<MobileChatHeader onBack={onBack} currentChat={currentChat} />
 					<Messages messages={messages} scrollRef={scrollRef} />
-					<ChatInput
+					<MobileChatInput
 						handleSendMsg={handleSendMsg}
 						isAdmin={isAdministrador}
 						currentChat={currentChat}

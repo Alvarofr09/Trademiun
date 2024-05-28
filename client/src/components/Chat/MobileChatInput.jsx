@@ -7,7 +7,7 @@ import Modal from "../Modal";
 import SignalForm from "../SignalForm/SignalForm";
 import useThemeToggle from "../../hooks/useThemeToggle";
 
-export default function ChatInput({
+export default function MobileChatInput({
 	handleSendMsg,
 	isAdmin,
 	currentChat,
@@ -46,7 +46,7 @@ export default function ChatInput({
 
 	return (
 		<div
-			className={`container gap-6 centered bg-white dark:bg-primario px-8 py-0 pb-[0.3rem]`}
+			className={`container fixed bottom-0 pb-24 pt-4 gap-6 centered bg-white dark:bg-primario px-8 py-0`}
 		>
 			{isAdmin ? (
 				<>

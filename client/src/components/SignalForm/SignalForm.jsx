@@ -6,10 +6,11 @@ import { IconFilePlus } from "@tabler/icons-react";
 
 import Input from "../ui/Input";
 import Select from "../ui/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserContext } from "../../context/UserContext";
-import { sendSignalRoute, userApi } from "../../api/APIRoutes";
+import { getCoins, sendSignalRoute, userApi } from "../../api/APIRoutes";
 import { previewFiles } from "../../utils/previewFile";
+// import TextArea from "../ui/TextArea";
 
 export default function SignalForm({
 	currentChat,
@@ -20,6 +21,20 @@ export default function SignalForm({
 	const [isCompra, setIsCompra] = useState(false);
 	const [file, setFile] = useState("");
 	const [image, setImage] = useState("");
+	const [coins, setCoins] = useState([]);
+
+	useEffect(() => {
+		async function fetchCoins() {
+			try {
+				const { data } = await userApi.get(getCoins);
+				setCoins(data);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+
+		fetchCoins();
+	}, []);
 
 	const handleChange = (e) => {
 		const file = e.target.files[0];
@@ -33,7 +48,7 @@ export default function SignalForm({
 
 		const signalData = {
 			from: user.id,
-			to: currentChat.id,
+			to: currentChat.group_id,
 			image: image,
 			description,
 			moneda: coin,
@@ -91,13 +106,20 @@ export default function SignalForm({
 								type="textarea"
 							/>
 
-							<h3 className="titulo tracking-widest text-black">TRADE</h3>
+							{/* <TextArea name="description" type="textarea" /> */}
+
+							<h3 className="titulo tracking-widest text-black dark:text-white">
+								TRADE
+							</h3>
 							<div className="flex gap-4">
 								<Select name="coin" placeholder="Coin">
 									<option value="">Coin</option>
-									<option value="BTC">BTC</option>
-									<option value="ETH">ETH</option>
-									<option value="Doge">Doge</option>
+									{coins &&
+										coins.map((coin) => (
+											<option key={coin.symbol} value={coin.symbol}>
+												{coin.symbol} / {coin.name}
+											</option>
+										))}
 								</Select>
 
 								<Input placeholder="% Riesgo" name="riesgo" type="number" />

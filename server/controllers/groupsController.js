@@ -225,6 +225,8 @@ const isAdmin = async (req, res, next) => {
 	try {
 		const user_id = req.params.id;
 		const { group_id } = req.body;
+		console.log("User_id", user_id);
+		console.log("group_id", group_id);
 
 		let [response] = await dao.isAdmin(group_id);
 

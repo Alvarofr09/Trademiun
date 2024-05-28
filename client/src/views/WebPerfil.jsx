@@ -23,8 +23,11 @@ import UserForm from "../components/UserForm/UserForm";
 import Img from "../components/ui/CloudinaryImg";
 import { ToastContainer, toast } from "react-toastify";
 
+const max = 250;
+const min = -250;
+
 const chartData = [
-	{ label: "Enero", value: 65 },
+	{ label: "Enero", value: Math.floor(Math.random() * (max - min + 1)) + min },
 	{ label: "Febrero", value: -59 },
 	{ label: "Marzo", value: 80 },
 	{ label: "Abril", value: -81 },
@@ -247,9 +250,9 @@ export default function WebPerfil() {
 
 	return (
 		<>
-			<main className="h-screen centered border-l-2 border-primario lg:border-none bg-white flex-col lg:flex-row md:overflow-y-scroll lg:overscroll-hidden">
+			<main className="h-screen centered border-l-2 dark:border-white border-primario lg:border-none dark:bg-primario bg-white flex-col lg:flex-row md:overflow-y-scroll lg:overscroll-hidden">
 				{userData && (
-					<section className="lg:basis-8/12 lg:border-x-2 gap-11 py-8 lg:border-primario h-screen user-info centered flex-col ">
+					<section className="lg:basis-8/12 lg:border-x-2 gap-11 py-8 dark:lg:border-white lg:border-primario h-screen user-info centered flex-col ">
 						<div className="bordered basis-1/3 centered gap-16 py-5 px-8 lg:px-4 xl:px-12 w-[90%] mx-auto">
 							<div className="user-image basis-1/3 ">
 								<Img
@@ -258,7 +261,7 @@ export default function WebPerfil() {
 									alt={`Avatar de ${userData.username}`}
 								/>
 							</div>
-							<div className="user-details basis-1/3 ">
+							<div className="user-details basis-1/3 dark:text-white">
 								<p className="text-sm lg:text-base ">
 									<strong className="text-base lg:text-xl">Usuario: </strong>
 									{userData.username}
@@ -326,7 +329,7 @@ export default function WebPerfil() {
 								<Bar data={chartConfig.data} className="h-full w-full" />
 							</div>
 						</div>
-						<div className="bordered basis-1/3 centered gap-6 text-xl xl:text-2xl py-6 px-8 w-[90%] mx-auto">
+						<div className="bordered basis-1/3 centered gap-6 dark:text-white text-xl xl:text-2xl py-6 px-8 w-[90%] mx-auto">
 							<ul className="w-1/2">
 								<li>
 									<strong>Señales: </strong>
@@ -365,13 +368,15 @@ export default function WebPerfil() {
 					</section>
 				)}
 
-				<article className="trades centered lg:overflow-y-scroll lg:scrollbar-custom flex-col basis-4/12 h-full">
+				<article className="trades centered dark:bg-primario lg:overflow-y-scroll lg:scrollbar-custom flex-col basis-4/12 h-full">
 					<div className="basis-1/12 centered h-full mt-10">
-						<h2 className="titulo">Ultimos Trades</h2>
+						<h2 className="titulo dark:text-white">Ultimos Trades</h2>
 					</div>
 					<div className="basis-11/12 w-full h-full">
 						{signals.length === 0 ? (
-							<h3 className="mt-10 text-xl centered">No hay trades</h3>
+							<h3 className="mt-10 text-xl centered dark:text-white">
+								No hay trades
+							</h3>
 						) : (
 							signals.map((signal) => {
 								return <Signal key={signal.id} signal={signal} />;
