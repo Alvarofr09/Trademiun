@@ -79,7 +79,7 @@ export default function MobileNoticias() {
 			<h2 className="text-center text-2xl font-bold text-primario dark:text-white p-4">
 				Últimos trades
 			</h2>
-			<div className="flex flex-col justify-center items-center pb-20">
+			<div className="flex flex-col justify-center items-center pb-20 dark:bg-primario">
 				{signals &&
 					signals.map((signal, index) => (
 						<CardUltimosTrades key={index} data={signal} />
