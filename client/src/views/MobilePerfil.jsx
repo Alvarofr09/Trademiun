@@ -371,24 +371,16 @@ export default function MobilePerfil() {
 						</div>
 
 						<div className="p-4">
-							<RangeInput
-								title={"Maximo Drawdown"}
-								value={(Math.random() * 100).toFixed(1)}
-								max={100}
-							/>
+							<RangeInput title={"Maximo Drawdown"} value={37} max={100} />
 							<RangeInput
 								title={"Riesgo/Beneficio medio"}
-								value={(Math.random() * 10).toFixed(1)}
+								value={2.5}
 								max={10}
 							/>
-							<RangeInput
-								title={"% Mensual medio"}
-								value={(Math.random() * 100).toFixed(1)}
-								max={100}
-							/>
+							<RangeInput title={"% Mensual medio"} value={66.7} max={100} />
 							<RangeInput
 								title={"% Riesgo medio/trade"}
-								value={(Math.random() * 320).toFixed(1)}
+								value={311}
 								max={320}
 							/>
 						</div>
