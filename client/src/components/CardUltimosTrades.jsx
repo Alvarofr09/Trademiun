@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import UnFollowButton from "./ui/UnFollowButton";
 import FollowButton from "./ui/FollowButton";
 import Img from "./ui/CloudinaryImg";
+import { useNavigate } from "react-router-dom";
 
 const toastConfig = {
 	position: "bottom-right",
@@ -21,6 +22,7 @@ const toastConfig = {
 
 export default function CardUltimosTrades({ data }) {
 	const { user } = useUserContext();
+	const navigate = useNavigate();
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [isExpanded, setIsExpanded] = useState(false);
 
@@ -32,24 +34,24 @@ export default function CardUltimosTrades({ data }) {
 
 	useEffect(() => {
 		async function fetchData() {
-			if (data.id != user.id) {
+			if (data.sender_id != user.id) {
 				const isFollowingResponse = await userApi.post(isFollowingRoute, {
 					user_id: user.id,
-					to_check: data.id,
+					to_check: data.sender_id,
 				});
 				setIsFollowing(isFollowingResponse.data.isFollowing);
 			}
 		}
 
 		fetchData();
-	}, [user.id, data.id]);
+	}, [user.id, data.sender_id]);
 
 	const handleFollow = async (e) => {
 		e.stopPropagation();
 		try {
 			const response = await userApi.post(followRoute, {
 				user_id: user.id,
-				to_follow: data.id,
+				to_follow: data.sender_id,
 			});
 
 			if (response.status) {
@@ -66,7 +68,7 @@ export default function CardUltimosTrades({ data }) {
 		try {
 			await userApi.post(unFollowRoute, {
 				user_id: user.id,
-				to_unfollow: data.id,
+				to_unfollow: data.sender_id,
 			});
 			setIsFollowing(false);
 			// setIsInGroup(false);
@@ -87,19 +89,28 @@ export default function CardUltimosTrades({ data }) {
 							className="avatar h-20 w-20"
 						/>
 						<div className="flex flex-col justify-center">
-							<h6 className="inline-block ml-3 text-white text-start">
+							<h6 className="inline-block ml-3 text-terciario dark:text-white text-start font-bold">
 								{data.username}
 							</h6>
-							<p className="text-tipografia text-start mb-2 ml-3">
+							<p className="text-terciario dark:text-tipografia text-start mb-2 ml-3">
 								{data.seguidores} seguidores
 							</p>
 						</div>
 					</div>
 					<div className="basis-1/3 mr-2">
-						{isFollowing ? (
-							<UnFollowButton handleUnfollow={handleUnfollow} />
+						{data.sender_id != user.id ? (
+							isFollowing ? (
+								<UnFollowButton handleUnfollow={handleUnfollow} />
+							) : (
+								<FollowButton handleFollow={handleFollow} />
+							)
 						) : (
-							<FollowButton handleFollow={handleFollow} />
+							<button
+								className="bg-white ml-2 dark:text-tipografia text-terciario text-center font-bold rounded-3xl w-24"
+								onClick={() => navigate(`/user/${data.sender_id}`)}
+							>
+								Ver Perfil
+							</button>
 						)}
 					</div>
 				</div>
