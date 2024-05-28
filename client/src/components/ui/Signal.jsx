@@ -25,14 +25,19 @@ export default function Signal({ signal, isMessage }) {
 					/>
 				)}
 				{signal.description && (
-					<p
-						className={`text-xs mb-2 cursor-pointer ${
-							isExpanded ? "line-clamp-none" : "line-clamp-3"
-						} overflow-hidden`}
-						onClick={handleToggle}
-					>
-						{signal.description}
-					</p>
+					<div>
+						<p
+							className={`text-xs mb-2 cursor-pointer ${
+								isExpanded ? "line-clamp-none" : "line-clamp-3"
+							} overflow-hidden`}
+							onClick={handleToggle}
+						>
+							{signal.description}
+						</p>
+						<p className="text-xs cursor-pointer" onClick={handleToggle}>
+							{isExpanded ? "Ver menos" : "Ver más"}
+						</p>
+					</div>
 				)}
 
 				<p>

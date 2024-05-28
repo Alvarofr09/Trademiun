@@ -3,7 +3,7 @@ import "../../App.css";
 export default function RangeInput({ title, value, max }) {
 	return (
 		<>
-			<span className="text-terciario dark:text-fondoWebApp opacity-50 ">
+			<span className="text-terciario dark:text-fondoWebApp dark:opacity-50 ">
 				{title}
 			</span>
 			<div className="relative w-full my-2">

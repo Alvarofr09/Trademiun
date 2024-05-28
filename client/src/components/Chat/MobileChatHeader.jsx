@@ -1,8 +1,9 @@
+import { IconChevronLeft } from "@tabler/icons-react";
 import Img from "../ui/CloudinaryImg";
 
-export default function ChatHeader({ currentChat }) {
+export default function MobileChatHeader({ onBack, currentChat }) {
 	return (
-		<div className="chat-header w-full bg-tipografia flex justify-between items-center px-8 py-0">
+		<div className="chat-header fixed w-full bg-tipografia flex justify-between items-center px-8 py-6">
 			<div className="user-details flex items-center gap-4">
 				<div className="user-image avatar-image">
 					<Img
@@ -22,6 +23,10 @@ export default function ChatHeader({ currentChat }) {
 				</div>
 			</div>
 			<div className="options centered flex-row gap-8 cursor-pointer">
+				<div className="back">
+					<IconChevronLeft color="#1A1A1A" onClick={onBack} />
+				</div>
+
 				{/* <div className="info">
 					<IconDotsVertical color="#1A1A1A" onClick={() => alert("info")} />
 				</div> */}

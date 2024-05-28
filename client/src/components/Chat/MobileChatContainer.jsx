@@ -9,10 +9,10 @@ import { userApi } from "../../api/APIRoutes";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useUserContext } from "../../context/UserContext";
-import ChatHeader from "./ChatHeader";
 import Messages from "./Messages";
-import ChatInput from "./ChatInput";
 import { format } from "date-fns";
+import MobileChatHeader from "./MobileChatHeader";
+import MobileChatInput from "./MobileChatInput";
 
 export default function MobileChatContainer({ currentChat, socket, onBack }) {
 	const { user } = useUserContext();
@@ -196,9 +196,9 @@ export default function MobileChatContainer({ currentChat, socket, onBack }) {
 					className="container h-full overflow-hidden pb-16"
 					// style={{ gridTemplateRows: "5% auto 5%" }}
 				>
-					<ChatHeader onBack={onBack} currentChat={currentChat} />
+					<MobileChatHeader onBack={onBack} currentChat={currentChat} />
 					<Messages messages={messages} scrollRef={scrollRef} />
-					<ChatInput
+					<MobileChatInput
 						handleSendMsg={handleSendMsg}
 						isAdmin={isAdministrador}
 						currentChat={currentChat}

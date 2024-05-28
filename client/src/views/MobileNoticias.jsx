@@ -17,7 +17,6 @@ export default function MobileNoticias() {
 		async function fetchData() {
 			try {
 				const { data } = await userApi.get(getSignalsWithUser);
-				console.log(data);
 				setSignals(data);
 			} catch (error) {
 				console.log(error);
@@ -48,12 +47,12 @@ export default function MobileNoticias() {
 	return (
 		<div className="mx-auto max-w-full h-full bg-white dark:bg-primario pb-30">
 			<InputSearch handleSearch={handleSearch} />
-			{users.length > 0 && (
+			{users && users.length > 0 && (
 				<div className="centered flex-col">
 					{users.slice(0, 3).map((user, index) => {
 						return (
 							<Link
-								className={`contact !flex-row centered !border-white`}
+								className={`contact !flex-row centered dark:!border-white`}
 								key={index}
 								to={`/user/${user.id}`}
 							>
@@ -68,7 +67,9 @@ export default function MobileNoticias() {
 									</div>
 								)}
 								<div className="  username">
-									<h3 className=" text-xl text-white bold">{user.username}</h3>
+									<h3 className=" text-xl text-primario dark:text-white bold">
+										{user.username}
+									</h3>
 								</div>
 							</Link>
 						);
@@ -78,7 +79,7 @@ export default function MobileNoticias() {
 			<h2 className="text-center text-2xl font-bold text-primario dark:text-white p-4">
 				Últimos trades
 			</h2>
-			<div className="flex flex-col justify-center items-center pb-28">
+			<div className="flex flex-col justify-center items-center pb-20">
 				{signals &&
 					signals.map((signal, index) => (
 						<CardUltimosTrades key={index} data={signal} />

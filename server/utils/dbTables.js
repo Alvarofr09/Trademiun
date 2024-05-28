@@ -178,6 +178,21 @@ const createFollowTable = async () => {
 	}
 };
 
+const createCoinsTable = async () => {
+	let conn = await db.createConection();
+	try {
+		const SqlQuery = `
+      CREATE TABLE IF NOT EXISTS coins (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        symbol VARCHAR(10) UNIQUE NOT NULL
+      ) `;
+		await db.query(SqlQuery, null, "create", conn);
+	} finally {
+		await conn.end();
+	}
+};
+
 module.exports = {
 	createUsersTable,
 	createGroupsTable,
@@ -187,4 +202,5 @@ module.exports = {
 	createIncrementParticipantsTrigger,
 	createImagesTable,
 	createFollowTable,
+	createCoinsTable,
 };

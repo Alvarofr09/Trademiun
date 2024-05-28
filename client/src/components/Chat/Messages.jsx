@@ -18,7 +18,7 @@ const fechaFormateada = (fecha) => {
 
 export default function Messages({ messages, scrollRef }) {
 	return (
-		<div className="chat-messages bg-white dark:bg-primario scrollbar-custom py-4 px-8 flex flex-col gap-4 overflow-auto">
+		<div className="chat-messages bg-white dark:bg-primario scrollbar-custom pb-24 pt-28 md:py-4 px-8 flex flex-col gap-4 overflow-auto overflow-y-scroll">
 			{messages.map((message) => {
 				return (
 					<div

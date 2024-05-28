@@ -23,8 +23,11 @@ import UserForm from "../components/UserForm/UserForm";
 import Img from "../components/ui/CloudinaryImg";
 import { ToastContainer, toast } from "react-toastify";
 
+const max = 250;
+const min = -250;
+
 const chartData = [
-	{ label: "Enero", value: 65 },
+	{ label: "Enero", value: Math.floor(Math.random() * (max - min + 1)) + min },
 	{ label: "Febrero", value: -59 },
 	{ label: "Marzo", value: 80 },
 	{ label: "Abril", value: -81 },
