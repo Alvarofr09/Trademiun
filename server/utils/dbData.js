@@ -10,7 +10,7 @@ const usersData = [
 		description:
 			"Un operador de bolsa experto, siempre analizando los movimientos del mercado en busca de oportunidades lucrativas.",
 		seguidores: 360,
-		rentabilidad: 500,
+		rentabilidad: 154,
 	},
 	{
 		username: "Mirella",
@@ -21,7 +21,7 @@ const usersData = [
 		description:
 			"Una inversora experimentada, hábil en el arte de diversificar su cartera para minimizar riesgos y maximizar ganancias.",
 		seguidores: 367,
-		rentabilidad: 513,
+		rentabilidad: 267,
 	},
 	{
 		username: "Pablo Fuentes",
@@ -43,7 +43,7 @@ const usersData = [
 		description:
 			"Un especulador astuto, aprovechando las fluctuaciones del mercado para obtener beneficios en corto plazo.",
 		seguidores: 584,
-		rentabilidad: 256,
+		rentabilidad: 356,
 	},
 	{
 		username: "Izabel",
@@ -54,7 +54,7 @@ const usersData = [
 		description:
 			"Una analista técnica meticulosa, utilizando herramientas gráficas y algoritmos para prever tendencias y tomar decisiones informadas.",
 		seguidores: 924,
-		rentabilidad: 712,
+		rentabilidad: 418,
 	},
 	{
 		username: "Pablo Pedrosa",
@@ -65,7 +65,7 @@ const usersData = [
 		description:
 			"Un gestor de riesgos prudente, siempre evaluando cuidadosamente las posibles pérdidas antes de realizar cualquier operación.",
 		seguidores: 748,
-		rentabilidad: 330,
+		rentabilidad: 300,
 	},
 	{
 		username: "Veronica",
@@ -76,7 +76,7 @@ const usersData = [
 		description:
 			"Una experta en derivados financieros, aprovechando instrumentos como opciones y futuros para potenciar sus estrategias de inversión.",
 		seguidores: 561,
-		rentabilidad: 19,
+		rentabilidad: 195,
 	},
 	{
 		username: "David",
@@ -87,7 +87,7 @@ const usersData = [
 		description:
 			"Un day trader disciplinado, ejecutando múltiples operaciones en el transcurso de un solo día para capitalizar pequeños movimientos del mercado.",
 		seguidores: 290,
-		rentabilidad: 797,
+		rentabilidad: 397,
 	},
 	{
 		username: "Marco",
@@ -98,7 +98,7 @@ const usersData = [
 		description:
 			"Un seguidor de tendencias, identificando y aprovechando los movimientos direccionales del mercado para obtener ganancias sostenidas.",
 		seguidores: 643,
-		rentabilidad: 854,
+		rentabilidad: 282,
 	},
 	{
 		username: "Nacho",
